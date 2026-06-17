@@ -1,3 +1,4 @@
+'use client'
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactNode } from "react";
 import { TooltipProvider } from "../ui/tooltip";
