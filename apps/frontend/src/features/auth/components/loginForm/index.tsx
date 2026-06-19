@@ -1,11 +1,48 @@
-import { Mail } from "lucide-react";
+"use client";
+
+import { z } from "zod";
+import { Phone } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import PasswordInput from "../passwordInput";
-import { Button } from "@/shared/components/ui/button";
 import CustomInput from "@/shared/components/customInput";
+import { Button } from "@/shared/components/ui/button";
+import {
+  Field,
+  FieldContent,
+  FieldError,
+  FieldLabel,
+} from "@/shared/components/ui/field";
+
+const loginSchema = z.object({
+  phone: z
+    .string()
+    .regex(/^09\d{9}$/, "شماره همراه باید با 09 شروع شود و 11 رقم باشد."),
+  password: z.string().min(8, "رمز عبور باید حداقل 8 کاراکتر باشد."),
+});
+
+type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
+  const form = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      phone: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = (data: LoginFormValues) => {
+    console.log(data);
+  };
+
   return (
-    <form className="space-y-4">
+    <form
+      noValidate
+      onSubmit={form.handleSubmit(onSubmit)}
+      className="space-y-4"
+    >
       <div className="space-y-1.5 text-right">
         <h2 className="text-[22px] font-bold leading-[1.3] text-[var(--landing-text)] sm:text-[24px]">
           ورود به Chess.ir
@@ -16,18 +53,44 @@ export default function LoginForm() {
       </div>
 
       <div className="space-y-3">
-        <CustomInput
-          id="login-email"
-          type="email"
-          label="ایمیل"
-          placeholder="example@gmail.com"
-          icon={<Mail className="size-[22px]" />}
-        />
-        <PasswordInput
-          id="login-password"
-          label="رمز عبور"
-          placeholder="رمز عبور خود را وارد کنید"
-        />
+        <Field data-invalid={Boolean(form.formState.errors.phone)}>
+          <FieldLabel
+            htmlFor="login-phone"
+            className="text-[13px] font-medium text-[var(--landing-text)]"
+          >
+            شماره همراه
+          </FieldLabel>
+          <FieldContent>
+            <CustomInput
+              id="login-phone"
+              type="tel"
+              inputMode="numeric"
+              placeholder="شماره موبایل خود را وارد کنید"
+              icon={<Phone className="size-[22px]" />}
+              aria-invalid={Boolean(form.formState.errors.phone)}
+              {...form.register("phone")}
+            />
+          </FieldContent>
+          <FieldError>{form.formState.errors.phone?.message}</FieldError>
+        </Field>
+
+        <Field data-invalid={Boolean(form.formState.errors.password)}>
+          <FieldLabel
+            htmlFor="login-password"
+            className="text-[13px] font-medium text-[var(--landing-text)]"
+          >
+            رمز عبور
+          </FieldLabel>
+          <FieldContent>
+            <PasswordInput
+              id="login-password"
+              placeholder="رمز عبور خود را وارد کنید"
+              aria-invalid={Boolean(form.formState.errors.password)}
+              {...form.register("password")}
+            />
+          </FieldContent>
+          <FieldError>{form.formState.errors.password?.message}</FieldError>
+        </Field>
       </div>
 
       <Button

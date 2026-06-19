@@ -1,33 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import * as React from "react";
 import { Eye, EyeOff, Lock } from "lucide-react";
 
 import { Input } from "@/shared/components/ui/input";
-import { Label } from "@/shared/components/ui/label";
 import { cn } from "@/shared/lib/utils";
 
-type PasswordInputProps = {
-  id: string;
-  label: string;
-  placeholder: string;
-};
+type PasswordInputProps = Omit<React.ComponentProps<typeof Input>, "type">;
 
-export default function PasswordInput({
-  id,
-  label,
-  placeholder,
-}: PasswordInputProps) {
-  const [visible, setVisible] = useState(false);
+const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
+  ({ className, dir = "ltr", ...props }, ref) => {
+    const [visible, setVisible] = React.useState(false);
 
-  return (
-    <div className="space-y-1">
-      <Label
-        htmlFor={id}
-        className="text-[13px] font-medium text-[var(--landing-text)]"
-      >
-        {label}
-      </Label>
+    return (
       <div className="relative">
         <span className="pointer-events-none absolute inset-y-0 right-0 flex w-11 items-center justify-center text-[var(--landing-muted)]">
           <Lock className="size-[22px]" />
@@ -45,15 +30,20 @@ export default function PasswordInput({
           )}
         </button>
         <Input
-          id={id}
+          ref={ref}
           type={visible ? "text" : "password"}
-          dir="ltr"
-          placeholder={placeholder}
+          dir={dir}
           className={cn(
             "h-12 rounded-[10px] border-[color:var(--landing-border)] bg-transparent pr-11 pl-11 text-left text-sm text-[var(--landing-text)] shadow-none placeholder:text-[color:rgba(119,119,119,0.7)] focus-visible:border-[color:var(--landing-text)] focus-visible:ring-[rgba(36,38,43,0.08)]",
+            className,
           )}
+          {...props}
         />
       </div>
-    </div>
-  );
-}
+    );
+  },
+);
+
+PasswordInput.displayName = "PasswordInput";
+
+export default PasswordInput;

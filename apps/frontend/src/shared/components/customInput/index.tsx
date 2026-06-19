@@ -1,47 +1,44 @@
-import type { ReactNode } from "react";
+import * as React from "react";
 
 import { Input } from "@/shared/components/ui/input";
-import { Label } from "@/shared/components/ui/label";
 import { cn } from "@/shared/lib/utils";
 
-type AuthInputProps = {
-  id: string;
-  label: string;
-  placeholder: string;
-  icon: ReactNode;
-  type?: string;
+type AuthInputProps = React.ComponentProps<typeof Input> & {
+  icon?: React.ReactNode;
 };
 
-export default function CustomInput({
-  id,
-  label,
-  placeholder,
-  icon,
-  type = "text",
-}: AuthInputProps) {
-  return (
-    <div className="space-y-1">
-      <Label
-        htmlFor={id}
-        className="text-[13px] font-medium text-[var(--landing-text)]"
-      >
-        {label}
-      </Label>
+const CustomInput = React.forwardRef<HTMLInputElement, AuthInputProps>(
+  ({ className, dir, icon, type = "text", ...props }, ref) => {
+    const resolvedDir =
+      dir ??
+      (type === "email" || type === "password" || type === "tel"
+        ? "ltr"
+        : "rtl");
+
+    return (
       <div className="relative">
-        <span className="pointer-events-none absolute inset-y-0 right-0 flex w-11 items-center justify-center text-[var(--landing-muted)]">
-          {icon}
-        </span>
+        {icon ? (
+          <span className="pointer-events-none absolute inset-y-0 right-0 flex w-11 items-center justify-center text-[var(--landing-muted)]">
+            {icon}
+          </span>
+        ) : null}
         <Input
-          id={id}
+          ref={ref}
           type={type}
-          dir={type === "email" ? "ltr" : "rtl"}
-          placeholder={placeholder}
+          dir={resolvedDir}
           className={cn(
-            "h-12 rounded-[10px] border-[color:var(--landing-border)] bg-transparent pr-11 pl-3.5 text-sm text-[var(--landing-text)] shadow-none placeholder:text-[color:rgba(119,119,119,0.7)] focus-visible:border-[color:var(--landing-text)] focus-visible:ring-[rgba(36,38,43,0.08)]",
-            type === "email" && "text-left",
+            "h-12 rounded-[10px] border-[color:var(--landing-border)] bg-transparent pl-3.5 text-sm text-[var(--landing-text)] shadow-none placeholder:text-[color:rgba(119,119,119,0.7)] focus-visible:border-[color:var(--landing-text)] focus-visible:ring-[rgba(36,38,43,0.08)]",
+            icon ? "pr-11" : "pr-3.5",
+            resolvedDir === "ltr" && "text-left",
+            className,
           )}
+          {...props}
         />
       </div>
-    </div>
-  );
-}
+    );
+  },
+);
+
+CustomInput.displayName = "CustomInput";
+
+export default CustomInput;

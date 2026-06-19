@@ -26,7 +26,8 @@ export default function Header() {
               href={item.href}
               className={cn(
                 "relative text-center py-2 text-sm font-medium text-[var(--landing-text-soft)] transition-colors hover:text-[var(--landing-text)]",
-                item.active && "text-[var(--landing-text)] border-b border-b-2 border-landing-accent",
+                item.active &&
+                  "text-[var(--landing-text)] border-b border-b-2 border-landing-accent",
               )}
             >
               {item.label}
@@ -35,17 +36,10 @@ export default function Header() {
         </nav>
         <div className="flex flex-1 justify-end gap-3">
           <Button
-            variant="outline"
-            asChild
-            className="hidden h-10 rounded-[10px] border-[color:var(--landing-border)] bg-transparent px-5 text-sm text-[var(--landing-text)] hover:bg-[var(--landing-soft)] lg:inline-flex"
-          >
-            <Link href="/login">ورود</Link>
-          </Button>
-          <Button
             asChild
             className="hidden h-10 rounded-[10px] bg-[var(--landing-primary)] px-5 text-sm text-white hover:bg-[var(--landing-primary-strong)] lg:inline-flex"
           >
-            <Link href="/register">ثبت نام</Link>
+            <Link href="/auth">ورود | ثبت نام</Link>
           </Button>
         </div>
       </div>

@@ -38,19 +38,19 @@ export default function HeroSection() {
                   href="/register"
                   className="inline-flex items-center gap-2"
                 >
-                  <ArrowLeft className="size-5" />
                   شروع یادگیری و بازی
+                  <ArrowLeft className="size-5" />
                 </Link>
               </Button>
 
               <a
                 href="#features"
-                className="inline-flex items-center justify-center gap-3 text-sm font-semibold text-[var(--landing-text)]"
+                className="border-landing-accent border px-7 h-14 rounded-md inline-flex items-center justify-center gap-3 text-sm font-semibold text-[var(--landing-text)]"
               >
-                <span className="flex size-12 items-center justify-center rounded-full border border-[color:var(--landing-accent)] bg-white text-[var(--landing-accent)] transition-transform hover:-translate-y-0.5">
-                  <Play className="mr-0.5 size-4 fill-current" />
-                </span>
                 <span>ویدیوی معرفی</span>
+                <span className="flex size-8 items-center justify-center rounded-full border border-[color:var(--landing-accent)] bg-white text-[var(--landing-accent)] transition-transform hover:-translate-y-0.5">
+                  <Play className=" size-3 fill-current" />
+                </span>
               </a>
             </div>
           </div>

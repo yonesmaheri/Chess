@@ -35,7 +35,7 @@ export default function HeroIllustration() {
                 <div className="h-3 w-[72%] rounded-full bg-[linear-gradient(90deg,#486554,#c69a42)]" />
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="flex flex-col gap-4">
               <div className="rounded-[24px] border border-[rgba(230,230,230,0.9)] bg-white/85 p-5 text-center">
                 <span className="mx-auto mb-3 flex size-14 items-center justify-center rounded-2xl bg-[var(--landing-soft)] text-[var(--landing-primary)]">
                   <Crown className="size-7" />
