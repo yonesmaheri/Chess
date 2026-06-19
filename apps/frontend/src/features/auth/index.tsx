@@ -1,18 +1,20 @@
 "use client";
 import { Crown } from "lucide-react";
 import AuthLayout from "./components/authLayout";
-import AuthTabs from "./components/authTabs";
 import RegisterForm from "./components/registerForm";
 import LoginForm from "./components/loginForm";
-import { useState } from "react";
 import AuthDivider from "./components/authDivider";
 import { Button } from "@/shared/components/ui/button";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/shared/components/ui/tabs";
 import Link from "next/link";
 import GoogleLogo from "@/shared/components/googleLogo";
 
 export function AuthPageFeature() {
-  const [activeTab, setActiveTab] = useState<"register" | "login">("register");
-
   return (
     <AuthLayout>
       <div className="space-y-3 text-center">
@@ -28,11 +30,44 @@ export function AuthPageFeature() {
           </p>
         </div>
       </div>
-      <section className="w-full rounded-[24px] border border-[rgba(230,230,230,0.9)] bg-white/75 shadow-[0_25px_70px_rgba(0,0,0,0.08)] backdrop-blur-[16px]">
-        <AuthTabs value={activeTab} onValueChange={setActiveTab} />
+      <Tabs
+        defaultValue="register"
+        className="w-full rounded-[24px] border border-[rgba(230,230,230,0.9)] bg-white/75 shadow-[0_25px_70px_rgba(0,0,0,0.08)] backdrop-blur-[16px]"
+      >
+        <TabsList
+          variant="line"
+          className="grid h-[60px] w-full grid-cols-2 items-stretch rounded-none p-0"
+        >
+          <TabsTrigger
+            value="register"
+            className="h-full w-full rounded-none border-0 bg-transparent px-6 py-4 text-lg font-semibold text-[var(--landing-muted)] data-active:text-[var(--landing-text)] data-active:bg-transparent after:bottom-0 after:h-[3px] after:bg-[var(--landing-text)] focus-visible:ring-0"
+          >
+            ثبت نام
+          </TabsTrigger>
+          <TabsTrigger
+            value="login"
+            className="h-full w-full rounded-none border-0 bg-transparent px-6 py-4 text-lg font-semibold text-[var(--landing-muted)] data-active:text-[var(--landing-text)] data-active:bg-transparent after:bottom-0 after:h-[3px] after:bg-[var(--landing-text)] focus-visible:ring-0"
+          >
+            ورود
+          </TabsTrigger>
+        </TabsList>
 
-        <div className="p-6 sm:p-8 md:p-10 lg:p-12">
-          {activeTab === "register" ? <RegisterForm /> : <LoginForm />}
+        <TabsContent
+          dir="rtl"
+          value="register"
+          className="p-6 sm:p-8 md:p-10 lg:p-12"
+        >
+          <RegisterForm />
+        </TabsContent>
+
+        <TabsContent
+          dir="rtl"
+          value="login"
+          className="p-6 sm:p-8 md:p-10 lg:p-12"
+        >
+          <LoginForm />
+        </TabsContent>
+        <div className="space-y-6 px-6 pb-6 sm:px-8 sm:pb-8 md:px-10 md:pb-10 lg:px-12 lg:pb-12">
           <AuthDivider />
           <Button
             type="button"
@@ -54,7 +89,7 @@ export function AuthPageFeature() {
             {" موافقت می کنید."}
           </p>
         </div>
-      </section>
+      </Tabs>
     </AuthLayout>
   );
 }
