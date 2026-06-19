@@ -20,7 +20,7 @@ const authTabs = [
 
 export default function AuthTabs({ value, onValueChange }: AuthTabsProps) {
   return (
-    <div className="grid h-[60px] grid-cols-2 border-b border-[var(--landing-border)]">
+    <div className="grid h-[60px] grid-cols-2 border-b border-[color:var(--landing-border)]">
       {authTabs.map((tab) => (
         <button
           key={tab.value}

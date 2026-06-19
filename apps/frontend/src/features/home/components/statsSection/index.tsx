@@ -19,7 +19,7 @@ export default function StatsSection() {
   return (
     <section id="stats" className="pb-6 sm:pb-8 lg:pb-10">
       <div className={containerClassName}>
-        <div className="grid rounded-[20px] border border-[var(--landing-border)] bg-white p-4 shadow-[0_12px_32px_rgba(36,38,43,0.04)] sm:grid-cols-2 sm:gap-2 sm:p-5 lg:grid-cols-4">
+        <div className="grid rounded-[20px] border border-[color:var(--landing-border)] bg-white p-4 shadow-[0_12px_32px_rgba(36,38,43,0.04)] sm:grid-cols-2 sm:gap-2 sm:p-5 lg:grid-cols-4">
           {stats.map((stat, index) => {
             const Icon = stat.icon;
 
@@ -29,9 +29,9 @@ export default function StatsSection() {
                 className={cn(
                   "flex items-center gap-4 rounded-2xl px-4 py-4",
                   index !== stats.length - 1 &&
-                    "border-b border-[var(--landing-border)] sm:border-b-0 lg:border-l",
+                    "border-b border-[color:var(--landing-border)] sm:border-b-0 lg:border-l",
                   index === 1 &&
-                    "sm:border-b border-[var(--landing-border)] lg:border-b-0",
+                    "sm:border-b border-[color:var(--landing-border)] lg:border-b-0",
                   index === 0 && "sm:border-l lg:border-l",
                   index === 2 && "lg:border-l",
                 )}

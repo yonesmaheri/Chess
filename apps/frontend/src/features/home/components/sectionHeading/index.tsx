@@ -23,7 +23,7 @@ export default function SectionHeading({
       )}
     >
       {eyebrow ? (
-        <div className="inline-flex items-center gap-2 self-start rounded-full border border-[var(--landing-border)] bg-white/80 px-4 py-2 text-xs font-semibold text-[var(--landing-accent)] shadow-[0_12px_30px_rgba(36,38,43,0.04)] backdrop-blur-sm">
+        <div className="inline-flex items-center gap-2 self-start rounded-full border border-[color:var(--landing-border)] bg-white/80 px-4 py-2 text-xs font-semibold text-[var(--landing-accent)] shadow-[0_12px_30px_rgba(36,38,43,0.04)] backdrop-blur-sm">
           <Crown className="size-4" />
           <span>{eyebrow}</span>
         </div>

@@ -72,7 +72,7 @@ export function AuthPageFeature() {
           <Button
             type="button"
             variant="outline"
-            className="h-12 w-full justify-center gap-2.5 rounded-[10px] border-[var(--landing-border)] bg-white/60 text-sm font-medium text-[var(--landing-text)] hover:bg-white"
+            className="h-12 w-full justify-center gap-2.5 rounded-[10px] border-[color:var(--landing-border)] bg-white/60 text-sm font-medium text-[var(--landing-text)] hover:bg-white"
           >
             <GoogleLogo />
             ورود با گوگل

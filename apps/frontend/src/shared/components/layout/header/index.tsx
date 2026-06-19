@@ -8,16 +8,36 @@ import BrandMark from "../brandMark";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-30 border-b border-[var(--landing-header-border)] bg-white/90 backdrop-blur">
+    <header
+      dir="rtl"
+      className="sticky top-0 z-30 border-b border-[color:var(--landing-header-border)] bg-white/90 backdrop-blur"
+    >
       <div className={cn(containerClassName, "flex h-20 items-center gap-4")}>
         <div className="flex flex-1 justify-start gap-3 lg:hidden">
           <MobileNavigation />
         </div>
-        <div className="flex flex-1 justify-start gap-3">
+        <div className="flex flex-1 justify-start">
+          <BrandMark />
+        </div>
+        <nav className="hidden flex-2 items-center justify-center gap-8 lg:flex">
+          {navItems.map((item) => (
+            <a
+              key={item.label}
+              href={item.href}
+              className={cn(
+                "relative text-center py-2 text-sm font-medium text-[var(--landing-text-soft)] transition-colors hover:text-[var(--landing-text)]",
+                item.active && "text-[var(--landing-text)] border-b border-b-2 border-landing-accent",
+              )}
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+        <div className="flex flex-1 justify-end gap-3">
           <Button
             variant="outline"
             asChild
-            className="hidden h-10 rounded-[10px] border-[var(--landing-border)] bg-transparent px-5 text-sm text-[var(--landing-text)] hover:bg-[var(--landing-soft)] lg:inline-flex"
+            className="hidden h-10 rounded-[10px] border-[color:var(--landing-border)] bg-transparent px-5 text-sm text-[var(--landing-text)] hover:bg-[var(--landing-soft)] lg:inline-flex"
           >
             <Link href="/login">ورود</Link>
           </Button>
@@ -27,26 +47,6 @@ export default function Header() {
           >
             <Link href="/register">ثبت نام</Link>
           </Button>
-        </div>
-        <nav className="hidden flex-1 items-center justify-center gap-8 lg:flex">
-          {navItems.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className={cn(
-                "relative py-2 text-sm font-medium text-[var(--landing-text-soft)] transition-colors hover:text-[var(--landing-text)]",
-                item.active && "text-[var(--landing-text)]",
-              )}
-            >
-              {item.label}
-              {item.active ? (
-                <span className="absolute inset-x-0 -bottom-1 mx-auto h-0.5 w-7 rounded-full bg-[var(--landing-accent)]" />
-              ) : null}
-            </a>
-          ))}
-        </nav>
-        <div className="flex flex-1 justify-end">
-          <BrandMark />
         </div>
       </div>
     </header>

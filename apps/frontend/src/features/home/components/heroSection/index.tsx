@@ -47,7 +47,7 @@ export default function HeroSection() {
                 href="#features"
                 className="inline-flex items-center justify-center gap-3 text-sm font-semibold text-[var(--landing-text)]"
               >
-                <span className="flex size-12 items-center justify-center rounded-full border border-[var(--landing-accent)] bg-white text-[var(--landing-accent)] transition-transform hover:-translate-y-0.5">
+                <span className="flex size-12 items-center justify-center rounded-full border border-[color:var(--landing-accent)] bg-white text-[var(--landing-accent)] transition-transform hover:-translate-y-0.5">
                   <Play className="mr-0.5 size-4 fill-current" />
                 </span>
                 <span>ویدیوی معرفی</span>

@@ -39,6 +39,17 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-landing-primary: var(--landing-primary);
+  --color-landing-primary-strong: var(--landing-primary-strong);
+  --color-landing-accent: var(--landing-accent);
+  --color-landing-text: var(--landing-text);
+  --color-landing-text-soft: var(--landing-text-soft);
+  --color-landing-muted: var(--landing-muted);
+  --color-landing-border: var(--landing-border);
+  --color-landing-header-border: var(--landing-header-border);
+  --color-landing-background: var(--landing-background);
+  --color-landing-soft: var(--landing-soft);
+  --color-landing-banner: var(--landing-banner);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);

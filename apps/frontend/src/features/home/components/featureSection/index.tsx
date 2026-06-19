@@ -20,7 +20,7 @@ export default function FeatureSection() {
             return (
               <article
                 key={feature.title}
-                className="group rounded-[18px] border border-[var(--landing-border)] bg-white p-6 shadow-[0_10px_35px_rgba(36,38,43,0.04)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(36,38,43,0.08)]"
+                className="group rounded-[18px] border border-[color:var(--landing-border)] bg-white p-6 shadow-[0_10px_35px_rgba(36,38,43,0.04)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(36,38,43,0.08)]"
               >
                 <span className="mb-5 flex size-14 items-center justify-center rounded-2xl bg-[var(--landing-soft)] text-[var(--landing-primary)]">
                   <Icon className="size-6" />

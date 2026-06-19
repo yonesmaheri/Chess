@@ -7,7 +7,7 @@ export default function Footer() {
   return (
     <footer
       id="footer"
-      className="border-t border-[var(--landing-header-border)] bg-white"
+      className="border-t border-[color:var(--landing-header-border)] bg-white"
     >
       <div className={cn(containerClassName, "py-12 sm:py-14")}>
         <div className="grid gap-10 lg:grid-cols-[1.3fr_2fr]">
@@ -28,7 +28,7 @@ export default function Footer() {
                     href={item.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex size-10 items-center justify-center rounded-full border border-[var(--landing-border)] text-[var(--landing-text)] transition-colors hover:border-[var(--landing-primary)] hover:text-[var(--landing-primary)]"
+                    className="flex size-10 items-center justify-center rounded-full border border-[color:var(--landing-border)] text-[var(--landing-text)] transition-colors hover:border-[color:var(--landing-primary)] hover:text-[var(--landing-primary)]"
                     aria-label={item.label}
                   >
                     <Icon className="size-4" />

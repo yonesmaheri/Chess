@@ -21,7 +21,7 @@ export default function MobileNavigation() {
         <Button
           variant="outline"
           size="icon"
-          className="size-11 rounded-xl border-[var(--landing-border)] bg-white text-[var(--landing-text)] lg:hidden"
+          className="size-11 rounded-xl border-[color:var(--landing-border)] bg-white text-[var(--landing-text)] lg:hidden"
         >
           <Menu className="size-5" />
           <span className="sr-only">باز کردن منو</span>
@@ -29,9 +29,9 @@ export default function MobileNavigation() {
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="w-[85%] border-[var(--landing-border)] bg-white px-0"
+        className="w-[85%] border-[color:var(--landing-border)] bg-white px-0"
       >
-        <SheetHeader className="border-b border-[var(--landing-border)] px-6 py-5 text-right">
+        <SheetHeader className="border-b border-[color:var(--landing-border)] px-6 py-5 text-right">
           <SheetTitle className="text-right text-lg font-bold text-[var(--landing-text)]">
             منوی اصلی
           </SheetTitle>
@@ -60,7 +60,7 @@ export default function MobileNavigation() {
           <Button
             variant="outline"
             asChild
-            className="h-11 rounded-xl border-[var(--landing-border)] text-[var(--landing-text)]"
+            className="h-11 rounded-xl border-[color:var(--landing-border)] text-[var(--landing-text)]"
           >
             <Link href="/login">ورود</Link>
           </Button>

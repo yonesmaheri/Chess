@@ -37,7 +37,7 @@ export default function CustomInput({
           dir={type === "email" ? "ltr" : "rtl"}
           placeholder={placeholder}
           className={cn(
-            "h-12 rounded-[10px] border-[var(--landing-border)] bg-transparent pr-11 pl-3.5 text-sm text-[var(--landing-text)] shadow-none placeholder:text-[color:rgba(119,119,119,0.7)] focus-visible:border-[var(--landing-text)] focus-visible:ring-[rgba(36,38,43,0.08)]",
+            "h-12 rounded-[10px] border-[color:var(--landing-border)] bg-transparent pr-11 pl-3.5 text-sm text-[var(--landing-text)] shadow-none placeholder:text-[color:rgba(119,119,119,0.7)] focus-visible:border-[color:var(--landing-text)] focus-visible:ring-[rgba(36,38,43,0.08)]",
             type === "email" && "text-left",
           )}
         />
