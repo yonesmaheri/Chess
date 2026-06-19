@@ -20,15 +20,15 @@ export default function CustomInput({
   type = "text",
 }: AuthInputProps) {
   return (
-    <div className="space-y-2">
+    <div className="space-y-1">
       <Label
         htmlFor={id}
-        className="text-[15px] font-medium text-[var(--landing-text)]"
+        className="text-[13px] font-medium text-[var(--landing-text)]"
       >
         {label}
       </Label>
       <div className="relative">
-        <span className="pointer-events-none absolute inset-y-0 right-0 flex w-14 items-center justify-center text-[var(--landing-muted)]">
+        <span className="pointer-events-none absolute inset-y-0 right-0 flex w-11 items-center justify-center text-[var(--landing-muted)]">
           {icon}
         </span>
         <Input
@@ -37,7 +37,7 @@ export default function CustomInput({
           dir={type === "email" ? "ltr" : "rtl"}
           placeholder={placeholder}
           className={cn(
-            "h-[60px] rounded-[12px] border-[var(--landing-border)] bg-transparent pr-14 pl-4 text-[15px] text-[var(--landing-text)] shadow-none placeholder:text-[color:rgba(119,119,119,0.7)] focus-visible:border-[var(--landing-text)] focus-visible:ring-[rgba(36,38,43,0.08)]",
+            "h-12 rounded-[10px] border-[var(--landing-border)] bg-transparent pr-11 pl-3.5 text-sm text-[var(--landing-text)] shadow-none placeholder:text-[color:rgba(119,119,119,0.7)] focus-visible:border-[var(--landing-text)] focus-visible:ring-[rgba(36,38,43,0.08)]",
             type === "email" && "text-left",
           )}
         />
