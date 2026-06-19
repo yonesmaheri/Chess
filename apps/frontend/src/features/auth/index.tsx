@@ -7,8 +7,8 @@ import LoginForm from "./components/loginForm";
 import { useState } from "react";
 import AuthDivider from "./components/authDivider";
 import { Button } from "@/shared/components/ui/button";
-import GoogleLogo from "./components/googleLogo";
 import Link from "next/link";
+import GoogleLogo from "@/shared/components/googleLogo";
 
 export function AuthPageFeature() {
   const [activeTab, setActiveTab] = useState<"register" | "login">("register");
