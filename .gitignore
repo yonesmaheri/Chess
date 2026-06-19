@@ -1,4 +1,27 @@
-/.env
-/docker
-/docker-compose.yaml
-/node_modules
+# dependencies
+node_modules
+**/node_modules
+
+# builds
+dist
+**/dist
+build
+**/build
+.next
+out
+*.tsbuildinfo
+
+
+# logs
+*.log
+
+# env
+.env
+.env.*
+
+# pnpm
+.pnpm-store
+
+# docker
+docker/
+docker-compose.yaml
