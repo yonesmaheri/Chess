@@ -1,10 +1,10 @@
-'use client'
+"use client";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactNode, useState } from "react";
 import { TooltipProvider } from "../ui/tooltip";
 import { Toaster } from "../ui/sonner";
-import { AuthProvider } from "@/providers/auth-provider";
-import type { AuthUser } from "@/services/auth";
+import { AuthProvider } from "@/shared/contexts/auth-provider";
+import type { AuthUser } from "@/shared/api/services/auth";
 
 function Providers({
   children,

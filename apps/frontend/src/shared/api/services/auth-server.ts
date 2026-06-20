@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import type { AuthResponse, AuthUser } from "@/services/auth";
+import type { AuthResponse, AuthUser } from "@/shared/api/services/auth";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3002";

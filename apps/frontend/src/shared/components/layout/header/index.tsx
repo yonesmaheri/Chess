@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/lib/utils";
-import { useAuth } from "@/providers/auth-provider";
+import { useAuth } from "@/shared/contexts/auth-provider";
 import { containerClassName, navItems } from "../constants";
 import MobileNavigation from "../mobileNavigation";
 import BrandMark from "../brandMark";

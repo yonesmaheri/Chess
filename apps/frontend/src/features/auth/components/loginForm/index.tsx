@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import PasswordInput from "../passwordInput";
 import CustomInput from "@/shared/components/customInput";
 import { Button } from "@/shared/components/ui/button";
-import { useAuth } from "@/providers/auth-provider";
+import { useAuth } from "@/shared/contexts/auth-provider";
 import { getErrorMessage } from "@/shared/lib/http";
 import {
   Field,
@@ -111,9 +111,7 @@ export default function LoginForm() {
         disabled={form.formState.isSubmitting}
         className="h-12 w-full rounded-[10px] bg-[var(--landing-text)] text-sm font-semibold text-white hover:bg-[color:rgba(36,38,43,0.92)]"
       >
-        {form.formState.isSubmitting
-          ? "در حال ورود..."
-          : "ورود به حساب کاربری"}
+        {form.formState.isSubmitting ? "در حال ورود..." : "ورود به حساب کاربری"}
       </Button>
     </form>
   );

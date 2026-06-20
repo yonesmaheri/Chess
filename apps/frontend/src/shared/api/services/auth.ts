@@ -1,5 +1,5 @@
 import { AxiosHeaders } from "axios";
-import { apiClient } from "@/api/axios";
+import { apiClient } from "@/shared/api/";
 import { CSRF_TOKEN_COOKIE } from "@/shared/constants/auth";
 import { getCookieValue } from "@/shared/lib/cookies";
 

@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import PasswordInput from "../passwordInput";
 import CustomInput from "@/shared/components/customInput";
 import { Button } from "@/shared/components/ui/button";
-import { useAuth } from "@/providers/auth-provider";
+import { useAuth } from "@/shared/contexts/auth-provider";
 import { getErrorMessage } from "@/shared/lib/http";
 import {
   Field,

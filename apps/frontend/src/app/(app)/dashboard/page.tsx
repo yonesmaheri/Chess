@@ -1,7 +1,7 @@
 "use client";
 
 import AuthGuard from "@/shared/components/authGuard";
-import { useAuth } from "@/providers/auth-provider";
+import { useAuth } from "@/shared/contexts/auth-provider";
 
 function DashboardContent() {
   const { user } = useAuth();

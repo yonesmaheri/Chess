@@ -15,7 +15,7 @@ import {
   AuthUser,
   LoginPayload,
   RegisterPayload,
-} from "@/services/auth";
+} from "@/shared/api/services/auth";
 
 type AuthStatus = "loading" | "authenticated" | "unauthenticated";
 
