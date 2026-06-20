@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, Vazirmatn } from "next/font/google";
 import "./globals.css";
 import Providers from "@/shared/components/providers";
-import { getServerSessionUser } from "@/shared/api/services/auth-server";
+import { getServerSessionUser } from "@/shared/api/services/auth/auth-server";
 
 const vazirMatn = Vazirmatn({
   subsets: ["arabic", "latin"],

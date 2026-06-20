@@ -1,43 +1,6 @@
-import { AxiosHeaders } from "axios";
-import { apiClient } from "@/shared/api/";
-import { CSRF_TOKEN_COOKIE } from "@/shared/constants/auth";
-import { getCookieValue } from "@/shared/lib/cookies";
-
-export type AuthUser = {
-  id: string;
-  phone: string;
-  firstName: string;
-  lastName: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type LoginPayload = {
-  phone: string;
-  password: string;
-};
-
-export type RegisterPayload = {
-  firstName: string;
-  lastName: string;
-  phone: string;
-  password: string;
-};
-
-export type AuthResponse = {
-  user: AuthUser;
-};
-
-function buildCsrfHeaders() {
-  const headers = new AxiosHeaders();
-  const csrfToken = getCookieValue(CSRF_TOKEN_COOKIE);
-
-  if (csrfToken) {
-    headers.set("X-CSRF-Token", csrfToken);
-  }
-
-  return headers;
-}
+import { apiClient } from "@/shared/api";
+import { buildCsrfHeaders } from "./config";
+import type { AuthResponse, LoginPayload, RegisterPayload } from "./types";
 
 export const authService = {
   async register(payload: RegisterPayload) {
