@@ -5,13 +5,13 @@ import Sidebar from "@/shared/components/sidebar";
 export default function AppLayout({ children }: { children: ReactNode }) {
   return (
     <AuthGuard>
-      <div className="flex flex-row w-full h-screen">
+      <div className="flex h-screen w-full flex-row overflow-hidden">
         <Sidebar />
         <div
           dir="rtl"
-          className="flex-1 bg-[#fafafa] flex flex-col"
+          className="flex flex-1 flex-col overflow-hidden bg-[#fafafa]"
         >
-            <div className="px-8 w-full">{children}</div>
+          <div className="w-full flex-1 overflow-y-auto px-8">{children}</div>
         </div>
       </div>
     </AuthGuard>

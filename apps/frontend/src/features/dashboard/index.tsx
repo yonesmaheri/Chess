@@ -12,7 +12,7 @@ import GoalCard from "./components/learningPath/GoalCard";
 export default function DashboardPage() {
   return (
     <div className="flex h-dvh w-full flex-row gap-8 overflow-hidden">
-      <div className="min-w-0 flex-1 overflow-y-auto">
+      <div className="min-w-0 w-full flex-1 overflow-y-auto">
         <div>
           <TopHeader />
 
@@ -41,7 +41,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="hidden h-dvh lg:flex w-80 bg-white border-l border-[#e7e9e8] flex-col gap-8 overflow-y-auto shrink-0 -ml-8 px-8">
+      <div className="hidden h-dvh lg:flex w-fit bg-white border-l border-r border-[#e7e9e8] flex-col gap-8 overflow-y-auto shrink-0  px-8">
         <div className="pt-8">
           <LearningPath />
         </div>

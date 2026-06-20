@@ -65,7 +65,7 @@ export default function Sidebar() {
   return (
     <aside
       dir="rtl"
-      className="w-[110px] border-l border-[#e7e9e8] bg-white flex flex-col items-center py-6 z-40 shrink-0"
+      className="sticky top-0 right-0 z-40 flex h-screen w-[110px] shrink-0 flex-col items-center overflow-y-hidden border-l border-[#e7e9e8] bg-white py-6"
     >
       {/* Logo Section */}
       <div className="flex flex-col items-center justify-center mb-8">
