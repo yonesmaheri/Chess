@@ -40,7 +40,7 @@ export class AuthService {
     const existingUser = await this.usersService.findByPhone(registerDto.phone);
 
     if (existingUser) {
-      throw new ConflictException('A user with this phone already exists.');
+      throw new ConflictException('کاربری با این شماره تلفن از قبل وجود دارد.');
     }
 
     const passwordHash = await hash(
@@ -65,7 +65,7 @@ export class AuthService {
     const user = await this.usersService.findByPhone(loginDto.phone);
 
     if (!user) {
-      throw new UnauthorizedException('Invalid phone or password.');
+      throw new UnauthorizedException('شماره تلفن یا رمز عبور اشتباه است.');
     }
 
     const passwordMatches = await compare(
@@ -74,7 +74,7 @@ export class AuthService {
     );
 
     if (!passwordMatches) {
-      throw new UnauthorizedException('Invalid phone or password.');
+      throw new UnauthorizedException('شماره تلفن یا رمز عبور اشتباه است.');
     }
 
     await this.issueSession(user, response);
