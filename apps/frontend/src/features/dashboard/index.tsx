@@ -11,7 +11,7 @@ import GoalCard from "./components/learningPath/GoalCard";
 
 export default function DashboardPage() {
   return (
-    <div className="flex h-dvh w-full flex-row gap-8 overflow-hidden">
+    <div className="flex h-dvh w-full flex-row overflow-hidden">
       <div className="min-w-0 w-full flex-1 overflow-y-auto">
         <div>
           <TopHeader />

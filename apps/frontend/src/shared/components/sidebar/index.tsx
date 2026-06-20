@@ -2,11 +2,11 @@
 
 import React from "react";
 import {
+  BarChart3,
   Home,
   Grid3x3,
   BookOpen,
   Target,
-  TrendingUp,
   Users,
   MessageSquare,
   Settings,
@@ -14,6 +14,7 @@ import {
   Crown,
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useAuth } from "@/shared/contexts/auth-provider";
 import { cn } from "@/shared/lib/utils";
 
@@ -33,11 +34,10 @@ const navItems = [
     href: "/dashboard/training",
   },
   {
-    id: "progress",
-    label: "پیشرفت",
-    icon: TrendingUp,
-    href: "/dashboard/progress",
-    active: true,
+    id: "achievements",
+    label: "آمار",
+    icon: BarChart3,
+    href: "/dashboard/achievements",
   },
   {
     id: "community",
@@ -61,6 +61,7 @@ const navItems = [
 
 export default function Sidebar() {
   const { logout } = useAuth();
+  const pathname = usePathname();
 
   return (
     <aside
@@ -79,7 +80,7 @@ export default function Sidebar() {
       <nav className="flex-1 flex flex-col gap-4 w-full items-center">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = item.active;
+          const isActive = pathname === item.href;
 
           return (
             <Link
