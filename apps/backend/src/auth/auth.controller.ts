@@ -7,9 +7,9 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { CurrentUser } from '../shared/decorators/current-user.decorator';
-import { AuthenticatedUser } from './types/authenticated-user.type';
+import type { AuthenticatedUser } from './types/authenticated-user.type';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';

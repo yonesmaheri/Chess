@@ -7,8 +7,8 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { compare, hash } from 'bcrypt';
 import { randomBytes } from 'crypto';
-import { Request, Response } from 'express';
-import { User } from '@prisma/client';
+import type { Request, Response } from 'express';
+import type { User } from '../generated/prisma/client';
 import { UsersService } from '../users/users.service';
 import {
   ACCESS_TOKEN_COOKIE,

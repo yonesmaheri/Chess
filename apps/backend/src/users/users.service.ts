@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { User } from '@prisma/client';
-import { AuthenticatedUser } from '../auth/types/authenticated-user.type';
+import type { AuthenticatedUser } from '../auth/types/authenticated-user.type';
+import type { User } from '../generated/prisma/client';
 import { UsersRepository } from './users.repository';
 
 @Injectable()
