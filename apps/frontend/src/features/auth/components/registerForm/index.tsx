@@ -2,12 +2,16 @@
 
 import { z } from "zod";
 import { Phone, UserRound } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 import PasswordInput from "../passwordInput";
 import CustomInput from "@/shared/components/customInput";
 import { Button } from "@/shared/components/ui/button";
+import { useAuth } from "@/providers/auth-provider";
+import { getErrorMessage } from "@/shared/lib/http";
 import {
   Field,
   FieldContent,
@@ -27,6 +31,8 @@ const registerSchema = z.object({
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export default function RegisterForm() {
+  const router = useRouter();
+  const { register } = useAuth();
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -37,8 +43,15 @@ export default function RegisterForm() {
     },
   });
 
-  const onSubmit = (data: RegisterFormValues) => {
-    console.log(data);
+  const onSubmit = async (data: RegisterFormValues) => {
+    try {
+      await register(data);
+      toast.success("حساب کاربری با موفقیت ساخته شد.");
+      form.reset();
+      router.push("/dashboard");
+    } catch (error) {
+      toast.error(getErrorMessage(error, "ثبت نام انجام نشد."));
+    }
   };
 
   return (
@@ -139,9 +152,10 @@ export default function RegisterForm() {
 
       <Button
         type="submit"
+        disabled={form.formState.isSubmitting}
         className="h-12 w-full rounded-[10px] bg-[var(--landing-text)] text-sm font-semibold text-white hover:bg-[color:rgba(36,38,43,0.92)]"
       >
-        ثبت نام
+        {form.formState.isSubmitting ? "در حال ثبت نام..." : "ثبت نام"}
       </Button>
     </form>
   );

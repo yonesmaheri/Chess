@@ -2,12 +2,16 @@
 
 import { z } from "zod";
 import { Phone } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 import PasswordInput from "../passwordInput";
 import CustomInput from "@/shared/components/customInput";
 import { Button } from "@/shared/components/ui/button";
+import { useAuth } from "@/providers/auth-provider";
+import { getErrorMessage } from "@/shared/lib/http";
 import {
   Field,
   FieldContent,
@@ -25,6 +29,8 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
+  const router = useRouter();
+  const { login } = useAuth();
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -33,8 +39,15 @@ export default function LoginForm() {
     },
   });
 
-  const onSubmit = (data: LoginFormValues) => {
-    console.log(data);
+  const onSubmit = async (data: LoginFormValues) => {
+    try {
+      await login(data);
+      toast.success("ورود با موفقیت انجام شد.");
+      form.reset();
+      router.push("/dashboard");
+    } catch (error) {
+      toast.error(getErrorMessage(error, "ورود انجام نشد."));
+    }
   };
 
   return (
@@ -95,9 +108,12 @@ export default function LoginForm() {
 
       <Button
         type="submit"
+        disabled={form.formState.isSubmitting}
         className="h-12 w-full rounded-[10px] bg-[var(--landing-text)] text-sm font-semibold text-white hover:bg-[color:rgba(36,38,43,0.92)]"
       >
-        ورود به حساب کاربری
+        {form.formState.isSubmitting
+          ? "در حال ورود..."
+          : "ورود به حساب کاربری"}
       </Button>
     </form>
   );

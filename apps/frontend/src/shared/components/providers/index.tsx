@@ -1,16 +1,30 @@
 'use client'
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { TooltipProvider } from "../ui/tooltip";
 import { Toaster } from "../ui/sonner";
+import { AuthProvider } from "@/providers/auth-provider";
+import type { AuthUser } from "@/services/auth";
 
-function Providers({ children }: { children: ReactNode }) {
-  const queryClient = new QueryClient({
-    defaultOptions: { queries: { refetchOnWindowFocus: false } },
-  });
+function Providers({
+  children,
+  initialUser,
+}: {
+  children: ReactNode;
+  initialUser?: AuthUser | null;
+}) {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: { queries: { refetchOnWindowFocus: false } },
+      }),
+  );
+
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>{children}</TooltipProvider>
+      <AuthProvider initialUser={initialUser}>
+        <TooltipProvider>{children}</TooltipProvider>
+      </AuthProvider>
       <Toaster position="bottom-center" />
     </QueryClientProvider>
   );

@@ -1,115 +1,105 @@
-"use client"
+You are a senior backend engineer. Build a production-ready authentication system using NestJS.
 
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
+## Tech Stack Requirements:
+- NestJS (latest stable)
+- PostgreSQL (running in Docker)
+- Prisma ORM
+- Cookie-based authentication (NOT JWT in localStorage)
+- TypeScript
 
-import {
-  Field,
-  FieldContent,
-  FieldLabel,
-  FieldError,
-} from "@/components/ui/field"
+## Core Requirements:
 
-import { CustomInput } from "./custom-input"
+### 1. Authentication Strategy
+Implement secure cookie-based auth using httpOnly cookies:
+- Access token stored in httpOnly cookie
+- Refresh token stored in httpOnly cookie (optional but recommended)
+- Secure, SameSite=strict/lax depending on environment
+- CSRF protection strategy included
 
+### 2. Features
+Implement full auth system:
 
-const schema = z.object({
-  username: z
-    .string()
-    .min(3, "Username must be at least 3 characters"),
+- User registration
+- User login
+- Logout
+- Get current user (/me)
+- Password hashing using bcrypt
+- Token refresh mechanism (if refresh token is used)
+- Protected routes using Guards
 
-  email: z
-    .string()
-    .email("Invalid email"),
-})
+### 3. Database (Prisma + PostgreSQL)
+Create Prisma schema with:
+- User model:
+    based on register field in frontend
 
+Optional:
+- refreshTokenVersion or hashed refresh token support
 
-type FormValues = z.infer<typeof schema>
+Generate:
+- Prisma schema
+- migrations setup
+- seed (optional)
 
+### 4. NestJS Architecture
+Follow clean modular architecture:
 
-export default function UserForm() {
+modules/
+  auth/
+    auth.controller.ts
+    auth.service.ts
+    auth.module.ts
+    strategies/ (if needed)
+    guards/
+  users/
+    users.service.ts
+    users.module.ts
+    users.repository.ts
 
-  const form = useForm<FormValues>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      username: "",
-      email: "",
-    },
-  })
+shared/
+  prisma.service.ts
+  decorators/current-user.decorator.ts
 
+### 5. Security Requirements
+- Hash passwords with bcrypt (salt rounds 10+)
+- Validate input with class-validator DTOs
+- Prevent common auth vulnerabilities:
+  - brute force protection (basic rate limit optional)
+  - password hashing never exposed
+- Use Helmet middleware
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data)
-  }
+### 6. Cookie Handling
+- Set cookies using res.cookie()
+- httpOnly = true
+- secure = true in production
+- sameSite configured properly
+- clear cookies on logout
 
+### 7. API Endpoints
 
-  return (
-    <form
-      onSubmit={form.handleSubmit(onSubmit)}
-      className="space-y-5 max-w-sm"
-    >
+Auth:
+- POST /auth/register
+- POST /auth/login
+- POST /auth/logout
+- POST /auth/refresh (if implemented)
+- GET /auth/me
 
-      <Field>
-        <FieldLabel>
-          Username
-        </FieldLabel>
+### 8. Docker Integration
+Assume PostgreSQL is already running in Docker.
+Provide:
+- Prisma DATABASE_URL config
+- .env example
+- migration commands
 
+### 9. Output Requirements
+Provide:
+- Full NestJS code structure
+- Prisma schema
+- DTOs
+- Auth service implementation
+- Auth controller
+- Guards
+- Prisma service
+- Clear setup instructions
 
-        <FieldContent>
-
-          <CustomInput
-            placeholder="username"
-
-            {...form.register("username")}
-          />
-
-        </FieldContent>
-
-
-        <FieldError>
-          {form.formState.errors.username?.message}
-        </FieldError>
-
-      </Field>
-
-
-
-      <Field>
-
-        <FieldLabel>
-          Email
-        </FieldLabel>
-
-
-        <FieldContent>
-
-          <CustomInput
-            type="email"
-            placeholder="email@example.com"
-
-            {...form.register("email")}
-          />
-
-        </FieldContent>
-
-
-        <FieldError>
-          {form.formState.errors.email?.message}
-        </FieldError>
-
-      </Field>
-
-
-
-      <button
-        type="submit"
-        className="rounded-md bg-primary px-4 py-2 text-primary-foreground"
-      >
-        Submit
-      </button>
-
-
-    </form>
-  )
-}
+Make it production-ready, clean, and scalable.
+Avoid pseudo-code. Provide real implementation.

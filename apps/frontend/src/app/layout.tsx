@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, Vazirmatn } from "next/font/google";
 import "./globals.css";
 import Providers from "@/shared/components/providers";
+import { getServerSessionUser } from "@/services/auth-server";
 
 const vazirMatn = Vazirmatn({
   subsets: ["arabic", "latin"],
@@ -21,11 +22,13 @@ export const metadata: Metadata = {
     "صفحه اصلی Chess.ir برای آموزش شطرنج، بازی آنلاین، تمرین روزانه و ارتباط با جامعه بازیکنان.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const initialUser = await getServerSessionUser();
+
   return (
     <html
       lang="fa"
@@ -33,7 +36,7 @@ export default function RootLayout({
       className={`${vazirMatn.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className={`${vazirMatn.className} min-h-full flex flex-col`}>
-        <Providers>{children}</Providers>
+        <Providers initialUser={initialUser}>{children}</Providers>
       </body>
     </html>
   );
