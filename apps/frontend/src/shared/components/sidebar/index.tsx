@@ -6,6 +6,7 @@ import {
   Home,
   Grid3x3,
   BookOpen,
+  History,
   Target,
   Users,
   MessageSquare,
@@ -21,6 +22,12 @@ import { cn } from "@/shared/lib/utils";
 const navItems = [
   { id: "home", label: "خانه", icon: Home, href: "/dashboard" },
   { id: "play", label: "بازی", icon: Grid3x3, href: "/dashboard/play" },
+  {
+    id: "history",
+    label: "بازی های من",
+    icon: History,
+    href: "/dashboard/history",
+  },
   {
     id: "lessons",
     label: "درس‌ها",
