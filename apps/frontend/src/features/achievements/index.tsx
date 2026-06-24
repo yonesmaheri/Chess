@@ -16,6 +16,8 @@ import {
   TrendingUp,
 } from "lucide-react";
 
+import DashboardPageHeader from "@/shared/components/dashboardPageHeader";
+
 const summaryCards = [
   {
     title: "زمان کل بازی",
@@ -267,39 +269,35 @@ export default function AchievementsPage() {
   return (
     <div dir="rtl" className=" w-full">
       <section className="py-8">
-        <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-center">
-          <div className="space-y-2">
-            <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#edf5ef] text-[#7f9f85]">
-                <BarChart3 className="h-5 w-5" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-[#252a2e] sm:text-3xl">
-                  آمار و دستاوردها
-                </h1>
-                <p className="mt-1 text-sm text-[#8a8f94]">
-                  عملکرد خود را بررسی کنید و پیشرفتتان را دنبال کنید.
-                </p>
-              </div>
+        <DashboardPageHeader
+          title="آمار و دستاوردها"
+          subtitle="عملکرد خود را بررسی کنید و پیشرفتتان را دنبال کنید."
+          actions={
+            <>
+              {ratingRanges.map((range, index) => (
+                <button
+                  key={range}
+                  type="button"
+                  className={`rounded-full border px-4 py-2 text-xs font-medium transition-colors ${
+                    index === 0
+                      ? "border-[#d5e4d8] bg-[#eef5ef] text-[#55715d]"
+                      : "border-[#e7e9e8] bg-white text-[#6b7176] hover:bg-[#fafafa]"
+                  }`}
+                >
+                  {range}
+                </button>
+              ))}
+            </>
+          }
+          leadingElement={
+            <div className="mt-0.5 flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#edf5ef] text-[#7f9f85]">
+              <BarChart3 className="h-5 w-5" />
             </div>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-3 self-start lg:self-auto">
-            {ratingRanges.map((range, index) => (
-              <button
-                key={range}
-                type="button"
-                className={`rounded-full border px-4 py-2 text-xs font-medium transition-colors ${
-                  index === 0
-                    ? "border-[#d5e4d8] bg-[#eef5ef] text-[#55715d]"
-                    : "border-[#e7e9e8] bg-white text-[#6b7176] hover:bg-[#fafafa]"
-                }`}
-              >
-                {range}
-              </button>
-            ))}
-          </div>
-        </div>
+          }
+          titleClassName="text-2xl sm:text-3xl"
+          subtitleClassName="mt-1 text-sm text-[#8a8f94]"
+          actionsClassName="flex flex-wrap items-center gap-3 self-start lg:self-auto"
+        />
 
         <div className="mt-8 grid grid-cols-1 gap-4 xl:grid-cols-4 md:grid-cols-2">
           {summaryCards.map((card) => (

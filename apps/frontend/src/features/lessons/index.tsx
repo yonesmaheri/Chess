@@ -11,6 +11,7 @@ import {
   Target,
 } from "lucide-react";
 
+import DashboardPageHeader from "@/shared/components/dashboardPageHeader";
 import { Button } from "@/shared/components/ui/button";
 
 type Course = {
@@ -359,28 +360,20 @@ export default function LessonsPage() {
   return (
     <div dir="rtl" className="min-h-full bg-[#fbfcfa]">
       <div className="py-8 sm:py-10">
-        <header className="flex flex-col gap-6 rounded-[32px] border border-[#edf0ea] bg-white p-6 shadow-[0_20px_80px_-58px_rgba(36,38,43,0.45)] sm:p-8 lg:flex-row lg:items-start lg:justify-between">
-          <div className="flex items-start gap-4">
-            <div className="mt-1 h-16 w-1.5 rounded-full bg-[#7f9f85]" />
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight text-[#252a2e] sm:text-4xl">
-                یادگیری من
-              </h1>
-              <p className="mt-3 max-w-2xl text-sm leading-7 text-[#9aa0a6] sm:text-[15px]">
-                مسیر یادگیری خود را ادامه دهید و مهارت هایتان را ارتقا دهید.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 self-start lg:self-center">
-            <HeaderIconButton label="اعلان ها">
-              <Bell className="h-5 w-5" />
-            </HeaderIconButton>
-            <HeaderIconButton label="تقویم">
-              <CalendarDays className="h-5 w-5" />
-            </HeaderIconButton>
-          </div>
-        </header>
+        <DashboardPageHeader
+          title="یادگیری من"
+          subtitle="مسیر یادگیری خود را ادامه دهید و مهارت هایتان را ارتقا دهید."
+          actions={
+            <>
+              <HeaderIconButton label="اعلان ها">
+                <Bell className="h-5 w-5" />
+              </HeaderIconButton>
+              <HeaderIconButton label="تقویم">
+                <CalendarDays className="h-5 w-5" />
+              </HeaderIconButton>
+            </>
+          }
+        />
 
         <section className="mt-10">
           <div className="flex items-center justify-between gap-4">

@@ -4,6 +4,7 @@ import React, { useEffect, useMemo } from "react";
 import { Calendar, ChevronDown } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
+import DashboardPageHeader from "@/shared/components/dashboardPageHeader";
 import { DatePicker, type DateRange } from "@/shared/components/datePicker";
 
 function formatQueryDate(date: Date): string {
@@ -67,33 +68,35 @@ export default function TopHeader() {
   };
 
   return (
-    <div
-      dir="rtl"
-      className="flex items-center justify-between mb-8 pt-8 border-b border-[#e7e9e8] pb-6"
-    >
-      <div>
-        <h1 className="text-3xl font-bold text-[#252a2e]">پیشرفت و تحلیل</h1>
-        <p className="text-sm text-[#8a8f94] mt-2">
-          عملکرد خود را بررسی کنید و نقاط قوت خود را تقویت کنید.
-        </p>
-      </div>
-
-      <DatePicker
-        mode="range"
-        selected={selectedRange}
-        onSelect={handleDateChange}
-        align="right"
-        renderTrigger={({ getDisplayText, onClick }) => (
-          <button
-            type="button"
-            onClick={onClick}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-[#e7e9e8] bg-white hover:bg-[#fafafa] transition-all shrink-0"
-          >
-            <span className="text-sm text-[#252a2e]">{getDisplayText()}</span>
-            <Calendar className="w-4 h-4 text-[#8a8f94]" />
-            <ChevronDown className="w-4 h-4 text-[#8a8f94]" />
-          </button>
-        )}
+    <div dir="rtl" className="mb-8 pt-8">
+      <DashboardPageHeader
+        title="پیشرفت و تحلیل"
+        subtitle="عملکرد خود را بررسی کنید و نقاط قوت خود را تقویت کنید."
+        titleClassName="text-3xl"
+        subtitleClassName="mt-2 text-sm text-[#8a8f94]"
+        actionsClassName="self-start lg:self-center"
+        className="rounded-[28px] border-[#e7e9e8] shadow-[0_18px_60px_-46px_rgba(36,38,43,0.35)]"
+        actions={
+          <DatePicker
+            mode="range"
+            selected={selectedRange}
+            onSelect={handleDateChange}
+            align="right"
+            renderTrigger={({ getDisplayText, onClick }) => (
+              <button
+                type="button"
+                onClick={onClick}
+                className="flex shrink-0 items-center gap-2 rounded-lg border border-[#e7e9e8] bg-white px-4 py-2 transition-all hover:bg-[#fafafa]"
+              >
+                <span className="text-sm text-[#252a2e]">
+                  {getDisplayText()}
+                </span>
+                <Calendar className="w-4 h-4 text-[#8a8f94]" />
+                <ChevronDown className="w-4 h-4 text-[#8a8f94]" />
+              </button>
+            )}
+          />
+        }
       />
     </div>
   );
