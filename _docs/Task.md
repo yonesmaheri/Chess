@@ -1,148 +1,345 @@
-Create a modern minimalist educational dashboard page. The sidebar is already implemented, so do not create or modify the sidebar. Focus only on the main content area.
+Create a modern minimalist settings page for a Persian chess learning dashboard. The sidebar is already implemented, so do not create or modify the sidebar. Focus only on the main content area.
 
-The page should have a clean white background with large cards, rounded corners, soft shadows, and generous spacing. The overall style should feel like a professional learning platform dashboard using a soft olive green accent color, light gray backgrounds, and dark text.
+The page should follow a premium SaaS dashboard style with a clean white background, soft shadows, rounded cards, and a calm green-gray color palette.
 
-At the top of the main content area create a header section:
+Overall design:
+- Full RTL layout
+- Background: very light gray/white (#FAFAF8 style)
+- Main content inside a large white container
+- Container border: 1px solid #E8E8E3
+- Border radius: 18px - 22px
+- Soft shadow with very low opacity
+- Large spacing and clean alignment
+- Use a Persian modern font style
+- Icons should be simple outline icons
+- Avoid heavy borders, keep everything elegant and minimal
 
-- Large Persian title: "یادگیری من"
-- Subtitle below in light gray:
-  "مسیر یادگیری خود را ادامه دهید و مهارت هایتان را ارتقا دهید."
-- On the left side of the header place two simple outline icons:
-  - notification bell
-  - calendar
-- Add a small vertical green accent line next to the title as a decorative element.
 
-## Section 1: My Courses
+## Main Header
 
-Create a section header:
-- Title: "دوره های من"
-- Add a small course/book icon beside the title.
+At the top right of the content area:
 
-Below it, create three vertical course cards.
+Title:
+"تنظیمات"
 
-Each course card:
+Style:
+- Large bold text
+- Dark charcoal color (#1F2520)
+
+Subtitle below:
+"تنظیمات حساب کاربری و ظاهر بازی خود را مدیریت کنید."
+
+Style:
+- Medium gray text
+- Smaller size
+- More spacing from title
+
+---
+
+# Appearance Settings Section
+
+Create a large card section.
+
+Card:
 - White background
-- Very subtle border
-- Large rounded corners (around 20px)
-- Height around 150px
-- Soft shadow
-- A rectangular chess-related image on the right side with rounded corners
-- Left side contains a soft green button with:
-  - text: "ادامه دوره"
-  - arrow icon
-- Middle area contains:
-  - large bold course title
-  - course level text in gray
-  - thin progress bar:
-    - light gray background
-    - filled part with muted green color
-  - progress percentage text
-
-Courses:
-
-1. Title:
-"مبانی تاکتیک های شطرنج"
-Level:
-"مبتدی تا متوسط"
-Progress:
-65%
-
-2. Title:
-"استراتژی در میانه بازی"
-Level:
-"متوسط"
-Progress:
-42%
-
-3. Title:
-"آخر بازی های شطرنج"
-Level:
-"متوسط تا پیشرفته"
-Progress:
-18%
+- Border: 1px solid #E9E9E4
+- Border radius: 16px
+- Padding: 24px
 
 
-## Section 2: Practical Training Path
+Section title:
+"ظاهر بازی"
 
-Below the courses section create another section.
+Add a palette icon beside it.
+
+---
+
+## Chess Board Theme Selector
+
+Inside this section:
+
+Label:
+"تم صفحه شطرنج"
+
+Create a grid of chess board theme options.
+
+Layout:
+- 4 items per row
+- Each option is a small preview card
+
+Each theme item:
+- Small chessboard thumbnail
+- Rounded corners: 8px
+- Thin border
+- Label below
+- Selected item has:
+  - green border (#789B84)
+  - small green check circle in top corner
+  - slightly stronger shadow
+
+
+Themes:
+
+Row 1:
+1. Classic
+Label:
+"کلاسیک"
+
+2. Light wood
+Label:
+"چوب روشن"
+
+3. Dark wood
+Label:
+"چوب تیره"
+
+4. Green
+Label:
+"سبز ملایم"
+Selected state
+
+
+Row 2:
+5. Gray blue
+Label:
+"سرمه‌ای"
+
+6. Gray
+Label:
+"خاکستری"
+
+7. Light blue
+Label:
+"آبی یخی"
+
+8. Purple
+Label:
+"بنفش ملایم"
+
+
+Use realistic chessboard patterns:
+- alternating squares
+- soft colors
+- no harsh contrast
+
+
+---
+
+## Piece Style Selector
+
+Add divider line.
+
+Title:
+"سبک مهره‌ها"
+
+
+Create two horizontal selection cards.
+
+Each option:
+- White card
+- Border radius: 10px
+- Height around 70px
+- Chess pieces preview in center
+
+Options:
+
+1.
+Label:
+"Neo"
+
+Selected:
+- green border
+- check icon
+
+2.
+Label:
+"سه‌بعدی (3D)"
+
+Not selected:
+- gray border
+
+
+---
+
+## Toggle Settings
+
+Create two settings rows.
+
+Each row:
+- Height around 70px
+- Top and bottom divider
+- Right side:
+  - title
+  - small gray description
+- Left side:
+  toggle switch
+
+
+Row 1:
+Title:
+"هایلایت حرکت‌ها"
+
+Description:
+"خانه مبدا و مقصد حرکت را هایلایت کن"
+
+
+Row 2:
+Title:
+"نمایش مختصات"
+
+Description:
+"نمایش حروف و اعداد اطراف صفحه شطرنج"
+
+
+Toggle style:
+- Width around 48px
+- Height around 26px
+- Rounded pill shape
+- Green active color
+- White circular knob
+
+
+---
+
+# Chess Preview Panel
+
+On the left side of the page create a preview card.
+
+Card:
+- White background
+- Border: 1px solid #E8E8E3
+- Border radius: 16px
+- Padding: 20px
+
+
+Title:
+"پیش‌نمایش زنده"
+
+Center:
+A chess board preview.
+
+Board:
+- Square aspect ratio
+- Around 280px
+- Rounded corners: 4px
+- Green/cream squares
+- Chess pieces visible
+
+
+Below board:
+
+Info box:
+- Light gray background
+- Border radius: 10px
+- Small info icon
+
+Text:
+"این پیش‌نمایش بر اساس تنظیمات انتخابی شما به‌روز می‌شود."
+
+
+---
+
+# User Account Information Section
+
+Below appearance section create another card.
+
+Card:
+- White background
+- Same border and radius
+- Padding: 24px
+
 
 Header:
-Title:
-"مسیر تمرینات عملی"
+"اطلاعات حساب کاربری"
 
-Subtitle:
-"مهارت های خود را با تمرین های هدفمند تقویت کنید."
+Add user icon.
 
-Add a target/crosshair icon near the title.
 
-Create a vertical timeline on the right side of the training cards:
-- Thin light gray vertical line
-- Three circular step indicators
-- Active step:
-  - green circle
-  - white number
-- Locked steps:
-  - gray circle
+Create a 2-column form layout.
 
-Create three training cards.
+Fields:
 
-Each training card:
+Field 1:
+Label:
+"نام کاربری"
+
+Input:
+"شطرنج‌باز"
+
+
+Field 2:
+Label:
+"نام و نام خانوادگی"
+
+Input:
+"پارسا محمدی"
+
+
+Field 3:
+Label:
+"ایمیل"
+
+Input:
+"chessplayer@example.com"
+
+
+Field 4:
+Label:
+"تاریخ عضویت"
+
+Input:
+"۱۴۰۲/۰۶/۱۵"
+
+Add calendar icon inside the field.
+
+
+Input style:
+- Height: 42px
+- Border: 1px solid #E3E3DE
+- Radius: 8px
 - White background
-- Rounded corners
-- Around 100px height
-- Small chess board thumbnail image on the right
-- Training title
-- Short description
-- Left side outline button:
-  "شروع تمرین"
-- Completed exercises should show a green circular check icon.
-
-Training cards:
-
-Step 1:
-Title:
-"مات با رخ"
-
-Description:
-"یادگیری تکنیک های مات با رخ در موقعیت های مختلف"
-
-Status:
-Completed
+- Text aligned RTL
+- Focus state with soft green border
 
 
-Step 2:
-Title:
-"مات با فیل"
+---
 
-Description:
-"تمرین مات با فیل و ترکیب آن با مهره های دیگر"
+# Bottom Action Buttons
 
-Status:
-Completed
+At the bottom:
 
+Two large buttons side by side.
 
-Step 3:
-Title:
-"مات با وزیر"
-
-Description:
-"تسلط بر تکنیک های مات با وزیر"
-
-Status:
-Locked
-
-For the locked card:
-- Make it slightly faded
-- Disable the button
-- Show a lock icon
+Cancel button:
+- White background
+- Green border
+- Green text
+- Rounded corners: 12px
+- Text:
+"انصراف"
 
 
-Design requirements:
-- Full RTL layout
-- Persian modern typography
-- Lots of white space
-- Minimal and clean interface
-- Simple outline icons
-- Professional SaaS dashboard feeling
-- Add subtle hover animations for cards and buttons
-- Fully responsive design
+Save button:
+- Filled muted green background (#789B84)
+- White text
+- Rounded corners: 12px
+- Text:
+"ذخیره تغییرات"
+- Add check icon
+
+
+Button height:
+Around 55px
+
+
+---
+
+Important details:
+- Keep the page visually identical to a professional chess application settings panel.
+- Use subtle green accents everywhere.
+- No gradients.
+- No excessive shadows.
+- Cards should feel soft and elevated.
+- Maintain consistent 16-22px border radius.
+- Use smooth hover animations on cards, theme selectors, and buttons.
+- Responsive layout: on smaller screens stack sections vertically.

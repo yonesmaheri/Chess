@@ -34,30 +34,30 @@ const navItems = [
     icon: BookOpen,
     href: "/dashboard/lessons",
   },
-  {
-    id: "training",
-    label: "تمرینات",
-    icon: Target,
-    href: "/dashboard/training",
-  },
+  // {
+  //   id: "training",
+  //   label: "تمرینات",
+  //   icon: Target,
+  //   href: "/dashboard/training",
+  // },
   {
     id: "achievements",
     label: "آمار",
     icon: BarChart3,
     href: "/dashboard/achievements",
   },
-  {
-    id: "community",
-    label: "جامعه",
-    icon: Users,
-    href: "/dashboard/community",
-  },
-  {
-    id: "messages",
-    label: "پیام‌ها",
-    icon: MessageSquare,
-    href: "/dashboard/messages",
-  },
+  // {
+  //   id: "community",
+  //   label: "جامعه",
+  //   icon: Users,
+  //   href: "/dashboard/community",
+  // },
+  // {
+  //   id: "messages",
+  //   label: "پیام‌ها",
+  //   icon: MessageSquare,
+  //   href: "/dashboard/messages",
+  // },
   {
     id: "settings",
     label: "تنظیمات",

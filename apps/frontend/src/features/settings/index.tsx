@@ -12,6 +12,7 @@ import {
   UserRound,
 } from "lucide-react";
 
+import DashboardPageHeader from "@/shared/components/dashboardPageHeader";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { cn } from "@/shared/lib/utils";
@@ -233,23 +234,23 @@ function ThemeCard({
       type="button"
       onClick={onClick}
       className={cn(
-        "group relative rounded-[14px] border bg-white p-3 text-right transition-all duration-300 hover:-translate-y-0.5",
+        "group relative rounded-[12px] border bg-white p-2.5 text-right transition-all duration-300 hover:-translate-y-0.5",
         selected
           ? "border-[#789B84] shadow-[0_18px_44px_-30px_rgba(120,155,132,0.5)]"
           : "border-[#e7e8e2] shadow-[0_14px_40px_-34px_rgba(31,37,32,0.18)] hover:border-[#d7ddd6]",
       )}
     >
       {selected ? (
-        <span className="absolute left-3 top-3 flex h-6 w-6 items-center justify-center rounded-full bg-[#789B84] text-white">
-          <Check className="h-3.5 w-3.5" />
+        <span className="absolute left-2.5 top-2.5 flex h-5.5 w-5.5 items-center justify-center rounded-full bg-[#789B84] text-white">
+          <Check className="h-3 w-3" />
         </span>
       ) : null}
 
       <ThemeThumbnail
         theme={theme}
-        className="rounded-[10px] border border-black/5 shadow-inner"
+        className="rounded-[9px] border border-black/5 shadow-inner"
       />
-      <span className="mt-3 block text-sm font-medium text-[#32403a]">
+      <span className="mt-2 block text-[13px] font-medium text-[#32403a]">
         {theme.label}
       </span>
     </button>
@@ -361,198 +362,199 @@ export default function SettingsPage() {
 
   return (
     <div dir="rtl" className="min-h-full bg-[#fafaf8] py-8 sm:py-10">
-      <div className="rounded-[22px] border border-[#e8e8e3] bg-white p-5 shadow-[0_28px_80px_-66px_rgba(31,37,32,0.24)] sm:p-6 lg:p-8">
-        <header>
-          <h1 className="text-3xl font-bold text-[#1F2520] sm:text-[34px]">
-            تنظیمات
-          </h1>
-          <p className="mt-4 text-sm text-[#7b837d] sm:text-[15px]">
-            تنظیمات حساب کاربری و ظاهر بازی خود را مدیریت کنید.
-          </p>
-        </header>
+      <div className="space-y-6">
+        <DashboardPageHeader
+          title="تنظیمات"
+          subtitle="تنظیمات حساب کاربری و ظاهر بازی خود را مدیریت کنید."
+          titleClassName="text-3xl"
+          subtitleClassName="mt-2 text-sm text-[#8a8f94]"
+          className="rounded-[28px] border-[#e7e9e8] shadow-[0_18px_60px_-46px_rgba(36,38,43,0.35)]"
+        />
 
-        <div className="mt-8 grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
-          <div className="space-y-6">
-            <section className="rounded-[16px] border border-[#e9e9e4] bg-white p-6 shadow-[0_18px_48px_-40px_rgba(31,37,32,0.2)]">
-              <SectionHeader title="ظاهر بازی" icon={Palette} />
+        <div className="rounded-[22px] border border-[#e8e8e3] bg-white p-5 shadow-[0_28px_80px_-66px_rgba(31,37,32,0.24)] sm:p-6 lg:p-8">
+          <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
+            <div className="space-y-6">
+              <section className="rounded-[16px] border border-[#e9e9e4] bg-white p-6 shadow-[0_18px_48px_-40px_rgba(31,37,32,0.2)]">
+                <SectionHeader title="ظاهر بازی" icon={Palette} />
 
-              <div className="mt-8">
-                <h3 className="text-sm font-semibold text-[#32403a]">
-                  تم صفحه شطرنج
-                </h3>
+                <div className="mt-7">
+                  <h3 className="text-[13px] font-semibold text-[#32403a]">
+                    تم صفحه شطرنج
+                  </h3>
 
-                <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                  {themeOptions.map((theme) => (
-                    <ThemeCard
-                      key={theme.id}
-                      theme={theme}
-                      selected={theme.id === selectedTheme}
-                      onClick={() => setSelectedTheme(theme.id)}
-                    />
-                  ))}
+                  <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                    {themeOptions.map((theme) => (
+                      <ThemeCard
+                        key={theme.id}
+                        theme={theme}
+                        selected={theme.id === selectedTheme}
+                        onClick={() => setSelectedTheme(theme.id)}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
 
-              <div className="mt-8 border-t border-[#eef0eb] pt-8">
-                <h3 className="text-base font-semibold text-[#1f2520]">
-                  سبک مهره‌ها
-                </h3>
+                <div className="mt-7 border-t border-[#eef0eb] pt-7">
+                  <h3 className="text-base font-semibold text-[#1f2520]">
+                    سبک مهره‌ها
+                  </h3>
 
-                <div className="mt-4 grid gap-3 lg:grid-cols-2">
-                  {pieceStyles.map((style) => (
-                    <PieceStyleCard
-                      key={style.id}
-                      style={style}
-                      selected={style.id === selectedPieceStyle}
-                      onClick={() => setSelectedPieceStyle(style.id)}
-                    />
-                  ))}
+                  <div className="mt-4 grid gap-3 lg:grid-cols-2">
+                    {pieceStyles.map((style) => (
+                      <PieceStyleCard
+                        key={style.id}
+                        style={style}
+                        selected={style.id === selectedPieceStyle}
+                        onClick={() => setSelectedPieceStyle(style.id)}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
 
-              <div className="mt-8 space-y-0">
-                <ToggleRow
-                  title="هایلایت حرکت‌ها"
-                  description="خانه مبدا و مقصد حرکت را هایلایت کن"
-                  enabled={highlightMoves}
-                  onToggle={() => setHighlightMoves((current) => !current)}
-                />
-                <ToggleRow
-                  title="نمایش مختصات"
-                  description="نمایش حروف و اعداد اطراف صفحه شطرنج"
-                  enabled={showCoordinates}
-                  onToggle={() => setShowCoordinates((current) => !current)}
-                />
-              </div>
-            </section>
-
-            <section className="rounded-[16px] border border-[#e9e9e4] bg-white p-6 shadow-[0_18px_48px_-40px_rgba(31,37,32,0.2)]">
-              <SectionHeader title="اطلاعات حساب کاربری" icon={UserRound} />
-
-              <div className="mt-8 grid gap-5 md:grid-cols-2">
-                <label className="block">
-                  <span className="mb-2 block text-sm font-medium text-[#647069]">
-                    نام کاربری
-                  </span>
-                  <Input
-                    value={formValues.username}
-                    onChange={(event) =>
-                      setFormValues((current) => ({
-                        ...current,
-                        username: event.target.value,
-                      }))
-                    }
-                    className="h-[42px] rounded-[8px] border-[#e3e3de] bg-white px-4 text-right text-sm text-[#1f2520] shadow-none focus-visible:border-[#789B84] focus-visible:ring-3 focus-visible:ring-[#789B84]/15"
+                <div className="mt-7 space-y-0">
+                  <ToggleRow
+                    title="هایلایت حرکت‌ها"
+                    description="خانه مبدا و مقصد حرکت را هایلایت کن"
+                    enabled={highlightMoves}
+                    onToggle={() => setHighlightMoves((current) => !current)}
                   />
-                </label>
-
-                <label className="block">
-                  <span className="mb-2 block text-sm font-medium text-[#647069]">
-                    نام و نام خانوادگی
-                  </span>
-                  <Input
-                    value={formValues.fullName}
-                    onChange={(event) =>
-                      setFormValues((current) => ({
-                        ...current,
-                        fullName: event.target.value,
-                      }))
-                    }
-                    className="h-[42px] rounded-[8px] border-[#e3e3de] bg-white px-4 text-right text-sm text-[#1f2520] shadow-none focus-visible:border-[#789B84] focus-visible:ring-3 focus-visible:ring-[#789B84]/15"
+                  <ToggleRow
+                    title="نمایش مختصات"
+                    description="نمایش حروف و اعداد اطراف صفحه شطرنج"
+                    enabled={showCoordinates}
+                    onToggle={() => setShowCoordinates((current) => !current)}
                   />
-                </label>
+                </div>
+              </section>
 
-                <label className="block">
-                  <span className="mb-2 block text-sm font-medium text-[#647069]">
-                    ایمیل
-                  </span>
-                  <Input
-                    type="email"
-                    value={formValues.email}
-                    onChange={(event) =>
-                      setFormValues((current) => ({
-                        ...current,
-                        email: event.target.value,
-                      }))
-                    }
-                    className="h-[42px] rounded-[8px] border-[#e3e3de] bg-white px-4 text-right text-sm text-[#1f2520] shadow-none focus-visible:border-[#789B84] focus-visible:ring-3 focus-visible:ring-[#789B84]/15"
-                  />
-                </label>
+              <section className="rounded-[16px] border border-[#e9e9e4] bg-white p-6 shadow-[0_18px_48px_-40px_rgba(31,37,32,0.2)]">
+                <SectionHeader title="اطلاعات حساب کاربری" icon={UserRound} />
 
-                <label className="block">
-                  <span className="mb-2 block text-sm font-medium text-[#647069]">
-                    تاریخ عضویت
-                  </span>
-                  <div className="relative">
+                <div className="mt-8 grid gap-5 md:grid-cols-2">
+                  <label className="block">
+                    <span className="mb-2 block text-sm font-medium text-[#647069]">
+                      نام کاربری
+                    </span>
                     <Input
-                      value={formValues.joinedAt}
+                      value={formValues.username}
                       onChange={(event) =>
                         setFormValues((current) => ({
                           ...current,
-                          joinedAt: event.target.value,
+                          username: event.target.value,
                         }))
                       }
-                      className="h-[42px] rounded-[8px] border-[#e3e3de] bg-white pl-11 pr-4 text-right text-sm text-[#1f2520] shadow-none focus-visible:border-[#789B84] focus-visible:ring-3 focus-visible:ring-[#789B84]/15"
+                      className="h-[42px] rounded-[8px] border-[#e3e3de] bg-white px-4 text-right text-sm text-[#1f2520] shadow-none focus-visible:border-[#789B84] focus-visible:ring-3 focus-visible:ring-[#789B84]/15"
                     />
-                    <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-[#8a928c]" />
-                  </div>
-                </label>
-              </div>
-            </section>
+                  </label>
 
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <Button
-                type="button"
-                variant="outline"
-                className="h-[55px] flex-1 rounded-[12px] border-[#789B84] bg-white text-base font-semibold text-[#789B84] shadow-none transition-all duration-300 hover:bg-[#f6faf7] hover:text-[#6d8d79]"
-              >
-                انصراف
-              </Button>
-              <Button
-                type="button"
-                className="h-[55px] flex-1 rounded-[12px] bg-[#789B84] text-base font-semibold text-white transition-all duration-300 hover:bg-[#6d8d79]"
-              >
-                <Save className="h-4.5 w-4.5" />
-                ذخیره تغییرات
-              </Button>
+                  <label className="block">
+                    <span className="mb-2 block text-sm font-medium text-[#647069]">
+                      نام و نام خانوادگی
+                    </span>
+                    <Input
+                      value={formValues.fullName}
+                      onChange={(event) =>
+                        setFormValues((current) => ({
+                          ...current,
+                          fullName: event.target.value,
+                        }))
+                      }
+                      className="h-[42px] rounded-[8px] border-[#e3e3de] bg-white px-4 text-right text-sm text-[#1f2520] shadow-none focus-visible:border-[#789B84] focus-visible:ring-3 focus-visible:ring-[#789B84]/15"
+                    />
+                  </label>
+
+                  <label className="block">
+                    <span className="mb-2 block text-sm font-medium text-[#647069]">
+                      ایمیل
+                    </span>
+                    <Input
+                      type="email"
+                      value={formValues.email}
+                      onChange={(event) =>
+                        setFormValues((current) => ({
+                          ...current,
+                          email: event.target.value,
+                        }))
+                      }
+                      className="h-[42px] rounded-[8px] border-[#e3e3de] bg-white px-4 text-right text-sm text-[#1f2520] shadow-none focus-visible:border-[#789B84] focus-visible:ring-3 focus-visible:ring-[#789B84]/15"
+                    />
+                  </label>
+
+                  <label className="block">
+                    <span className="mb-2 block text-sm font-medium text-[#647069]">
+                      تاریخ عضویت
+                    </span>
+                    <div className="relative">
+                      <Input
+                        value={formValues.joinedAt}
+                        onChange={(event) =>
+                          setFormValues((current) => ({
+                            ...current,
+                            joinedAt: event.target.value,
+                          }))
+                        }
+                        className="h-[42px] rounded-[8px] border-[#e3e3de] bg-white pl-11 pr-4 text-right text-sm text-[#1f2520] shadow-none focus-visible:border-[#789B84] focus-visible:ring-3 focus-visible:ring-[#789B84]/15"
+                      />
+                      <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-[#8a928c]" />
+                    </div>
+                  </label>
+                </div>
+              </section>
+
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="h-[55px] flex-1 rounded-[12px] border-[#789B84] bg-white text-base font-semibold text-[#789B84] shadow-none transition-all duration-300 hover:bg-[#f6faf7] hover:text-[#6d8d79]"
+                >
+                  انصراف
+                </Button>
+                <Button
+                  type="button"
+                  className="h-[55px] flex-1 rounded-[12px] bg-[#789B84] text-base font-semibold text-white transition-all duration-300 hover:bg-[#6d8d79]"
+                >
+                  <Save className="h-4.5 w-4.5" />
+                  ذخیره تغییرات
+                </Button>
+              </div>
             </div>
-          </div>
 
-          <aside className="xl:sticky xl:top-8 xl:self-start">
-            <section className="rounded-[16px] border border-[#e8e8e3] bg-white p-5 shadow-[0_18px_48px_-40px_rgba(31,37,32,0.2)]">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#eef3ee] text-[#789B84]">
-                  <Sparkles className="h-4.5 w-4.5" />
-                </div>
-                <div>
-                  <h2 className="text-lg font-bold text-[#1f2520]">
-                    پیش‌نمایش زنده
-                  </h2>
-                </div>
-              </div>
-
-              <div className="mt-5 flex justify-center">
-                <ThemeThumbnail
-                  theme={activeTheme}
-                  pieceStyle={selectedPieceStyle}
-                  showHighlight={highlightMoves}
-                  showCoordinates={showCoordinates}
-                  className="w-full max-w-[280px] rounded-[4px] border border-[#dde2db] shadow-[0_18px_40px_-34px_rgba(31,37,32,0.24)]"
-                />
-              </div>
-
-              <div className="mt-5 rounded-[10px] bg-[#f6f7f4] p-4">
-                <div className="flex items-start gap-3">
-                  <div className="mt-0.5 text-[#7f8c84]">
-                    <Info className="h-4.5 w-4.5" />
+            <aside className="xl:sticky xl:top-8 xl:self-start">
+              <section className="rounded-[16px] border border-[#e8e8e3] bg-white p-5 shadow-[0_18px_48px_-40px_rgba(31,37,32,0.2)]">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#eef3ee] text-[#789B84]">
+                    <Sparkles className="h-4.5 w-4.5" />
                   </div>
-                  <p className="text-sm leading-6 text-[#7f8781]">
-                    این پیش‌نمایش بر اساس تنظیمات انتخابی شما به‌روز می‌شود.
-                  </p>
+                  <div>
+                    <h2 className="text-lg font-bold text-[#1f2520]">
+                      پیش‌نمایش زنده
+                    </h2>
+                  </div>
                 </div>
-              </div>
-            </section>
-          </aside>
+
+                <div className="mt-5 flex justify-center">
+                  <ThemeThumbnail
+                    theme={activeTheme}
+                    pieceStyle={selectedPieceStyle}
+                    showHighlight={highlightMoves}
+                    showCoordinates={showCoordinates}
+                    className="w-full max-w-[280px] rounded-[4px] border border-[#dde2db] shadow-[0_18px_40px_-34px_rgba(31,37,32,0.24)]"
+                  />
+                </div>
+
+                <div className="mt-5 rounded-[10px] bg-[#f6f7f4] p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="mt-0.5 text-[#7f8c84]">
+                      <Info className="h-4.5 w-4.5" />
+                    </div>
+                    <p className="text-sm leading-6 text-[#7f8781]">
+                      این پیش‌نمایش بر اساس تنظیمات انتخابی شما به‌روز می‌شود.
+                    </p>
+                  </div>
+                </div>
+              </section>
+            </aside>
+          </div>
         </div>
       </div>
     </div>
