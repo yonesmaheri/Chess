@@ -1,6 +1,6 @@
 "use client";
 
-import LessonsPage from "@/features/lessons";
+import LessonsPage from "@/features/dashboardLessons";
 
 export default function Page() {
   return <LessonsPage />;
