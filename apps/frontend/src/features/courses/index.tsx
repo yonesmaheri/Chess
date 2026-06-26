@@ -1,12 +1,12 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
-  coursesService,
   type CourseLevel,
   type CourseListItem,
   type CourseSortOption,
+  type ListCoursesResponse,
 } from "@/shared/api/services/courses";
 import { categoryOptions } from "./lib/constants";
 import { formatPersianNumber } from "./lib/utils";
@@ -15,50 +15,104 @@ import CoursesFilters from "./components/coursesFilters";
 import CoursesHero from "./components/coursesHero";
 import CoursesPagination from "./components/coursesPagination";
 
-export function CoursesPageFeature() {
-  const [page, setPage] = useState(1);
-  const [searchInput, setSearchInput] = useState("");
-  const [search, setSearch] = useState("");
-  const [level, setLevel] = useState<CourseLevel | "">("");
-  const [category, setCategory] = useState<
-    (typeof categoryOptions)[number]["value"] | ""
-  >("");
-  const [sort, setSort] = useState<CourseSortOption>("newest");
+type CoursesPageFeatureProps = {
+  initialFilters: {
+    page: number;
+    search: string;
+    level: CourseLevel | "";
+    category: (typeof categoryOptions)[number]["value"] | "";
+    sort: CourseSortOption;
+  };
+  initialData: ListCoursesResponse | null;
+  initialErrorMessage?: string | null;
+};
+
+export function CoursesPageFeature({
+  initialFilters,
+  initialData,
+  initialErrorMessage,
+}: CoursesPageFeatureProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
+  const [searchInput, setSearchInput] = useState(initialFilters.search);
+
+  useEffect(() => {
+    setSearchInput(initialFilters.search);
+  }, [initialFilters.search]);
+
+  const updateQuery = (
+    updates: Partial<
+      Record<"page" | "search" | "level" | "category" | "sort", string>
+    >,
+  ) => {
+    const nextSearchParams = new URLSearchParams(searchParams.toString());
+
+    Object.entries(updates).forEach(([key, value]) => {
+      if (!value) {
+        nextSearchParams.delete(key);
+        return;
+      }
+
+      if (key === "page" && value === "1") {
+        nextSearchParams.delete(key);
+        return;
+      }
+
+      if (key === "sort" && value === "newest") {
+        nextSearchParams.delete(key);
+        return;
+      }
+
+      nextSearchParams.set(key, value);
+    });
+
+    const query = nextSearchParams.toString();
+
+    startTransition(() => {
+      router.replace(query ? `${pathname}?${query}` : pathname, {
+        scroll: false,
+      });
+    });
+  };
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
-      setSearch(searchInput.trim());
-      setPage(1);
+      const nextSearch = searchInput.trim();
+
+      if (nextSearch === initialFilters.search) {
+        return;
+      }
+
+      updateQuery({
+        search: nextSearch,
+        page: "1",
+      });
     }, 350);
 
     return () => window.clearTimeout(timeoutId);
-  }, [searchInput]);
+  }, [initialFilters.search, searchInput, searchParams]);
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["courses", { page, search, level, category, sort }],
-    queryFn: () =>
-      coursesService.list({
-        page,
-        limit: 6,
-        search: search || undefined,
-        level: level || undefined,
-        category: category || undefined,
-        sort,
-      }),
-    placeholderData: (previousData) => previousData,
-  });
-
-  const courses: CourseListItem[] = data?.courses ?? [];
-  const totalItems = data?.totalItems ?? 0;
-  const totalPages = data?.totalPages ?? 1;
+  const page = initialData?.currentPage ?? initialFilters.page;
+  const level = initialFilters.level;
+  const category = initialFilters.category;
+  const sort = initialFilters.sort;
+  const courses: CourseListItem[] = initialData?.courses ?? [];
+  const totalItems = initialData?.totalItems ?? 0;
+  const totalPages = initialData?.totalPages ?? 1;
+  const isError = Boolean(initialErrorMessage);
+  const isLoading = isPending;
 
   const clearFilters = () => {
     setSearchInput("");
-    setSearch("");
-    setLevel("");
-    setCategory("");
-    setSort("newest");
-    setPage(1);
+    updateQuery({
+      page: "",
+      search: "",
+      level: "",
+      category: "",
+      sort: "",
+    });
   };
 
   return (
@@ -71,18 +125,24 @@ export function CoursesPageFeature() {
           onSearchInputChange={setSearchInput}
           sort={sort}
           onSortChange={(value) => {
-            setSort(value);
-            setPage(1);
+            updateQuery({
+              sort: value,
+              page: "1",
+            });
           }}
           level={level}
           onLevelChange={(value) => {
-            setLevel(value);
-            setPage(1);
+            updateQuery({
+              level: value,
+              page: "1",
+            });
           }}
           category={category}
           onCategoryChange={(value) => {
-            setCategory(value);
-            setPage(1);
+            updateQuery({
+              category: value,
+              page: "1",
+            });
           }}
           onClearFilters={clearFilters}
         />
@@ -97,7 +157,13 @@ export function CoursesPageFeature() {
           </div>
           {isError ? (
             <div className="rounded-[18px] border border-[#F0D7D7] bg-[#FFF8F8] px-5 py-4 text-sm text-[#9B4B4B]">
-              دریافت فهرست دوره‌ها با مشکل روبه‌رو شد.
+              {initialErrorMessage}
+            </div>
+          ) : null}
+
+          {isLoading ? (
+            <div className="text-sm text-[#7A7F7C]">
+              در حال به‌روزرسانی نتایج...
             </div>
           ) : null}
 
@@ -137,7 +203,11 @@ export function CoursesPageFeature() {
         <CoursesPagination
           page={page}
           totalPages={totalPages}
-          onPageChange={setPage}
+          onPageChange={(nextPage) =>
+            updateQuery({
+              page: String(nextPage),
+            })
+          }
         />
       </div>
     </main>

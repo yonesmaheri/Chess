@@ -1,3 +1,5 @@
+"use client";
+
 import { BookOpen } from "lucide-react";
 
 import { Button } from "@/shared/components/ui/button";

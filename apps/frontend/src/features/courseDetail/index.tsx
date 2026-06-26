@@ -1,12 +1,9 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 
-import { coursesService } from "@/shared/api/services/courses";
+import { type CourseDetail } from "@/shared/api/services/courses";
 import { Tabs, TabsContent } from "@/shared/components/ui/tabs";
-import { CourseDetailErrorState } from "./components/CourseDetailErrorState";
-import { CourseDetailSkeleton } from "./components/CourseDetailSkeleton";
 import { CourseHero } from "./components/CourseHero";
 import { CourseTabs } from "./components/CourseTabs";
 import { CurriculumContent } from "./components/CurriculumContent";
@@ -20,22 +17,11 @@ import {
 } from "./lib/utils";
 
 type CourseDetailViewProps = {
-  slug: string;
+  course: CourseDetail;
 };
 
-export function CourseDetailView({ slug }: CourseDetailViewProps) {
+export function CourseDetailView({ course }: CourseDetailViewProps) {
   const [expandedChapters, setExpandedChapters] = useState<string[]>([]);
-
-  const {
-    data: course,
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: ["course-detail", slug],
-    queryFn: () => coursesService.getByIdOrSlug(slug),
-    retry: 1,
-  });
 
   useEffect(() => {
     if (!course?.curriculum.length) {
@@ -50,14 +36,6 @@ export function CourseDetailView({ slug }: CourseDetailViewProps) {
     () => (course ? buildPreviewLesson(course) : null),
     [course],
   );
-
-  if (isLoading) {
-    return <CourseDetailSkeleton />;
-  }
-
-  if (isError || !course) {
-    return <CourseDetailErrorState error={error} />;
-  }
 
   const heroStats = getHeroStats(course);
   const featureHighlights = getFeatureHighlights(course);
