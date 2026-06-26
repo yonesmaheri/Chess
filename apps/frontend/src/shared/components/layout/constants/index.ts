@@ -23,12 +23,11 @@ export type SocialLink = {
 };
 
 export const navItems = [
-  { label: "خانه", href: "#top", active: true },
-  { label: "بازی آنلاین", href: "#features" },
-  { label: "آموزش", href: "#features" },
-  { label: "درس ها", href: "#features" },
-  { label: "جامعه", href: "#community" },
-  { label: "درباره ما", href: "#footer" },
+  { label: "خانه", href: "/", active: true },
+  { label: "بازی آنلاین", href: "/play" },
+  { label: "آموزش", href: "/dashboard/lessons" },
+  { label: "درس ها", href: "/courses" },
+  { label: "درباره ما", href: "/about" },
 ];
 
 export const features: Feature[] = [

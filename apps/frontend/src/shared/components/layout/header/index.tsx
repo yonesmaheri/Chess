@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/lib/utils";
@@ -11,6 +12,15 @@ import BrandMark from "../brandMark";
 
 export default function Header() {
   const { isAuthenticated, logout, status, user } = useAuth();
+  const pathname = usePathname();
+
+  const isNavItemActive = (href: string) => {
+    if (href === "/") {
+      return pathname === "/";
+    }
+
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
 
   return (
     <header
@@ -25,19 +35,24 @@ export default function Header() {
           <BrandMark />
         </div>
         <nav className="hidden flex-2 items-center justify-center gap-8 lg:flex">
-          {navItems.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className={cn(
-                "relative text-center py-2 text-sm font-medium text-[var(--landing-text-soft)] transition-colors hover:text-[var(--landing-text)]",
-                item.active &&
-                  "text-[var(--landing-text)] border-b border-b-2 border-landing-accent",
-              )}
-            >
-              {item.label}
-            </a>
-          ))}
+          {navItems.map((item) => {
+            const isActive = isNavItemActive(item.href);
+
+            return (
+              <Link
+                key={item.label}
+                href={item.href}
+                aria-current={isActive ? "page" : undefined}
+                className={cn(
+                  "relative py-2 text-center text-sm font-medium text-[var(--landing-text-soft)] transition-colors hover:text-[var(--landing-text)]",
+                  isActive &&
+                    "border-b-2 border-landing-accent text-[var(--landing-text)]",
+                )}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
         <div className="flex flex-1 justify-end gap-3">
           {status === "authenticated" && isAuthenticated ? (
