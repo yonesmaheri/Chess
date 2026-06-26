@@ -4,7 +4,7 @@ import {
   REFRESH_TOKEN_COOKIE,
 } from "@/shared/constants/auth";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const hasAccessToken = request.cookies.has(ACCESS_TOKEN_COOKIE);
   const hasRefreshToken = request.cookies.has(REFRESH_TOKEN_COOKIE);
 
