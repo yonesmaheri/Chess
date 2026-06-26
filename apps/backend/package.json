@@ -12,6 +12,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
+    "prisma:seed": "tsc -p tsconfig.seed.json && node dist-seed/prisma/seed.js",
     "prisma:studio": "prisma studio",
     "start": "nest start",
     "dev": "nest start --watch",
@@ -95,5 +96,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "prisma": {
+    "seed": "tsc -p tsconfig.seed.json && node dist-seed/prisma/seed.js"
   }
 }

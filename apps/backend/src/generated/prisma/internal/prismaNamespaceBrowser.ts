@@ -51,7 +51,13 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  User: 'User'
+  User: 'User',
+  Instructor: 'Instructor',
+  Category: 'Category',
+  Course: 'Course',
+  Chapter: 'Chapter',
+  Lesson: 'Lesson',
+  Review: 'Review'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -83,6 +89,100 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const InstructorScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  bio: 'bio',
+  avatarImage: 'avatarImage',
+  avatarFileName: 'avatarFileName',
+  avatarMimeType: 'avatarMimeType',
+  avatarSize: 'avatarSize',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type InstructorScalarFieldEnum = (typeof InstructorScalarFieldEnum)[keyof typeof InstructorScalarFieldEnum]
+
+
+export const CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
+export const CourseScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  description: 'description',
+  thumbnailImage: 'thumbnailImage',
+  thumbnailFileName: 'thumbnailFileName',
+  thumbnailMimeType: 'thumbnailMimeType',
+  thumbnailSize: 'thumbnailSize',
+  previewVideoUrl: 'previewVideoUrl',
+  level: 'level',
+  duration: 'duration',
+  totalLessons: 'totalLessons',
+  price: 'price',
+  rating: 'rating',
+  reviewCount: 'reviewCount',
+  studentCount: 'studentCount',
+  isPublished: 'isPublished',
+  categoryId: 'categoryId',
+  instructorId: 'instructorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
+
+
+export const ChapterScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  order: 'order',
+  courseId: 'courseId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ChapterScalarFieldEnum = (typeof ChapterScalarFieldEnum)[keyof typeof ChapterScalarFieldEnum]
+
+
+export const LessonScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  duration: 'duration',
+  videoUrl: 'videoUrl',
+  order: 'order',
+  isPreview: 'isPreview',
+  chapterId: 'chapterId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LessonScalarFieldEnum = (typeof LessonScalarFieldEnum)[keyof typeof LessonScalarFieldEnum]
+
+
+export const ReviewScalarFieldEnum = {
+  id: 'id',
+  authorName: 'authorName',
+  rating: 'rating',
+  comment: 'comment',
+  courseId: 'courseId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
 
 
 export const SortOrder = {

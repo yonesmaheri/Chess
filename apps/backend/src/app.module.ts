@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { CoursesModule } from './courses/courses.module';
 import { SharedModule } from './shared/shared.module';
 import { UsersModule } from './users/users.module';
 
@@ -23,6 +24,7 @@ const envFilePath = [
     SharedModule,
     UsersModule,
     AuthModule,
+    CoursesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

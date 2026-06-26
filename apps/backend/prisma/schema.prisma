@@ -8,6 +8,12 @@ datasource db {
   provider = "postgresql"
 }
 
+enum CourseLevel {
+  beginner
+  intermediate
+  advanced
+}
+
 model User {
   id                  String   @id @default(uuid())
   phone               String   @unique
@@ -20,4 +26,109 @@ model User {
   updatedAt           DateTime @updatedAt
 
   @@index([phone])
+}
+
+model Instructor {
+  id             String   @id @default(uuid())
+  name           String
+  bio            String?
+  avatarImage    String
+  avatarFileName String?
+  avatarMimeType String?
+  avatarSize     Int?
+  courses        Course[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([name])
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  description String?
+  courses     Course[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([name])
+}
+
+model Course {
+  id                String      @id @default(uuid())
+  title             String
+  slug              String      @unique
+  description       String
+  thumbnailImage    String
+  thumbnailFileName String?
+  thumbnailMimeType String?
+  thumbnailSize     Int?
+  previewVideoUrl   String
+  level             CourseLevel
+  duration          String
+  totalLessons      Int
+  price             Int
+  rating            Float       @default(0)
+  reviewCount       Int         @default(0)
+  studentCount      Int         @default(0)
+  isPublished       Boolean     @default(false)
+  categoryId        String
+  instructorId      String
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  category          Category    @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  instructor        Instructor  @relation(fields: [instructorId], references: [id], onDelete: Restrict)
+  chapters          Chapter[]
+  reviews           Review[]
+
+  @@index([slug])
+  @@index([title])
+  @@index([level, isPublished])
+  @@index([categoryId, isPublished])
+  @@index([instructorId])
+  @@index([createdAt])
+}
+
+model Chapter {
+  id        String   @id @default(uuid())
+  title     String
+  order     Int
+  courseId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  course     Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons    Lesson[]
+
+  @@unique([courseId, order])
+  @@index([courseId])
+}
+
+model Lesson {
+  id        String   @id @default(uuid())
+  title     String
+  duration  String
+  videoUrl  String
+  order     Int
+  isPreview Boolean  @default(false)
+  chapterId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  chapter   Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  @@unique([chapterId, order])
+  @@index([chapterId])
+}
+
+model Review {
+  id         String   @id @default(uuid())
+  authorName String
+  rating     Int
+  comment    String
+  courseId   String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  course     Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@index([courseId, createdAt])
 }

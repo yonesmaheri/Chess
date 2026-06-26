@@ -9,7 +9,7 @@ type CourseDetailPageProps = {
 export default async function CourseDetailPage({
   params,
 }: CourseDetailPageProps) {
-  // const { slug } = await params;
+  const { slug } = await params;
 
-  return <CourseDetailView slug={'asdasd'} />;
+  return <CourseDetailView slug={slug} />;
 }
