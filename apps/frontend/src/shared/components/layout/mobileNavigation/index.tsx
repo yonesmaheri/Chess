@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
 
 import { Button } from "@/shared/components/ui/button";
@@ -15,6 +16,16 @@ import { cn } from "@/shared/lib/utils";
 import { navItems } from "../constants";
 
 export default function MobileNavigation() {
+  const pathname = usePathname();
+
+  const isNavItemActive = (href: string) => {
+    if (href === "/") {
+      return pathname === "/";
+    }
+
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -40,21 +51,26 @@ export default function MobileNavigation() {
           </SheetDescription>
         </SheetHeader>
         <div className="flex flex-col gap-2 px-6 py-6">
-          {navItems.map((item) => (
-            <SheetClose asChild key={item.label}>
-              <a
-                href={item.href}
-                className={cn(
-                  "rounded-xl px-4 py-3 text-sm font-medium transition-colors",
-                  item.active
-                    ? "bg-[var(--landing-soft)] text-[var(--landing-primary)]"
-                    : "text-[var(--landing-text)] hover:bg-[var(--landing-soft)]",
-                )}
-              >
-                {item.label}
-              </a>
-            </SheetClose>
-          ))}
+          {navItems.map((item) => {
+            const isActive = isNavItemActive(item.href);
+
+            return (
+              <SheetClose asChild key={item.label}>
+                <Link
+                  href={item.href}
+                  aria-current={isActive ? "page" : undefined}
+                  className={cn(
+                    "rounded-xl px-4 py-3 text-sm font-medium transition-colors",
+                    isActive
+                      ? "bg-[var(--landing-soft)] text-[var(--landing-primary)]"
+                      : "text-[var(--landing-text)] hover:bg-[var(--landing-soft)]",
+                  )}
+                >
+                  {item.label}
+                </Link>
+              </SheetClose>
+            );
+          })}
         </div>
         <div className="mt-auto grid gap-3 px-6 pb-6">
           <Button
