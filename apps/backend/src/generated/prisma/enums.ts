@@ -16,3 +16,12 @@ export const CourseLevel = {
 } as const
 
 export type CourseLevel = (typeof CourseLevel)[keyof typeof CourseLevel]
+
+
+export const LeaderboardMode = {
+  blitz: 'blitz',
+  rapid: 'rapid',
+  puzzle: 'puzzle'
+} as const
+
+export type LeaderboardMode = (typeof LeaderboardMode)[keyof typeof LeaderboardMode]

@@ -45,6 +45,11 @@ export { Prisma }
  */
 export type User = Prisma.UserModel
 /**
+ * Model LeaderboardEntry
+ * 
+ */
+export type LeaderboardEntry = Prisma.LeaderboardEntryModel
+/**
  * Model Instructor
  * 
  */

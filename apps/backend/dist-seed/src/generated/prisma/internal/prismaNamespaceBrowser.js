@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NullsOrder = exports.QueryMode = exports.SortOrder = exports.ReviewScalarFieldEnum = exports.LessonScalarFieldEnum = exports.ChapterScalarFieldEnum = exports.CourseScalarFieldEnum = exports.CategoryScalarFieldEnum = exports.InstructorScalarFieldEnum = exports.UserScalarFieldEnum = exports.TransactionIsolationLevel = exports.ModelName = exports.AnyNull = exports.JsonNull = exports.DbNull = exports.NullTypes = exports.Decimal = void 0;
+exports.NullsOrder = exports.QueryMode = exports.SortOrder = exports.ReviewScalarFieldEnum = exports.LessonScalarFieldEnum = exports.ChapterScalarFieldEnum = exports.CourseScalarFieldEnum = exports.CategoryScalarFieldEnum = exports.InstructorScalarFieldEnum = exports.LeaderboardEntryScalarFieldEnum = exports.UserScalarFieldEnum = exports.TransactionIsolationLevel = exports.ModelName = exports.AnyNull = exports.JsonNull = exports.DbNull = exports.NullTypes = exports.Decimal = void 0;
 const runtime = __importStar(require("@prisma/client/runtime/index-browser"));
 exports.Decimal = runtime.Decimal;
 exports.NullTypes = {
@@ -46,6 +46,7 @@ exports.JsonNull = runtime.JsonNull;
 exports.AnyNull = runtime.AnyNull;
 exports.ModelName = {
     User: 'User',
+    LeaderboardEntry: 'LeaderboardEntry',
     Instructor: 'Instructor',
     Category: 'Category',
     Course: 'Course',
@@ -67,6 +68,20 @@ exports.UserScalarFieldEnum = {
     passwordHash: 'passwordHash',
     refreshTokenHash: 'refreshTokenHash',
     refreshTokenVersion: 'refreshTokenVersion',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+exports.LeaderboardEntryScalarFieldEnum = {
+    id: 'id',
+    mode: 'mode',
+    rank: 'rank',
+    name: 'name',
+    countryCode: 'countryCode',
+    countryName: 'countryName',
+    elo: 'elo',
+    winRate: 'winRate',
+    trend: 'trend',
+    verified: 'verified',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
 };

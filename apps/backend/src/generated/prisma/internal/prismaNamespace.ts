@@ -385,6 +385,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
+  LeaderboardEntry: 'LeaderboardEntry',
   Instructor: 'Instructor',
   Category: 'Category',
   Course: 'Course',
@@ -406,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "instructor" | "category" | "course" | "chapter" | "lesson" | "review"
+    modelProps: "user" | "leaderboardEntry" | "instructor" | "category" | "course" | "chapter" | "lesson" | "review"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -481,6 +482,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UserCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType> | number
+        }
+      }
+    }
+    LeaderboardEntry: {
+      payload: Prisma.$LeaderboardEntryPayload<ExtArgs>
+      fields: Prisma.LeaderboardEntryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LeaderboardEntryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaderboardEntryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LeaderboardEntryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaderboardEntryPayload>
+        }
+        findFirst: {
+          args: Prisma.LeaderboardEntryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaderboardEntryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LeaderboardEntryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaderboardEntryPayload>
+        }
+        findMany: {
+          args: Prisma.LeaderboardEntryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaderboardEntryPayload>[]
+        }
+        create: {
+          args: Prisma.LeaderboardEntryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaderboardEntryPayload>
+        }
+        createMany: {
+          args: Prisma.LeaderboardEntryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LeaderboardEntryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaderboardEntryPayload>[]
+        }
+        delete: {
+          args: Prisma.LeaderboardEntryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaderboardEntryPayload>
+        }
+        update: {
+          args: Prisma.LeaderboardEntryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaderboardEntryPayload>
+        }
+        deleteMany: {
+          args: Prisma.LeaderboardEntryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LeaderboardEntryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LeaderboardEntryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaderboardEntryPayload>[]
+        }
+        upsert: {
+          args: Prisma.LeaderboardEntryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaderboardEntryPayload>
+        }
+        aggregate: {
+          args: Prisma.LeaderboardEntryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLeaderboardEntry>
+        }
+        groupBy: {
+          args: Prisma.LeaderboardEntryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LeaderboardEntryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LeaderboardEntryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LeaderboardEntryCountAggregateOutputType> | number
         }
       }
     }
@@ -982,6 +1057,24 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const LeaderboardEntryScalarFieldEnum = {
+  id: 'id',
+  mode: 'mode',
+  rank: 'rank',
+  name: 'name',
+  countryCode: 'countryCode',
+  countryName: 'countryName',
+  elo: 'elo',
+  winRate: 'winRate',
+  trend: 'trend',
+  verified: 'verified',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LeaderboardEntryScalarFieldEnum = (typeof LeaderboardEntryScalarFieldEnum)[keyof typeof LeaderboardEntryScalarFieldEnum]
+
+
 export const InstructorScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -1149,16 +1242,16 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
- * Reference to a field of type 'CourseLevel'
+ * Reference to a field of type 'LeaderboardMode'
  */
-export type EnumCourseLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CourseLevel'>
+export type EnumLeaderboardModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LeaderboardMode'>
     
 
 
 /**
- * Reference to a field of type 'CourseLevel[]'
+ * Reference to a field of type 'LeaderboardMode[]'
  */
-export type ListEnumCourseLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CourseLevel[]'>
+export type ListEnumLeaderboardModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LeaderboardMode[]'>
     
 
 
@@ -1180,6 +1273,20 @@ export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMode
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
+ * Reference to a field of type 'CourseLevel'
+ */
+export type EnumCourseLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CourseLevel'>
+    
+
+
+/**
+ * Reference to a field of type 'CourseLevel[]'
+ */
+export type ListEnumCourseLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CourseLevel[]'>
     
 
 /**
@@ -1293,6 +1400,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  leaderboardEntry?: Prisma.LeaderboardEntryOmit
   instructor?: Prisma.InstructorOmit
   category?: Prisma.CategoryOmit
   course?: Prisma.CourseOmit

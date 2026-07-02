@@ -14,6 +14,12 @@ enum CourseLevel {
   advanced
 }
 
+enum LeaderboardMode {
+  blitz
+  rapid
+  puzzle
+}
+
 model User {
   id                  String   @id @default(uuid())
   phone               String   @unique
@@ -26,6 +32,24 @@ model User {
   updatedAt           DateTime @updatedAt
 
   @@index([phone])
+}
+
+model LeaderboardEntry {
+  id          String          @id @default(uuid())
+  mode        LeaderboardMode
+  rank        Int
+  name        String
+  countryCode String          @default("IR")
+  countryName String          @default("ایران")
+  elo         Int
+  winRate     Float
+  trend       Float
+  verified    Boolean         @default(false)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@unique([mode, rank])
+  @@index([mode, rank])
 }
 
 model Instructor {

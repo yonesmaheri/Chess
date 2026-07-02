@@ -333,6 +333,159 @@ const courseSeeds = [
         ],
     },
 ];
+const leaderboardNamePool = [
+    'مهرداد علیزاده',
+    'رضا محمدی',
+    'بردیا منصوری',
+    'امیرحسین بهرامی',
+    'نیما رضایی',
+    'علیرضا کریمی',
+    'علی صادقی',
+    'آرین نیکو',
+    'امیررضا شریفی',
+    'پارسا حیدری',
+    'مهدی کریمی',
+    'محمدطاها حسینی',
+    'نیما امیری',
+    'حسام موسوی',
+    'امیرعلی شفیعی',
+    'یاسین امیدی',
+    'فربد رستمی',
+    'آراد زمانی',
+    'امیرمحمد کاوه',
+    'محمدمهدی قاسمی',
+    'عرفان شجاعی',
+    'طاها باقری',
+    'سامیار رفیعی',
+    'سینا صفری',
+    'آبتین مرادی',
+    'یونس عطایی',
+    'پویا هدایت',
+    'بنیامین درویشی',
+    'احسان کیانی',
+    'عرفان جمشیدی',
+];
+const leaderboardModeProfiles = {
+    [client_1.LeaderboardMode.blitz]: {
+        topThree: [
+            {
+                name: 'پارسا فرید',
+                elo: 2876,
+                winRate: 68.4,
+                trend: 2.1,
+                verified: true,
+            },
+            {
+                name: 'آرمان نیکو',
+                elo: 2741,
+                winRate: 65.2,
+                trend: 1.8,
+                verified: true,
+            },
+            {
+                name: 'سینا رستگار',
+                elo: 2689,
+                winRate: 63.9,
+                trend: 1.5,
+                verified: true,
+            },
+        ],
+    },
+    [client_1.LeaderboardMode.rapid]: {
+        topThree: [
+            {
+                name: 'شایان دادگر',
+                elo: 2812,
+                winRate: 67.1,
+                trend: 1.9,
+                verified: true,
+            },
+            {
+                name: 'امیرسام مهرجو',
+                elo: 2764,
+                winRate: 65.8,
+                trend: 1.5,
+                verified: true,
+            },
+            {
+                name: 'بردیا زمانی',
+                elo: 2718,
+                winRate: 64.6,
+                trend: 1.4,
+                verified: true,
+            },
+        ],
+    },
+    [client_1.LeaderboardMode.puzzle]: {
+        topThree: [
+            {
+                name: 'پوریا فرهی',
+                elo: 3016,
+                winRate: 72.2,
+                trend: 2.5,
+                verified: true,
+            },
+            {
+                name: 'مهراد فرشاد',
+                elo: 2968,
+                winRate: 70.8,
+                trend: 2.1,
+                verified: true,
+            },
+            {
+                name: 'مانی نظری',
+                elo: 2910,
+                winRate: 69.1,
+                trend: 1.7,
+                verified: true,
+            },
+        ],
+    },
+};
+function buildLeaderboardEntries(mode) {
+    const profile = leaderboardModeProfiles[mode];
+    const modeOffset = mode === client_1.LeaderboardMode.blitz
+        ? 0
+        : mode === client_1.LeaderboardMode.rapid
+            ? 28
+            : 64;
+    const seededTopPlayers = profile.topThree.map((player, index) => ({
+        mode,
+        rank: index + 1,
+        name: player.name,
+        countryCode: 'IR',
+        countryName: 'ایران',
+        elo: player.elo,
+        winRate: player.winRate,
+        trend: player.trend,
+        verified: player.verified ?? false,
+    }));
+    const generatedPlayers = Array.from({ length: 70 }, (_, index) => {
+        const rank = index + 4;
+        const name = leaderboardNamePool[index % leaderboardNamePool.length];
+        const falloff = (rank - 4) * (mode === client_1.LeaderboardMode.puzzle ? 9 : 7);
+        const elo = profile.topThree[2].elo - 91 - falloff - (index % 3) * 5 + modeOffset;
+        const winRateBase = mode === client_1.LeaderboardMode.puzzle
+            ? 62.8
+            : mode === client_1.LeaderboardMode.rapid
+                ? 61.1
+                : 60.2;
+        const winRate = Math.max(45.2, winRateBase - index * 0.23);
+        const trend = Math.max(0.2, 1.3 - index * 0.015 + (mode === client_1.LeaderboardMode.puzzle ? 0.35 : 0));
+        return {
+            mode,
+            rank,
+            name,
+            countryCode: 'IR',
+            countryName: 'ایران',
+            elo,
+            winRate,
+            trend,
+            verified: index % 4 === 0,
+        };
+    });
+    return [...seededTopPlayers, ...generatedPlayers];
+}
 async function main() {
     if (!process.env.DATABASE_URL) {
         throw new Error('DATABASE_URL is required to run the seed script.');
@@ -341,6 +494,7 @@ async function main() {
     await prisma.chapter.deleteMany();
     await prisma.review.deleteMany();
     await prisma.course.deleteMany();
+    await prisma.leaderboardEntry.deleteMany();
     await prisma.category.deleteMany();
     await prisma.instructor.deleteMany();
     const categoryMap = new Map();
@@ -408,6 +562,13 @@ async function main() {
             })),
         });
     }
+    await prisma.leaderboardEntry.createMany({
+        data: [
+            ...buildLeaderboardEntries(client_1.LeaderboardMode.blitz),
+            ...buildLeaderboardEntries(client_1.LeaderboardMode.rapid),
+            ...buildLeaderboardEntries(client_1.LeaderboardMode.puzzle),
+        ],
+    });
 }
 main()
     .then(async () => {
