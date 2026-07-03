@@ -10,6 +10,6 @@ import { CsrfGuard } from './guards/csrf.guard';
   imports: [JwtModule.register({}), UsersModule],
   controllers: [AuthController],
   providers: [AuthService, AuthGuard, CsrfGuard],
-  exports: [AuthService, AuthGuard],
+  exports: [AuthService, AuthGuard, JwtModule, UsersModule],
 })
 export class AuthModule {}
