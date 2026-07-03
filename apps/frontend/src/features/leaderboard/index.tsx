@@ -140,7 +140,10 @@ export function LeaderboardPageFeature() {
               {errorMessage}
             </div>
           ) : (
-            <LeaderboardTable rows={rows} isLoading={showInitialLoading} />
+            <LeaderboardTable
+              rows={rows}
+              isLoading={showInitialLoading}
+            />
           )}
 
           {!showInitialLoading && !rows.length && !isError ? (

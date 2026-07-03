@@ -98,3 +98,7 @@ export function getPageItems(currentPage: number, totalPages: number) {
     totalPages,
   ] as const;
 }
+
+export function buildPlayerProfileHref(username: string) {
+  return `/players/${username}`;
+}

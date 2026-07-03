@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { LeaderboardService } from './leaderboard.service';
 import { ListLeaderboardQueryDto } from './dto/list-leaderboard-query.dto';
 
@@ -9,5 +9,10 @@ export class LeaderboardController {
   @Get()
   findAll(@Query() query: ListLeaderboardQueryDto) {
     return this.leaderboardService.findAll(query);
+  }
+
+  @Get('players/:id')
+  findPlayerProfile(@Param('id') usernameOrLegacyIdentifier: string) {
+    return this.leaderboardService.findPlayerProfile(usernameOrLegacyIdentifier);
   }
 }

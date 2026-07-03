@@ -39,6 +39,7 @@ model LeaderboardEntry {
   mode        LeaderboardMode
   rank        Int
   name        String
+  username    String          @unique
   countryCode String          @default("IR")
   countryName String          @default("ایران")
   elo         Int

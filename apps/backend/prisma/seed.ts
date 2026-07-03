@@ -360,36 +360,36 @@ const courseSeeds = [
 ];
 
 const leaderboardNamePool = [
-  'مهرداد علیزاده',
-  'رضا محمدی',
-  'بردیا منصوری',
-  'امیرحسین بهرامی',
-  'نیما رضایی',
-  'علیرضا کریمی',
-  'علی صادقی',
-  'آرین نیکو',
-  'امیررضا شریفی',
-  'پارسا حیدری',
-  'مهدی کریمی',
-  'محمدطاها حسینی',
-  'نیما امیری',
-  'حسام موسوی',
-  'امیرعلی شفیعی',
-  'یاسین امیدی',
-  'فربد رستمی',
-  'آراد زمانی',
-  'امیرمحمد کاوه',
-  'محمدمهدی قاسمی',
-  'عرفان شجاعی',
-  'طاها باقری',
-  'سامیار رفیعی',
-  'سینا صفری',
-  'آبتین مرادی',
-  'یونس عطایی',
-  'پویا هدایت',
-  'بنیامین درویشی',
-  'احسان کیانی',
-  'عرفان جمشیدی',
+  { name: 'مهرداد علیزاده', usernameBase: 'mehrdad-alizadeh' },
+  { name: 'رضا محمدی', usernameBase: 'reza-mohammadi' },
+  { name: 'بردیا منصوری', usernameBase: 'bardia-mansouri' },
+  { name: 'امیرحسین بهرامی', usernameBase: 'amirhossein-bahrami' },
+  { name: 'نیما رضایی', usernameBase: 'nima-rezaei' },
+  { name: 'علیرضا کریمی', usernameBase: 'alireza-karimi' },
+  { name: 'علی صادقی', usernameBase: 'ali-sadeghi' },
+  { name: 'آرین نیکو', usernameBase: 'arian-niko' },
+  { name: 'امیررضا شریفی', usernameBase: 'amirreza-sharifi' },
+  { name: 'پارسا حیدری', usernameBase: 'parsa-heidari' },
+  { name: 'مهدی کریمی', usernameBase: 'mehdi-karimi' },
+  { name: 'محمدطاها حسینی', usernameBase: 'mohammadtaha-hosseini' },
+  { name: 'نیما امیری', usernameBase: 'nima-amiri' },
+  { name: 'حسام موسوی', usernameBase: 'hesam-mousavi' },
+  { name: 'امیرعلی شفیعی', usernameBase: 'amirali-shafiei' },
+  { name: 'یاسین امیدی', usernameBase: 'yasin-omidi' },
+  { name: 'فربد رستمی', usernameBase: 'farbod-rostami' },
+  { name: 'آراد زمانی', usernameBase: 'arad-zamani' },
+  { name: 'امیرمحمد کاوه', usernameBase: 'amirmohammad-kaveh' },
+  { name: 'محمدمهدی قاسمی', usernameBase: 'mohammadmahdi-ghasemi' },
+  { name: 'عرفان شجاعی', usernameBase: 'erfan-shojaei' },
+  { name: 'طاها باقری', usernameBase: 'taha-bagheri' },
+  { name: 'سامیار رفیعی', usernameBase: 'samyar-rafiei' },
+  { name: 'سینا صفری', usernameBase: 'sina-safari' },
+  { name: 'آبتین مرادی', usernameBase: 'abtin-moradi' },
+  { name: 'یونس عطایی', usernameBase: 'younes-ataei' },
+  { name: 'پویا هدایت', usernameBase: 'pooya-hedayat' },
+  { name: 'بنیامین درویشی', usernameBase: 'benyamin-darvishi' },
+  { name: 'احسان کیانی', usernameBase: 'ehsan-keyani' },
+  { name: 'عرفان جمشیدی', usernameBase: 'erfan-jamshidi' },
 ];
 
 const leaderboardModeProfiles: Record<
@@ -397,6 +397,7 @@ const leaderboardModeProfiles: Record<
   {
     topThree: Array<{
       name: string;
+      username: string;
       elo: number;
       winRate: number;
       trend: number;
@@ -408,6 +409,7 @@ const leaderboardModeProfiles: Record<
     topThree: [
       {
         name: 'پارسا فرید',
+        username: 'parsa-farid',
         elo: 2876,
         winRate: 68.4,
         trend: 2.1,
@@ -415,6 +417,7 @@ const leaderboardModeProfiles: Record<
       },
       {
         name: 'آرمان نیکو',
+        username: 'arman-niko',
         elo: 2741,
         winRate: 65.2,
         trend: 1.8,
@@ -422,6 +425,7 @@ const leaderboardModeProfiles: Record<
       },
       {
         name: 'سینا رستگار',
+        username: 'sina-rostegar',
         elo: 2689,
         winRate: 63.9,
         trend: 1.5,
@@ -433,6 +437,7 @@ const leaderboardModeProfiles: Record<
     topThree: [
       {
         name: 'شایان دادگر',
+        username: 'shayan-dadgar',
         elo: 2812,
         winRate: 67.1,
         trend: 1.9,
@@ -440,6 +445,7 @@ const leaderboardModeProfiles: Record<
       },
       {
         name: 'امیرسام مهرجو',
+        username: 'amirsam-mehrjoo',
         elo: 2764,
         winRate: 65.8,
         trend: 1.5,
@@ -447,6 +453,7 @@ const leaderboardModeProfiles: Record<
       },
       {
         name: 'بردیا زمانی',
+        username: 'bardia-zamani',
         elo: 2718,
         winRate: 64.6,
         trend: 1.4,
@@ -458,6 +465,7 @@ const leaderboardModeProfiles: Record<
     topThree: [
       {
         name: 'پوریا فرهی',
+        username: 'pooria-farahi',
         elo: 3016,
         winRate: 72.2,
         trend: 2.5,
@@ -465,6 +473,7 @@ const leaderboardModeProfiles: Record<
       },
       {
         name: 'مهراد فرشاد',
+        username: 'mehrad-farshad',
         elo: 2968,
         winRate: 70.8,
         trend: 2.1,
@@ -472,6 +481,7 @@ const leaderboardModeProfiles: Record<
       },
       {
         name: 'مانی نظری',
+        username: 'mani-nazari',
         elo: 2910,
         winRate: 69.1,
         trend: 1.7,
@@ -483,17 +493,13 @@ const leaderboardModeProfiles: Record<
 
 function buildLeaderboardEntries(mode: LeaderboardMode) {
   const profile = leaderboardModeProfiles[mode];
-  const modeOffset =
-    mode === LeaderboardMode.blitz
-      ? 0
-      : mode === LeaderboardMode.rapid
-        ? 28
-        : 64;
+  const modeOffset = getModeOffset(mode);
 
   const seededTopPlayers = profile.topThree.map((player, index) => ({
     mode,
     rank: index + 1,
     name: player.name,
+    username: player.username,
     countryCode: 'IR',
     countryName: 'ایران',
     elo: player.elo,
@@ -504,7 +510,7 @@ function buildLeaderboardEntries(mode: LeaderboardMode) {
 
   const generatedPlayers = Array.from({ length: 70 }, (_, index) => {
     const rank = index + 4;
-    const name = leaderboardNamePool[index % leaderboardNamePool.length];
+    const playerSeed = leaderboardNamePool[index % leaderboardNamePool.length];
     const falloff = (rank - 4) * (mode === LeaderboardMode.puzzle ? 9 : 7);
     const elo =
       profile.topThree[2].elo - 91 - falloff - (index % 3) * 5 + modeOffset;
@@ -523,7 +529,8 @@ function buildLeaderboardEntries(mode: LeaderboardMode) {
     return {
       mode,
       rank,
-      name,
+      name: playerSeed.name,
+      username: `${playerSeed.usernameBase}-${mode}-${rank}`,
       countryCode: 'IR',
       countryName: 'ایران',
       elo,
@@ -534,6 +541,14 @@ function buildLeaderboardEntries(mode: LeaderboardMode) {
   });
 
   return [...seededTopPlayers, ...generatedPlayers];
+}
+
+function getModeOffset(mode: LeaderboardMode) {
+  return mode === LeaderboardMode.blitz
+    ? 0
+    : mode === LeaderboardMode.rapid
+      ? 28
+      : 64;
 }
 
 async function main() {

@@ -97,6 +97,7 @@ export const LeaderboardEntryScalarFieldEnum = {
   mode: 'mode',
   rank: 'rank',
   name: 'name',
+  username: 'username',
   countryCode: 'countryCode',
   countryName: 'countryName',
   elo: 'elo',

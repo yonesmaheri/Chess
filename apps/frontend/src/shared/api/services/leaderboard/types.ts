@@ -2,6 +2,7 @@ export type LeaderboardMode = "blitz" | "rapid" | "puzzle";
 
 export type LeaderboardPlayer = {
   id: string;
+  username: string;
   rank: number;
   name: string;
   countryCode: string;

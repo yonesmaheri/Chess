@@ -45,6 +45,7 @@ export type LeaderboardEntryMinAggregateOutputType = {
   mode: $Enums.LeaderboardMode | null
   rank: number | null
   name: string | null
+  username: string | null
   countryCode: string | null
   countryName: string | null
   elo: number | null
@@ -60,6 +61,7 @@ export type LeaderboardEntryMaxAggregateOutputType = {
   mode: $Enums.LeaderboardMode | null
   rank: number | null
   name: string | null
+  username: string | null
   countryCode: string | null
   countryName: string | null
   elo: number | null
@@ -75,6 +77,7 @@ export type LeaderboardEntryCountAggregateOutputType = {
   mode: number
   rank: number
   name: number
+  username: number
   countryCode: number
   countryName: number
   elo: number
@@ -106,6 +109,7 @@ export type LeaderboardEntryMinAggregateInputType = {
   mode?: true
   rank?: true
   name?: true
+  username?: true
   countryCode?: true
   countryName?: true
   elo?: true
@@ -121,6 +125,7 @@ export type LeaderboardEntryMaxAggregateInputType = {
   mode?: true
   rank?: true
   name?: true
+  username?: true
   countryCode?: true
   countryName?: true
   elo?: true
@@ -136,6 +141,7 @@ export type LeaderboardEntryCountAggregateInputType = {
   mode?: true
   rank?: true
   name?: true
+  username?: true
   countryCode?: true
   countryName?: true
   elo?: true
@@ -238,6 +244,7 @@ export type LeaderboardEntryGroupByOutputType = {
   mode: $Enums.LeaderboardMode
   rank: number
   name: string
+  username: string
   countryCode: string
   countryName: string
   elo: number
@@ -276,6 +283,7 @@ export type LeaderboardEntryWhereInput = {
   mode?: Prisma.EnumLeaderboardModeFilter<"LeaderboardEntry"> | $Enums.LeaderboardMode
   rank?: Prisma.IntFilter<"LeaderboardEntry"> | number
   name?: Prisma.StringFilter<"LeaderboardEntry"> | string
+  username?: Prisma.StringFilter<"LeaderboardEntry"> | string
   countryCode?: Prisma.StringFilter<"LeaderboardEntry"> | string
   countryName?: Prisma.StringFilter<"LeaderboardEntry"> | string
   elo?: Prisma.IntFilter<"LeaderboardEntry"> | number
@@ -291,6 +299,7 @@ export type LeaderboardEntryOrderByWithRelationInput = {
   mode?: Prisma.SortOrder
   rank?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  username?: Prisma.SortOrder
   countryCode?: Prisma.SortOrder
   countryName?: Prisma.SortOrder
   elo?: Prisma.SortOrder
@@ -303,6 +312,7 @@ export type LeaderboardEntryOrderByWithRelationInput = {
 
 export type LeaderboardEntryWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  username?: string
   mode_rank?: Prisma.LeaderboardEntryModeRankCompoundUniqueInput
   AND?: Prisma.LeaderboardEntryWhereInput | Prisma.LeaderboardEntryWhereInput[]
   OR?: Prisma.LeaderboardEntryWhereInput[]
@@ -318,13 +328,14 @@ export type LeaderboardEntryWhereUniqueInput = Prisma.AtLeast<{
   verified?: Prisma.BoolFilter<"LeaderboardEntry"> | boolean
   createdAt?: Prisma.DateTimeFilter<"LeaderboardEntry"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"LeaderboardEntry"> | Date | string
-}, "id" | "mode_rank">
+}, "id" | "username" | "mode_rank">
 
 export type LeaderboardEntryOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   mode?: Prisma.SortOrder
   rank?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  username?: Prisma.SortOrder
   countryCode?: Prisma.SortOrder
   countryName?: Prisma.SortOrder
   elo?: Prisma.SortOrder
@@ -348,6 +359,7 @@ export type LeaderboardEntryScalarWhereWithAggregatesInput = {
   mode?: Prisma.EnumLeaderboardModeWithAggregatesFilter<"LeaderboardEntry"> | $Enums.LeaderboardMode
   rank?: Prisma.IntWithAggregatesFilter<"LeaderboardEntry"> | number
   name?: Prisma.StringWithAggregatesFilter<"LeaderboardEntry"> | string
+  username?: Prisma.StringWithAggregatesFilter<"LeaderboardEntry"> | string
   countryCode?: Prisma.StringWithAggregatesFilter<"LeaderboardEntry"> | string
   countryName?: Prisma.StringWithAggregatesFilter<"LeaderboardEntry"> | string
   elo?: Prisma.IntWithAggregatesFilter<"LeaderboardEntry"> | number
@@ -363,6 +375,7 @@ export type LeaderboardEntryCreateInput = {
   mode: $Enums.LeaderboardMode
   rank: number
   name: string
+  username: string
   countryCode?: string
   countryName?: string
   elo: number
@@ -378,6 +391,7 @@ export type LeaderboardEntryUncheckedCreateInput = {
   mode: $Enums.LeaderboardMode
   rank: number
   name: string
+  username: string
   countryCode?: string
   countryName?: string
   elo: number
@@ -393,6 +407,7 @@ export type LeaderboardEntryUpdateInput = {
   mode?: Prisma.EnumLeaderboardModeFieldUpdateOperationsInput | $Enums.LeaderboardMode
   rank?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
   countryCode?: Prisma.StringFieldUpdateOperationsInput | string
   countryName?: Prisma.StringFieldUpdateOperationsInput | string
   elo?: Prisma.IntFieldUpdateOperationsInput | number
@@ -408,6 +423,7 @@ export type LeaderboardEntryUncheckedUpdateInput = {
   mode?: Prisma.EnumLeaderboardModeFieldUpdateOperationsInput | $Enums.LeaderboardMode
   rank?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
   countryCode?: Prisma.StringFieldUpdateOperationsInput | string
   countryName?: Prisma.StringFieldUpdateOperationsInput | string
   elo?: Prisma.IntFieldUpdateOperationsInput | number
@@ -423,6 +439,7 @@ export type LeaderboardEntryCreateManyInput = {
   mode: $Enums.LeaderboardMode
   rank: number
   name: string
+  username: string
   countryCode?: string
   countryName?: string
   elo: number
@@ -438,6 +455,7 @@ export type LeaderboardEntryUpdateManyMutationInput = {
   mode?: Prisma.EnumLeaderboardModeFieldUpdateOperationsInput | $Enums.LeaderboardMode
   rank?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
   countryCode?: Prisma.StringFieldUpdateOperationsInput | string
   countryName?: Prisma.StringFieldUpdateOperationsInput | string
   elo?: Prisma.IntFieldUpdateOperationsInput | number
@@ -453,6 +471,7 @@ export type LeaderboardEntryUncheckedUpdateManyInput = {
   mode?: Prisma.EnumLeaderboardModeFieldUpdateOperationsInput | $Enums.LeaderboardMode
   rank?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
   countryCode?: Prisma.StringFieldUpdateOperationsInput | string
   countryName?: Prisma.StringFieldUpdateOperationsInput | string
   elo?: Prisma.IntFieldUpdateOperationsInput | number
@@ -473,6 +492,7 @@ export type LeaderboardEntryCountOrderByAggregateInput = {
   mode?: Prisma.SortOrder
   rank?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  username?: Prisma.SortOrder
   countryCode?: Prisma.SortOrder
   countryName?: Prisma.SortOrder
   elo?: Prisma.SortOrder
@@ -495,6 +515,7 @@ export type LeaderboardEntryMaxOrderByAggregateInput = {
   mode?: Prisma.SortOrder
   rank?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  username?: Prisma.SortOrder
   countryCode?: Prisma.SortOrder
   countryName?: Prisma.SortOrder
   elo?: Prisma.SortOrder
@@ -510,6 +531,7 @@ export type LeaderboardEntryMinOrderByAggregateInput = {
   mode?: Prisma.SortOrder
   rank?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  username?: Prisma.SortOrder
   countryCode?: Prisma.SortOrder
   countryName?: Prisma.SortOrder
   elo?: Prisma.SortOrder
@@ -550,6 +572,7 @@ export type LeaderboardEntrySelect<ExtArgs extends runtime.Types.Extensions.Inte
   mode?: boolean
   rank?: boolean
   name?: boolean
+  username?: boolean
   countryCode?: boolean
   countryName?: boolean
   elo?: boolean
@@ -565,6 +588,7 @@ export type LeaderboardEntrySelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   mode?: boolean
   rank?: boolean
   name?: boolean
+  username?: boolean
   countryCode?: boolean
   countryName?: boolean
   elo?: boolean
@@ -580,6 +604,7 @@ export type LeaderboardEntrySelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   mode?: boolean
   rank?: boolean
   name?: boolean
+  username?: boolean
   countryCode?: boolean
   countryName?: boolean
   elo?: boolean
@@ -595,6 +620,7 @@ export type LeaderboardEntrySelectScalar = {
   mode?: boolean
   rank?: boolean
   name?: boolean
+  username?: boolean
   countryCode?: boolean
   countryName?: boolean
   elo?: boolean
@@ -605,7 +631,7 @@ export type LeaderboardEntrySelectScalar = {
   updatedAt?: boolean
 }
 
-export type LeaderboardEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "mode" | "rank" | "name" | "countryCode" | "countryName" | "elo" | "winRate" | "trend" | "verified" | "createdAt" | "updatedAt", ExtArgs["result"]["leaderboardEntry"]>
+export type LeaderboardEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "mode" | "rank" | "name" | "username" | "countryCode" | "countryName" | "elo" | "winRate" | "trend" | "verified" | "createdAt" | "updatedAt", ExtArgs["result"]["leaderboardEntry"]>
 
 export type $LeaderboardEntryPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "LeaderboardEntry"
@@ -615,6 +641,7 @@ export type $LeaderboardEntryPayload<ExtArgs extends runtime.Types.Extensions.In
     mode: $Enums.LeaderboardMode
     rank: number
     name: string
+    username: string
     countryCode: string
     countryName: string
     elo: number
@@ -1050,6 +1077,7 @@ export interface LeaderboardEntryFieldRefs {
   readonly mode: Prisma.FieldRef<"LeaderboardEntry", 'LeaderboardMode'>
   readonly rank: Prisma.FieldRef<"LeaderboardEntry", 'Int'>
   readonly name: Prisma.FieldRef<"LeaderboardEntry", 'String'>
+  readonly username: Prisma.FieldRef<"LeaderboardEntry", 'String'>
   readonly countryCode: Prisma.FieldRef<"LeaderboardEntry", 'String'>
   readonly countryName: Prisma.FieldRef<"LeaderboardEntry", 'String'>
   readonly elo: Prisma.FieldRef<"LeaderboardEntry", 'Int'>

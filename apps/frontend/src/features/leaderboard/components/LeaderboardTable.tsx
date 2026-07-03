@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { BadgeCheck } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/shared/components/ui/avatar";
 import { Skeleton } from "@/shared/components/ui/skeleton";
@@ -10,6 +11,7 @@ import {
   TableRow,
 } from "@/shared/components/ui/table";
 import {
+  buildPlayerProfileHref,
   formatPercent,
   formatPersianNumber,
   formatSignedPercent,
@@ -81,7 +83,10 @@ export default function LeaderboardTable({
                   {formatPersianNumber(player.rank)}
                 </TableCell>
                 <TableCell className="px-6 py-4">
-                  <div className="flex items-center justify-end gap-3">
+                  <Link
+                    href={buildPlayerProfileHref(player.username)}
+                    className="flex items-center justify-end gap-3 rounded-[16px] px-2 py-1.5 transition-colors hover:bg-[#F7FAF7]"
+                  >
                     <Avatar className="size-11 border-[3px] border-white shadow-[0_10px_24px_rgba(31,37,37,0.12)]">
                       <AvatarFallback className="bg-[linear-gradient(135deg,#DCD9D1_0%,#BBB2A4_100%)] text-sm font-bold text-[#34413B]">
                         {getInitials(player.name)}
@@ -97,10 +102,10 @@ export default function LeaderboardTable({
                         ) : null}
                       </div>
                       <p className="text-xs text-[#7A7F7C]">
-                        بازیکن فعال این بخش
+                        مشاهده پروفایل بازیکن
                       </p>
                     </div>
-                  </div>
+                  </Link>
                 </TableCell>
                 <TableCell className="px-6 py-4 text-right">
                   <div className="inline-flex items-center gap-2 rounded-full border border-[#E9ECE8] bg-[#FAFCFA] px-3 py-1.5 text-sm text-[#4F5553]">

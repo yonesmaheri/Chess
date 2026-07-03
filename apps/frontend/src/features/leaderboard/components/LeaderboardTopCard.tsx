@@ -1,7 +1,12 @@
+import Link from "next/link";
 import { BadgeCheck, Crown } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/shared/components/ui/avatar";
 import { cn } from "@/shared/lib/utils";
-import { formatPersianNumber, getInitials } from "../lib/utils";
+import {
+  buildPlayerProfileHref,
+  formatPersianNumber,
+  getInitials,
+} from "../lib/utils";
 import type { LeaderboardPlayer } from "../types";
 
 const topCardStyles = {
@@ -40,9 +45,10 @@ export default function LeaderboardTopCard({
   const style = topCardStyles[position];
 
   return (
-    <article
+    <Link
+      href={buildPlayerProfileHref(player.username)}
       className={cn(
-        "relative flex min-h-[252px] flex-col items-center rounded-[24px] border bg-white px-6 py-7 text-center shadow-[0_20px_48px_rgba(31,37,37,0.05)]",
+        "relative flex min-h-[252px] flex-col items-center rounded-[24px] border bg-white px-6 py-7 text-center shadow-[0_20px_48px_rgba(31,37,37,0.05)] transition-transform hover:-translate-y-1",
         style.containerClassName,
         style.ringClassName,
       )}
@@ -77,6 +83,6 @@ export default function LeaderboardTopCard({
       >
         {formatPersianNumber(position)}
       </div>
-    </article>
+    </Link>
   );
 }
