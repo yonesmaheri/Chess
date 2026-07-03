@@ -9,6 +9,7 @@ import {
   Globe,
   MapPinned,
   Shield,
+  Star,
   Swords,
   Target,
   Trophy,
@@ -23,7 +24,11 @@ import type {
   PlayerProfileRecentGame,
   PlayerProfileRecentGameResult,
 } from "@/shared/api/services/players";
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui/avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/shared/components/ui/avatar";
 import { Button } from "@/shared/components/ui/button";
 import { getCalendarApi } from "@/shared/lib/date";
 import { cn } from "@/shared/lib/utils";
@@ -96,17 +101,22 @@ function AchievementCard({
   const Icon = achievementIcons[achievement.icon];
 
   return (
-    <div className="rounded-[20px] border border-[#EEF1ED] bg-[#FCFDFC] p-4">
-      <div className="mb-3 flex size-12 items-center justify-center rounded-full bg-[#EEF5EF] text-[#6F9D78]">
-        <Icon className="size-5" />
+    <div className="flex min-w-[112px] flex-col items-center text-center">
+      <div className="mb-3 flex size-[58px] items-center justify-center rounded-full border border-[#EEF1ED] bg-[#F7F9F7] text-[#6F9D78] shadow-[0_14px_30px_rgba(31,37,37,0.06)]">
+        <Icon className="size-6" />
       </div>
-      <p className="text-sm font-semibold text-[#1F2525]">{achievement.label}</p>
-      <p className="mt-2 text-2xl font-black text-[#2D3231]">
+      <p className="text-sm font-semibold text-[#1F2525]">
+        {achievement.label}
+      </p>
+      <p className="mt-2 text-lg font-black text-[#2D3231]">
         {achievement.value}
       </p>
-      <p className="mt-2 text-xs leading-6 text-[#7A7F7C]">
-        {achievement.description}
-      </p>
+      <p className="mt-1 text-xs text-[#7A7F7C]">{achievement.description}</p>
+      <div className="mt-2 flex items-center gap-1 text-[#6F9D78]">
+        <Star className="size-3 fill-current" />
+        <Star className="size-3 fill-current" />
+        <Star className="size-3 fill-current" />
+      </div>
     </div>
   );
 }
@@ -146,9 +156,13 @@ function RecentGameRow({ game }: { game: PlayerProfileRecentGame }) {
 export function PlayerProfileView({ profile }: PlayerProfileViewProps) {
   return (
     <main dir="rtl" className="min-h-screen bg-[#FCFDFC] text-[#1F2525]">
-      <div className="mx-auto flex w-full max-w-[1240px] flex-col gap-6 px-4 py-8 sm:px-6 lg:gap-8 lg:px-8 lg:py-12">
+      <div className="mx-auto flex w-full max-w-[1360px] flex-col gap-6 px-4 py-8 sm:px-6 lg:gap-8 lg:px-8 lg:py-12">
         <div className="flex items-center justify-between gap-3">
-          <Button asChild variant="outline" className="rounded-[12px] border-[#D9E1D7] bg-white px-4">
+          <Button
+            asChild
+            variant="outline"
+            className="rounded-[12px] border-[#D9E1D7] bg-white px-4"
+          >
             <Link href={getLeaderboardHref(profile.mode)}>
               <ChevronLeft className="size-4" />
               بازگشت به جدول
@@ -268,7 +282,9 @@ export function PlayerProfileView({ profile }: PlayerProfileViewProps) {
 
           <article className="rounded-[24px] border border-[#E8ECE7] bg-white p-5 shadow-[0_18px_42px_rgba(31,37,37,0.045)]">
             <div className="mb-4 flex items-center justify-between">
-              <span className="text-sm text-[#7A7F7C]">ثبت برد / باخت / مساوی</span>
+              <span className="text-sm text-[#7A7F7C]">
+                ثبت برد / باخت / مساوی
+              </span>
               <CalendarDays className="size-5 text-[#96A09B]" />
             </div>
             <div className="h-3 overflow-hidden rounded-full bg-[#ECEFED]">
@@ -289,7 +305,9 @@ export function PlayerProfileView({ profile }: PlayerProfileViewProps) {
             </div>
             <div className="mt-4 grid grid-cols-3 gap-2 text-sm">
               <div>
-                <p className="font-bold text-[#5C8E68]">{formatPercent(profile.winRate)}</p>
+                <p className="font-bold text-[#5C8E68]">
+                  {formatPercent(profile.winRate)}
+                </p>
                 <p className="text-[#7A7F7C]">برد</p>
               </div>
               <div>
@@ -311,22 +329,36 @@ export function PlayerProfileView({ profile }: PlayerProfileViewProps) {
           </article>
         </section>
 
-        <section className="grid gap-6 xl:grid-cols-[360px,1fr]">
+        <section className="grid grid-cols-1 gap-6 md:grid-cols-[450px_1fr]">
           <article className="rounded-[28px] border border-[#E8ECE7] bg-white p-6 shadow-[0_24px_60px_rgba(31,37,37,0.05)]">
-            <div className="mb-5 flex items-center justify-between">
+            <div className="mb-5 flex items-start justify-between gap-4">
               <div>
                 <h2 className="text-lg font-bold text-[#1F2525]">دستاوردها</h2>
                 <p className="mt-1 text-sm text-[#7A7F7C]">
                   خلاصه ای از شاخص های مهم این بازیکن
                 </p>
               </div>
-              <Crown className="size-5 text-[#96A09B]" />
+              <Trophy className="mt-1 size-5 text-[#96A09B]" />
             </div>
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-1">
-              {profile.achievements.map((achievement) => (
-                <AchievementCard key={achievement.id} achievement={achievement} />
-              ))}
+
+            <div className="overflow-x-auto">
+              <div className="flex w-max gap-6 px-1 pb-3">
+                {profile.achievements.map((achievement) => (
+                  <AchievementCard
+                    key={achievement.id}
+                    achievement={achievement}
+                  />
+                ))}
+              </div>
             </div>
+
+            <Button
+              variant="outline"
+              className="mt-3 h-11 w-full rounded-[14px] border-[#EEF1ED] bg-white text-sm font-semibold text-[#4F5553]"
+            >
+              مشاهده همه
+              <ChevronLeft className="size-4" />
+            </Button>
           </article>
 
           <PlayerProfileRatingChart
@@ -349,7 +381,9 @@ export function PlayerProfileView({ profile }: PlayerProfileViewProps) {
                 <tr>
                   <th className="px-4 py-4 text-right font-semibold">نتیجه</th>
                   <th className="px-4 py-4 text-right font-semibold">حریف</th>
-                  <th className="px-4 py-4 text-right font-semibold">امتیاز حریف</th>
+                  <th className="px-4 py-4 text-right font-semibold">
+                    امتیاز حریف
+                  </th>
                   <th className="px-4 py-4 text-right font-semibold">رنگ</th>
                   <th className="px-4 py-4 text-right font-semibold">بخش</th>
                   <th className="px-4 py-4 text-right font-semibold">زمان</th>

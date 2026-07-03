@@ -112,7 +112,7 @@ export function LeaderboardPageFeature() {
 
   return (
     <main dir="rtl" className="min-h-screen bg-[#FCFDFC] text-[#1F2525]">
-      <div className="mx-auto flex w-full max-w-[1240px] flex-col gap-8 px-4 py-8 sm:px-6 lg:gap-10 lg:px-8 lg:py-12">
+      <div className="mx-auto flex w-full max-w-[1360px] flex-col gap-8 px-4 py-8 sm:px-6 lg:gap-10 lg:px-8 lg:py-12">
         <LeaderboardHeader config={config} />
 
         <LeaderboardModeSwitcher mode={mode} onModeChange={handleModeChange} />

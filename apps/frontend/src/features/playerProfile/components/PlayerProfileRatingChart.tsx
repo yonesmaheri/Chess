@@ -57,7 +57,7 @@ export default function PlayerProfileRatingChart({
     `L ${getX(points.length - 1)},${chartHeight - padding.bottom}`;
 
   return (
-    <section className="overflow-hidden rounded-[28px] border border-[#E8ECE7] bg-white p-6 shadow-[0_24px_60px_rgba(31,37,37,0.05)] lg:p-7">
+    <section className="overflow-hidden rounded-[28px] border border-[#E8ECE7] bg-white py-6 shadow-[0_24px_60px_rgba(31,37,37,0.05)] lg:p-7">
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-[#1F2525]">
@@ -73,12 +73,12 @@ export default function PlayerProfileRatingChart({
         </div>
       </div>
 
-      <div className="overflow-x-auto rounded-[22px] border border-[#EEF1ED] bg-[#FCFDFC] p-4">
+      <div className="overflow-x-auto rounded-[22px] border border-[#EEF1ED] bg-[#FCFDFC]">
         <svg
           width={chartWidth}
           height={chartHeight}
           viewBox={`0 0 ${chartWidth} ${chartHeight}`}
-          className="min-w-[680px]"
+          className="min-w-[450px]"
         >
           <defs>
             <linearGradient id="player-profile-area" x1="0%" y1="0%" x2="0%" y2="100%">

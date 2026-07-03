@@ -2,7 +2,7 @@ import type { LucideIcon } from "lucide-react";
 import { BookOpen, Globe2, Send, Target, Users } from "lucide-react";
 
 export const containerClassName =
-  "mx-auto w-full max-w-[1240px] px-5 sm:px-6 lg:px-8";
+  "mx-auto w-full max-w-[1360px] px-5 sm:px-6 lg:px-8";
 
 export type Feature = {
   icon: LucideIcon;

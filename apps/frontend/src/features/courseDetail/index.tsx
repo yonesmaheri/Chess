@@ -52,7 +52,7 @@ export function CourseDetailView({ course }: CourseDetailViewProps) {
 
   return (
     <main dir="rtl" className="min-h-screen bg-white text-[#1F2525]">
-      <div className="mx-auto w-full max-w-[1240px] px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+      <div className="mx-auto w-full max-w-[1360px] px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
         <CourseHero
           course={course}
           heroStats={heroStats}
