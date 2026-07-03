@@ -33,10 +33,7 @@ import type {
   LobbyInviteStatus,
 } from "@/shared/api/services/lobby";
 import { matchmakingService } from "@/shared/api/services/matchmaking";
-import type {
-  CreateAiMatchResponse,
-  CreateRandomMatchResponse,
-} from "@/shared/api/services/matchmaking";
+import type { CreateAiMatchResponse } from "@/shared/api/services/matchmaking";
 import {
   formatRelativeTime,
   getDifficultyDescription,
@@ -160,8 +157,6 @@ export function LobbyPageFeature({
   const [isStartingRandom, setIsStartingRandom] = useState(false);
   const [isStartingAi, setIsStartingAi] = useState(false);
   const [isResolvingInvite, setIsResolvingInvite] = useState(false);
-  const [randomMatch, setRandomMatch] =
-    useState<CreateRandomMatchResponse | null>(null);
   const [aiMatch, setAiMatch] = useState<CreateAiMatchResponse | null>(null);
   const [acceptedInviteGame, setAcceptedInviteGame] = useState<
     ResolveInviteResponse["game"] | null
@@ -461,31 +456,9 @@ export function LobbyPageFeature({
               </Button>
 
               <p className="text-xs leading-6 text-[#7A817C]">
-                فعلاً فقط معماری صف بازی آماده شده و اتصال بلادرنگ هنوز فعال
-                نشده است.
+                این مسیر از matchmaking بلادرنگ مبتنی بر WebSocket استفاده
+                می‌کند.
               </p>
-
-              {randomMatch ? (
-                <div className="rounded-[20px] border border-[#E6ECE4] bg-white p-4">
-                  <div className="flex items-center justify-between gap-3">
-                    <div>
-                      <p className="text-sm font-semibold text-[#1F2525]">
-                        بلیت صف ساخته شد
-                      </p>
-                      <p className="mt-1 text-xs text-[#6E7772]">
-                        حدود {randomMatch.estimatedWaitSeconds} ثانیه زمان
-                        انتظار تخمینی
-                      </p>
-                    </div>
-                    <Badge className="rounded-full bg-[#EAF4E8] px-3 py-1 text-[#628061] hover:bg-[#EAF4E8]">
-                      {randomMatch.status}
-                    </Badge>
-                  </div>
-                  <p className="mt-3 text-xs leading-6 text-[#7A817C]">
-                    {randomMatch.note}
-                  </p>
-                </div>
-              ) : null}
             </div>
           </section>
 

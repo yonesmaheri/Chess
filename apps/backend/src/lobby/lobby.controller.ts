@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  ParseUUIDPipe,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseUUIDPipe, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { CsrfGuard } from '../auth/guards/csrf.guard';
 import type { AuthenticatedUser } from '../auth/types/authenticated-user.type';
@@ -59,29 +51,6 @@ export class LobbyController {
     @Body() body: ResolveInviteDto,
   ) {
     return this.lobbyService.rejectInvite(user, inviteId, body.token);
-  }
-
-  @Post('matchmaking/random')
-  @UseGuards(CsrfGuard)
-  createRandomMatch(@CurrentUser() user: AuthenticatedUser) {
-    return this.lobbyService.createRandomMatch(user);
-  }
-
-  @Get('matchmaking/status/:ticketId')
-  getMatchStatus(
-    @CurrentUser() user: AuthenticatedUser,
-    @Param('ticketId', new ParseUUIDPipe({ version: '4' })) ticketId: string,
-  ) {
-    return this.lobbyService.getMatchStatus(user, ticketId);
-  }
-
-  @Post('matchmaking/cancel/:ticketId')
-  @UseGuards(CsrfGuard)
-  cancelMatchmaking(
-    @CurrentUser() user: AuthenticatedUser,
-    @Param('ticketId', new ParseUUIDPipe({ version: '4' })) ticketId: string,
-  ) {
-    return this.lobbyService.cancelMatchmaking(user, ticketId);
   }
 
   @Post('matchmaking/ai')

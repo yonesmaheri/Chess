@@ -5,35 +5,44 @@ import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { useAuth } from "@/shared/contexts/auth-provider";
+import { useSocketContext } from "@/shared/contexts/socket-provider";
 import { SearchAnimation } from "./components/SearchAnimation";
 import { PlayerCard } from "./components/PlayerCard";
-import { useMatchmaking } from "./lib/useMatchmaking";
+import { useMatchmaking } from "./lib/useMatchmakingWebSocket";
 
 export function MatchmakingPageFeature() {
   const router = useRouter();
   const { user, isAuthenticated } = useAuth();
-  const { state, start, cancel } = useMatchmaking();
-  const [showRedirectMessage, setShowRedirectMessage] = useState(false);
+  const { isConnected, isConnecting, error: socketError } = useSocketContext();
+  const { state, start, cancel, isReady } = useMatchmaking();
+  const [showMatchedMessage, setShowMatchedMessage] = useState(false);
 
-  // Auto-start matchmaking on mount
+  // Auto-start only after the socket transport and gateway auth are both ready.
   useEffect(() => {
-    if (isAuthenticated && state.status === "idle") {
+    if (isAuthenticated && isConnected && isReady && state.status === "idle") {
       void start();
     }
-  }, [isAuthenticated, state.status, start]);
+  }, [isAuthenticated, isConnected, isReady, state.status, start]);
 
-  // Handle matched state
+  // Keep the success state visible briefly, then move both players into the match page.
   useEffect(() => {
     if (state.status === "matched") {
-      setShowRedirectMessage(true);
+      setShowMatchedMessage(true);
       const redirectTimer = setTimeout(() => {
-        // Navigate to game page - to be implemented
-        router.push("/game");
-      }, 2000);
+        const params = new URLSearchParams({
+          opponent: state.opponent.name,
+        });
+        router.push(
+          `/matchmaking/session/${state.sessionId}?${params.toString()}`,
+        );
+      }, 1500);
 
-      return () => clearTimeout(redirectTimer);
+      return () => {
+        setShowMatchedMessage(false);
+        clearTimeout(redirectTimer);
+      };
     }
-  }, [state.status, router]);
+  }, [router, state]);
 
   // Handle error states
   useEffect(() => {
@@ -49,6 +58,10 @@ export function MatchmakingPageFeature() {
   const isSearching =
     state.status === "searching" || state.status === "starting";
   const isMatched = state.status === "matched";
+  const isWaitingForConnection =
+    isAuthenticated &&
+    !isConnected &&
+    (isConnecting || state.status === "idle");
 
   return (
     <main dir="rtl" className="min-h-screen bg-[#FCFDFC] text-[#1F2525]">
@@ -60,8 +73,10 @@ export function MatchmakingPageFeature() {
           </h1>
           <p className="mt-2 text-base text-[#6E7772]">
             {isMatched
-              ? "حریفتان پیدا شد. درحال انتقال به صفحه بازی..."
-              : "درحال جستجوی حریف مناسب برای شما"}
+              ? "حریفتان پیدا شد. آماده‌سازی جلسه بازی انجام شده است."
+              : isWaitingForConnection
+                ? "درحال برقراری اتصال بلادرنگ..."
+                : "درحال جستجوی حریف مناسب برای شما"}
           </p>
         </div>
 
@@ -69,7 +84,7 @@ export function MatchmakingPageFeature() {
         <div className="flex flex-col gap-8">
           {/* Search Animation */}
           {isSearching && <SearchAnimation isPaused={false} />}
-          {showRedirectMessage && <SearchAnimation isPaused={true} />}
+          {showMatchedMessage && <SearchAnimation isPaused={true} />}
 
           {/* Players Section */}
           <div className="grid gap-6 md:grid-cols-3 items-center">
@@ -81,7 +96,11 @@ export function MatchmakingPageFeature() {
               {user && (
                 <PlayerCard
                   name={`${user.firstName} ${user.lastName}`}
-                  status={isSearching ? "searching" : "matched"}
+                  status={
+                    isSearching || isWaitingForConnection
+                      ? "searching"
+                      : "matched"
+                  }
                   isAnimating={true}
                 />
               )}
@@ -115,6 +134,11 @@ export function MatchmakingPageFeature() {
 
           {/* Status Text */}
           <div className="rounded-[20px] border border-[#E5EAE2] bg-white px-6 py-4 text-center shadow-[0_24px_60px_rgba(31,37,37,0.06)]">
+            {isWaitingForConnection && (
+              <p className="text-base text-[#6E7772]">
+                درحال اتصال به سرور matchmaking...
+              </p>
+            )}
             {state.status === "searching" && (
               <p className="text-base text-[#6E7772]">
                 🔄 درحال جستجوی حریف مناسب...
@@ -126,9 +150,11 @@ export function MatchmakingPageFeature() {
                 )}
               </p>
             )}
-            {showRedirectMessage && (
+            {showMatchedMessage && (
               <p className="text-base font-semibold text-[#5E9F5E]">
-                ✓ حریف یافت شد! درحال تهیه بازی...
+                ✓ حریف یافت شد! شناسه جلسه{" "}
+                {state.status === "matched" ? state.sessionId : ""} ثبت شد و
+                درحال انتقال شما به اتاق بازی است.
               </p>
             )}
             {state.status === "timeout" && (
@@ -138,6 +164,11 @@ export function MatchmakingPageFeature() {
             )}
             {state.status === "error" && (
               <p className="text-base text-[#C9524B]">❌ {state.message}</p>
+            )}
+            {socketError && state.status !== "error" && (
+              <p className="text-base text-[#C9524B]">
+                ❌ {socketError.message || "اتصال بلادرنگ برقرار نشد."}
+              </p>
             )}
             {state.status === "cancelled" && (
               <p className="text-base text-[#7F9F85]">
@@ -181,8 +212,8 @@ export function MatchmakingPageFeature() {
         <div className="rounded-[20px] border border-[#EEF1EC] bg-[#F8FAF7] px-6 py-4">
           <p className="text-sm text-[#6E7772]">
             💡 <strong className="text-[#1F2525]">نکته:</strong> شما می‌توانید
-            از صفحه دیگری بازی خود را ادامه دهید. اگر بیش از 5 دقیقه صبر نکردید،
-            جستجو خودکار لغو می‌شود.
+            از همین اتصال مشترک برای قابلیت‌های بلادرنگ بعدی هم استفاده کنید.
+            اگر بیش از 5 دقیقه صبر کنید، جستجو خودکار لغو می‌شود.
           </p>
         </div>
       </div>

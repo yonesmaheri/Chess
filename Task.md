@@ -1,458 +1,327 @@
-Continue the existing implementation.
+The current Matchmaking implementation uses HTTP requests and/or polling.
 
-The Lobby module has already been implemented.
+Before implementing the Game Room, migrate the entire matchmaking flow to a WebSocket-based architecture.
 
-Now implement the Matchmaking page that appears after the user clicks "Play Online".
+IMPORTANT
 
-Use the attached design only as visual inspiration.
+Do NOT rewrite the existing implementation from scratch.
 
-Do NOT implement a pixel-perfect copy.
+Inspect the existing frontend and backend first.
 
-Follow the project's existing design system.
+Reuse as much code as possible.
 
-Reuse existing layouts, components, hooks and services whenever possible.
+Refactor only where necessary.
 
-Never duplicate existing logic.
+The goal is to replace polling with real-time communication while keeping the existing architecture clean.
 
----
+----------------------------------------------------
+General Rules
+----------------------------------------------------
 
-# Route
+- Do not duplicate existing services.
+- Reuse authentication.
+- Reuse API client.
+- Reuse project architecture.
+- Reuse existing dependency injection.
+- Follow existing coding conventions.
+- Produce production-quality code.
 
-Create a new page inside the Lobby Route Group.
+----------------------------------------------------
+Backend
+----------------------------------------------------
 
-Example
+Inspect the backend.
 
-app/
-    (lobby)/
-        matchmaking/
-            page.tsx
-            loading.tsx
-            components/
+If a websocket infrastructure already exists:
 
-Keep using the Lobby layout.
+Reuse it.
 
----
+Otherwise implement one using the project's existing technology.
 
-# Authentication
+If this is a NestJS backend:
 
-This page is protected.
+Use WebSocket Gateway with Socket.IO.
 
-If the user is not authenticated:
+Do not create a separate websocket server.
 
-- redirect to login
-- never render matchmaking UI
-- perform authentication verification server-side whenever possible
+Authenticate websocket connections using the existing authentication mechanism.
 
----
+Reject unauthenticated socket connections.
 
-# Page Goal
+----------------------------------------------------
+Gateway Responsibilities
+----------------------------------------------------
 
-This page represents the waiting room while the backend searches for an opponent.
+Create a dedicated Matchmaking Gateway.
 
-It should immediately start matchmaking when the page loads.
+Responsibilities:
 
-The user should not have to press another button.
+- user connected
+- user disconnected
+- join matchmaking queue
+- leave matchmaking queue
+- matchmaking status
+- match found
+- queue cleanup
+- reconnect support
 
----
+Business logic must remain inside services.
 
-# UI
+The gateway should only orchestrate events.
 
-The page should contain:
+----------------------------------------------------
+Queue Service
+----------------------------------------------------
 
-## Title
+Extract matchmaking queue into its own service.
 
-Searching for an opponent...
+Responsibilities:
 
-## Subtitle
+- add player
+- remove player
+- prevent duplicates
+- prevent multiple active queue entries
+- pair players
+- cleanup stale users
+- handle disconnects
 
-Display the currently selected matchmaking preferences.
+Do not place queue logic inside the gateway.
 
-Example
+----------------------------------------------------
+Events
+----------------------------------------------------
 
-Searching using your current preferences...
+Use typed websocket events.
 
-Do NOT display:
+Example events:
 
-- Time control
-- Piece color
+client:
 
-Those values already come from user settings.
+join_queue
 
----
+leave_queue
 
-## Center Animation
+ping
 
-Create a modern searching animation.
+server:
 
-The provided design uses a rotating radar around a chess knight.
+queue_joined
 
-Do not copy it exactly.
+queue_updated
 
-Create something lightweight using CSS animations.
+searching
 
-Requirements
+match_found
 
-- smooth animation
-- GPU friendly
-- no heavy rendering
-- pauses automatically when match is found
+queue_cancelled
 
----
+error
 
-## Left Card
+heartbeat
 
-Placeholder representing the current player.
+connected
 
-Show
+disconnected
 
-Avatar
+Avoid magic strings.
 
-Username
+Create shared event constants or enums.
 
-Current Rating
+----------------------------------------------------
+Frontend
+----------------------------------------------------
 
-Status
+Remove polling completely.
+
+Do not send repeated HTTP requests while searching.
+
+Create a reusable websocket layer.
+
+Example architecture:
+
+services/
+
+socket/
+
+SocketService
+
+hooks/
+
+useSocket
+
+useMatchmaking
+
+providers/
+
+SocketProvider
+
+The socket connection should be shared.
+
+Do not create multiple socket connections.
+
+----------------------------------------------------
+Connection Lifecycle
+----------------------------------------------------
+
+Connect after authentication.
+
+Disconnect on logout.
+
+Automatically reconnect after temporary network failures.
+
+Prevent duplicate socket connections.
+
+Handle browser refresh.
+
+Handle page navigation.
+
+Handle tab closing.
+
+----------------------------------------------------
+Matchmaking Flow
+----------------------------------------------------
+
+When user opens Matchmaking page:
+
+Connect to websocket if not already connected.
+
+Emit:
+
+join_queue
+
+Backend responds with
+
+queue_joined
+
+Display
 
 Searching...
 
----
+When a match is found
 
-## Right Card
+Receive
 
-Initially hidden.
+match_found
 
-When an opponent is found:
+Immediately stop searching.
 
-Animate the opponent card into view.
-
-Display
-
-Avatar
-
-Username
-
-Rating
-
-Country if available
-
-Online indicator
-
----
-
-## Status Text
-
-While searching:
-
-Searching for a suitable opponent...
-
-When found:
-
-Opponent found!
-
-Preparing game...
-
----
-
-## Cancel Button
-
-Large outlined button.
-
-Clicking it:
-
-Stops matchmaking
-
-Cancels pending backend request
-
-Leaves matchmaking queue
-
-Navigates back to Lobby
-
----
-
-# Matchmaking Flow
-
-When entering the page:
-
-Automatically call
-
-POST /matchmaking/random
-
-Backend returns
-
-Searching
-
-Queued
-
-Matched
-
-or Failed
-
----
-
-If searching:
-
-Start polling or websocket updates.
-
-Reuse existing websocket infrastructure if available.
-
-If websocket infrastructure does not exist:
-
-Implement polling abstraction.
-
-Polling interval
-
-2–3 seconds.
-
-Stop polling immediately when:
-
-- match found
-- cancelled
-- page unmounted
-
-Prevent memory leaks.
-
----
-
-# Match Found
-
-When a match is found:
-
-Stop all polling.
-
-Stop animations.
-
-Display opponent information.
-
-Show
-
-Match found!
-
-Redirecting...
+Show opponent.
 
 Wait about 2 seconds.
 
-Navigate automatically to the Game page.
+Navigate to the Game page.
 
----
+----------------------------------------------------
+Cancellation
+----------------------------------------------------
 
-# Backend
+When user clicks Cancel
 
-Inspect existing backend first.
+Emit
 
-Implement only missing pieces.
+leave_queue
 
-Possible endpoints
+Backend removes player from queue.
 
-POST /matchmaking/random
+Navigate back to Lobby.
 
-POST /matchmaking/cancel
+----------------------------------------------------
+Disconnect Handling
+----------------------------------------------------
 
-GET /matchmaking/status
+If user disconnects while searching
 
-Reuse
+Automatically remove them from queue.
 
-Authentication
+If reconnect happens quickly
 
-Validation
+Optionally restore their queue position if supported.
 
-Error handling
+Otherwise require joining again.
 
-Logging
+----------------------------------------------------
+Security
+----------------------------------------------------
 
-Rate limiting
+Authenticate every websocket connection.
 
----
+Never trust client events.
 
-# Matchmaking Queue
+Validate every payload.
 
-Do not allow:
+Rate limit queue joins.
 
-Multiple queue entries for one user.
+Prevent spam.
 
-Duplicate requests.
+Prevent duplicate joins.
 
-Already-playing users entering queue.
+Prevent replay attacks.
 
-Disconnected users remaining in queue.
+Validate user state before queueing.
 
-Automatically clean stale queue entries.
+Never expose internal server errors.
 
----
+----------------------------------------------------
+Performance
+----------------------------------------------------
 
-# Security
+Keep one websocket connection per browser session.
 
-Validate every authenticated request.
+Avoid unnecessary broadcasts.
 
-Never trust frontend values.
+Emit only required events.
 
-Prevent:
+Keep payloads minimal.
 
-Queue spam
+----------------------------------------------------
+Typing
+----------------------------------------------------
 
-Race conditions
-
-Duplicate matches
-
-Unauthorized matchmaking
-
-Replay requests
-
-Validate every user before adding to queue.
-
----
-
-# Game Creation
-
-When two users are matched:
-
-Create a new game session.
-
-Generate
-
-Game ID
-
-Initial chess position
-
-Player assignments
-
-White/Black
-
-Use the user's existing preferences for color selection.
-
-Do not ask again on this page.
-
-Store the game.
-
-Return only the required data.
-
----
-
-# Chess Integration
-
-Backend already uses chess.js.
-
-Create a new Chess instance for every new game.
-
-Store
-
-FEN
-
-PGN
-
-Move history
-
-Current turn
-
-Game status
-
-Prepare the architecture for future move synchronization.
-
----
-
-# Frontend State
-
-Reuse existing state management.
-
-Do not introduce new libraries.
-
-Create reusable hooks.
-
-Examples
-
-useMatchmaking()
-
-useMatchStatus()
-
-Keep business logic outside components.
-
----
-
-# UX
-
-Provide proper loading states.
-
-Handle:
-
-No opponent found after long wait.
-
-Network errors.
-
-Server unavailable.
-
-Matchmaking timeout.
-
-If searching exceeds configurable timeout:
-
-Display
-
-Still searching...
-
-Keep searching
-
-or
-
-Return to Lobby
-
----
-
-# Accessibility
-
-Keyboard accessible.
-
-ARIA labels.
-
-Visible focus.
-
-Screen-reader friendly.
-
----
-
-# Performance
-
-Stop unnecessary renders.
-
-Cancel requests on unmount.
-
-Use AbortController where applicable.
-
-Lazy load heavy assets.
-
-Avoid animation jank.
-
----
-
-# Code Quality
-
-Strict TypeScript.
+Use strict TypeScript.
 
 No any.
 
-Small reusable components.
+Create DTOs/interfaces for every websocket payload.
 
-Reusable services.
+Strongly type every emitted and received event.
 
-Clean Architecture.
+----------------------------------------------------
+Code Quality
+----------------------------------------------------
 
-SOLID principles.
+Keep business logic out of components.
 
-No duplicated code.
+Keep gateway thin.
 
----
+Keep services reusable.
 
-# Final Requirement
+Follow SOLID.
 
-Before implementation:
+Follow Clean Architecture.
 
-1. Inspect the existing project.
+Do not introduce technical debt.
 
-2. Reuse existing architecture.
+----------------------------------------------------
+Future Compatibility
+----------------------------------------------------
 
-3. Reuse existing API client.
+Design the websocket layer so it can later support:
 
-4. Reuse authentication.
+- game moves
+- resign
+- draw offers
+- player reconnect
+- spectators
+- chat
+- clocks
+- rematch
 
-5. Reuse websocket infrastructure if it exists.
+without requiring another architectural rewrite.
 
-6. Build only the missing Matchmaking module.
+----------------------------------------------------
+Final Requirement
+----------------------------------------------------
 
-7. Produce production-ready code suitable for future multiplayer expansion.
+Do not implement Game Room yet.
+
+Only migrate the existing Matchmaking system to a production-ready websocket architecture that will be reused by all future real-time chess features.

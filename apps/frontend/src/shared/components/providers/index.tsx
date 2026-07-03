@@ -4,6 +4,7 @@ import { ReactNode, useState } from "react";
 import { TooltipProvider } from "../ui/tooltip";
 import { Toaster } from "../ui/sonner";
 import { AuthProvider } from "@/shared/contexts/auth-provider";
+import { SocketProvider } from "@/shared/contexts/socket-provider";
 import type { AuthUser } from "@/shared/api/services/auth";
 
 function Providers({
@@ -23,7 +24,9 @@ function Providers({
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider initialUser={initialUser}>
-        <TooltipProvider>{children}</TooltipProvider>
+        <SocketProvider>
+          <TooltipProvider>{children}</TooltipProvider>
+        </SocketProvider>
       </AuthProvider>
       <Toaster position="bottom-center" />
     </QueryClientProvider>

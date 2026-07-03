@@ -44,6 +44,13 @@
   height: 30%;
   animation: radar-pulse 3s ease-in-out infinite;
   animation-delay: 1s;
+}
+
+.search-knight {
+  position: relative;
+  z-index: 2;
+  font-size: 48px;
+  display: flex;
   align-items: center;
   justify-content: center;
   animation: knight-bounce 1.5s ease-in-out infinite;
