@@ -1,470 +1,458 @@
-You are working on an existing full-stack chess application.
+Continue the existing implementation.
 
-The project already contains authentication, users, frontend architecture, backend architecture, routing, UI system and database.
+The Lobby module has already been implemented.
 
-IMPORTANT
+Now implement the Matchmaking page that appears after the user clicks "Play Online".
 
-Before writing any code:
+Use the attached design only as visual inspiration.
 
-- Inspect the entire project.
-- Understand the current architecture.
-- Reuse existing components, services, hooks and utilities.
-- Never duplicate existing code.
-- Follow the project's existing conventions.
-- Integrate with the current authentication system.
+Do NOT implement a pixel-perfect copy.
 
-Do NOT create duplicate:
+Follow the project's existing design system.
 
-- Auth
-- User
-- API client
-- Theme
-- Shared UI components
-- Layout system
-- Database models that already exist
+Reuse existing layouts, components, hooks and services whenever possible.
 
-Only implement the missing Lobby/Game Room module.
+Never duplicate existing logic.
 
 ---
 
-# Goal
+# Route
 
-Implement a complete Chess Lobby inspired by the attached design.
+Create a new page inside the Lobby Route Group.
 
-This is NOT a pixel-perfect implementation.
-
-Use the design only as inspiration for layout and UX while following the existing design system.
-
-The implementation must feel production ready.
-
----
-
-# Frontend
-
-Create a completely new route group.
-
-Example:
+Example
 
 app/
     (lobby)/
-        layout.tsx
-        lobby/
+        matchmaking/
             page.tsx
-        ai/
-        online/
-        friends/
-        components/
-        hooks/
-        lib/
+            loading.tsx
+            components/
 
-The lobby must have its own layout independent from the dashboard.
-
-Do NOT place this page inside dashboard layout.
+Keep using the Lobby layout.
 
 ---
 
 # Authentication
 
-This section must be protected.
+This page is protected.
 
 If the user is not authenticated:
 
-- redirect to Login
-- never render lobby content
-- perform authentication check server-side whenever possible
-- avoid client-side flashing
+- redirect to login
+- never render matchmaking UI
+- perform authentication verification server-side whenever possible
 
 ---
 
-# Lobby Sections
+# Page Goal
 
-Implement the following sections.
+This page represents the waiting room while the backend searches for an opponent.
 
-## 1. Hero
+It should immediately start matchmaking when the page loads.
 
-Top title
-
-Chess Lobby
-
-Small subtitle
-
-Choose how you want to start playing.
-
----
-
-## 2. Play Online
-
-Card for random matchmaking.
-
-Contains
-
-- title
-- description
-- Start Match button
-
-Remove completely:
-
-- Time control selection
-- Bullet
-- Blitz
-- Rapid
-- Classical
-
-Time controls are already selected in user settings.
-
-Do not implement them.
-
----
-
-## 3. Play vs AI
-
-Card for playing against computer.
-
-Contains
-
-Difficulty selector.
-
-Levels
-
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-
-Selected difficulty should be highlighted.
-
-Below it show a short description.
-
-Example
-
-Easy
-
-Intermediate
-
-Hard
-
-Expert
-
-Do NOT implement color selection.
-
-Remove
-
-White
-Black
-Random
-
-Color comes from user settings.
-
-Start AI Game button.
-
----
-
-## 4. Friends
-
-Card for inviting friends.
-
-Contains
-
-Generate Invite Link
-
-Copy Invite Link
-
-Recent challenges
-
-Incoming invitations
-
-Accept
-
-Decline
-
-Online friends list if backend already has friendship support.
-
-If friendship system does not exist:
-
-Create interfaces only.
-
-Do not invent fake backend.
-
----
-
-## 5. Footer Information
-
-Small trust indicators.
-
-Examples
-
-Secure
-
-Fair Play
-
-Powered by Chess Engine
-
-Private Games
-
-Responsive
+The user should not have to press another button.
 
 ---
 
 # UI
 
-Responsive.
+The page should contain:
 
-Desktop:
+## Title
 
-Three-column layout similar to design.
+Searching for an opponent...
 
-Tablet:
+## Subtitle
 
-Two columns.
+Display the currently selected matchmaking preferences.
 
-Mobile:
+Example
 
-Single column.
+Searching using your current preferences...
 
-Use reusable components.
+Do NOT display:
 
-Avoid duplicated JSX.
+- Time control
+- Piece color
 
-Use semantic HTML.
+Those values already come from user settings.
 
-Proper loading states.
+---
 
-Proper empty states.
+## Center Animation
 
-Skeletons.
+Create a modern searching animation.
 
-Animations should be subtle.
+The provided design uses a rotating radar around a chess knight.
+
+Do not copy it exactly.
+
+Create something lightweight using CSS animations.
+
+Requirements
+
+- smooth animation
+- GPU friendly
+- no heavy rendering
+- pauses automatically when match is found
+
+---
+
+## Left Card
+
+Placeholder representing the current player.
+
+Show
+
+Avatar
+
+Username
+
+Current Rating
+
+Status
+
+Searching...
+
+---
+
+## Right Card
+
+Initially hidden.
+
+When an opponent is found:
+
+Animate the opponent card into view.
+
+Display
+
+Avatar
+
+Username
+
+Rating
+
+Country if available
+
+Online indicator
+
+---
+
+## Status Text
+
+While searching:
+
+Searching for a suitable opponent...
+
+When found:
+
+Opponent found!
+
+Preparing game...
+
+---
+
+## Cancel Button
+
+Large outlined button.
+
+Clicking it:
+
+Stops matchmaking
+
+Cancels pending backend request
+
+Leaves matchmaking queue
+
+Navigates back to Lobby
+
+---
+
+# Matchmaking Flow
+
+When entering the page:
+
+Automatically call
+
+POST /matchmaking/random
+
+Backend returns
+
+Searching
+
+Queued
+
+Matched
+
+or Failed
+
+---
+
+If searching:
+
+Start polling or websocket updates.
+
+Reuse existing websocket infrastructure if available.
+
+If websocket infrastructure does not exist:
+
+Implement polling abstraction.
+
+Polling interval
+
+2–3 seconds.
+
+Stop polling immediately when:
+
+- match found
+- cancelled
+- page unmounted
+
+Prevent memory leaks.
+
+---
+
+# Match Found
+
+When a match is found:
+
+Stop all polling.
+
+Stop animations.
+
+Display opponent information.
+
+Show
+
+Match found!
+
+Redirecting...
+
+Wait about 2 seconds.
+
+Navigate automatically to the Game page.
 
 ---
 
 # Backend
 
-Inspect backend first.
+Inspect existing backend first.
 
-Implement only what is missing.
+Implement only missing pieces.
 
-Possible endpoints:
-
-GET /lobby
-
-GET /friends
-
-GET /invites
-
-POST /invite
-
-POST /invite/:id/accept
-
-POST /invite/:id/reject
+Possible endpoints
 
 POST /matchmaking/random
 
-POST /matchmaking/ai
+POST /matchmaking/cancel
 
-Reuse authentication middleware.
+GET /matchmaking/status
 
-Reuse validation.
+Reuse
 
-Reuse existing error handling.
+Authentication
 
-Never expose internal errors.
+Validation
 
-Always validate request body.
+Error handling
 
-Always validate authenticated user.
+Logging
 
-Rate-limit invite creation.
-
-Prevent invite spam.
-
-Prevent duplicate active invites.
-
-Prevent self invitation.
-
-Prevent invalid IDs.
-
-Return proper HTTP status codes.
+Rate limiting
 
 ---
 
-# Chess Integration
+# Matchmaking Queue
 
-Both frontend and backend already have chess.js installed.
+Do not allow:
 
-Frontend already has react-chessboard installed.
+Multiple queue entries for one user.
 
-Use them.
+Duplicate requests.
 
-For AI games:
+Already-playing users entering queue.
 
-Create a new Chess instance.
+Disconnected users remaining in queue.
 
-Initialize board.
-
-Prepare game state.
-
-Do NOT implement engine logic if engine is not already available.
-
-Only prepare architecture.
-
-For online games:
-
-Prepare matchmaking flow.
-
-Do not implement websocket logic unless websocket infrastructure already exists.
-
-If sockets already exist:
-
-Integrate with them.
-
-Otherwise create abstraction only.
-
----
-
-# State Management
-
-Reuse existing solution.
-
-If project uses:
-
-- Zustand
-- Redux
-- React Query
-- TanStack Query
-- Context
-
-Reuse it.
-
-Do not introduce another library.
-
----
-
-# API Layer
-
-Reuse existing API client.
-
-Create Lobby service.
-
-Create Invite service.
-
-Create Matchmaking service.
-
-Proper typing.
-
-No duplicated fetch logic.
+Automatically clean stale queue entries.
 
 ---
 
 # Security
 
-Protect every endpoint.
-
-Validate JWT/session.
+Validate every authenticated request.
 
 Never trust frontend values.
 
-Validate:
+Prevent:
 
-difficulty
+Queue spam
 
-invite id
+Race conditions
 
-friend id
+Duplicate matches
 
-user id
+Unauthorized matchmaking
 
-Prevent unauthorized lobby access.
+Replay requests
 
-Prevent ID enumeration.
-
-Prevent replay requests.
-
-Sanitize all user inputs.
-
-Apply rate limiting where appropriate.
-
-Return generic errors.
-
-Do not leak implementation details.
+Validate every user before adding to queue.
 
 ---
 
-# Code Quality
+# Game Creation
 
-Use TypeScript everywhere.
+When two users are matched:
 
-Strict typing.
+Create a new game session.
 
-No any.
+Generate
 
-Extract reusable components.
+Game ID
 
-Extract hooks.
+Initial chess position
 
-Extract services.
+Player assignments
 
-Extract constants.
+White/Black
 
-Extract DTOs.
+Use the user's existing preferences for color selection.
 
-Keep files small.
+Do not ask again on this page.
 
-Follow SOLID principles.
+Store the game.
 
-Follow Clean Architecture already used in the project.
+Return only the required data.
+
+---
+
+# Chess Integration
+
+Backend already uses chess.js.
+
+Create a new Chess instance for every new game.
+
+Store
+
+FEN
+
+PGN
+
+Move history
+
+Current turn
+
+Game status
+
+Prepare the architecture for future move synchronization.
+
+---
+
+# Frontend State
+
+Reuse existing state management.
+
+Do not introduce new libraries.
+
+Create reusable hooks.
+
+Examples
+
+useMatchmaking()
+
+useMatchStatus()
+
+Keep business logic outside components.
+
+---
+
+# UX
+
+Provide proper loading states.
+
+Handle:
+
+No opponent found after long wait.
+
+Network errors.
+
+Server unavailable.
+
+Matchmaking timeout.
+
+If searching exceeds configurable timeout:
+
+Display
+
+Still searching...
+
+Keep searching
+
+or
+
+Return to Lobby
 
 ---
 
 # Accessibility
 
-Keyboard navigation.
-
-Visible focus.
+Keyboard accessible.
 
 ARIA labels.
 
-Proper buttons.
+Visible focus.
 
-Proper headings.
-
-Screen reader friendly.
+Screen-reader friendly.
 
 ---
 
 # Performance
 
-Lazy load heavy components.
+Stop unnecessary renders.
 
-Memoize expensive renders.
+Cancel requests on unmount.
 
-Avoid unnecessary rerenders.
+Use AbortController where applicable.
 
-Use optimistic updates where appropriate.
+Lazy load heavy assets.
 
-Code split lobby routes.
+Avoid animation jank.
+
+---
+
+# Code Quality
+
+Strict TypeScript.
+
+No any.
+
+Small reusable components.
+
+Reusable services.
+
+Clean Architecture.
+
+SOLID principles.
+
+No duplicated code.
 
 ---
 
 # Final Requirement
 
-Before implementing:
+Before implementation:
 
 1. Inspect the existing project.
 
-2. Detect existing architecture.
+2. Reuse existing architecture.
 
-3. Reuse everything possible.
+3. Reuse existing API client.
 
-4. Do not recreate existing systems.
+4. Reuse authentication.
 
-5. Build only the missing Lobby module.
+5. Reuse websocket infrastructure if it exists.
 
-6. Produce production-quality code.
+6. Build only the missing Matchmaking module.
 
-7. Keep the implementation modular and maintainable.
+7. Produce production-ready code suitable for future multiplayer expansion.

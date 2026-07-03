@@ -20,14 +20,36 @@ import type { AuthenticatedUser } from '../auth/types/authenticated-user.type';
 const INVITE_TTL_HOURS = 6;
 const INVITE_RATE_LIMIT_WINDOW_MS = 5 * 60 * 1000;
 const INVITE_RATE_LIMIT_MAX_REQUESTS = 5;
+const MATCHMAKING_TICKET_EXPIRY_MS = 5 * 60 * 1000; // 5 minutes
 
 type InviteWithRelations = LobbyInvite & {
   creator: User;
   acceptedBy: User | null;
 };
 
+type MatchmakingTicket = {
+  ticketId: string;
+  userId: string;
+  userName: string;
+  queue: 'random';
+  createdAt: number;
+  status: 'searching' | 'matched' | 'cancelled';
+  estimatedWaitSeconds: number;
+  matchedOpponent?: {
+    id: string;
+    name: string;
+    rating?: number;
+    country?: string;
+  };
+  sessionId?: string;
+};
+
 @Injectable()
 export class LobbyService {
+  // Simple in-memory store for matchmaking tickets
+  private matchmakingTickets = new Map<string, MatchmakingTicket>();
+  private userTicketMap = new Map<string, string>(); // userId -> ticketId
+
   constructor(private readonly prisma: PrismaService) {}
 
   async getLobby(user: AuthenticatedUser) {
@@ -263,17 +285,145 @@ export class LobbyService {
   }
 
   async createRandomMatch(user: AuthenticatedUser) {
+    // Check if user already has an active ticket
+    const existingTicketId = this.userTicketMap.get(user.id);
+    if (existingTicketId) {
+      const existingTicket = this.matchmakingTickets.get(existingTicketId);
+      if (
+        existingTicket &&
+        existingTicket.status === 'searching' &&
+        Date.now() - existingTicket.createdAt < MATCHMAKING_TICKET_EXPIRY_MS
+      ) {
+        // Return existing ticket
+        return {
+          status: 'searching',
+          ticketId: existingTicket.ticketId,
+          estimatedWaitSeconds: existingTicket.estimatedWaitSeconds,
+          queue: 'random',
+          player: {
+            id: user.id,
+            name: `${user.firstName} ${user.lastName}`,
+          },
+        };
+      }
+    }
+
+    // Create new ticket
+    const ticketId = randomUUID();
+    const ticket: MatchmakingTicket = {
+      ticketId,
+      userId: user.id,
+      userName: `${user.firstName} ${user.lastName}`,
+      queue: 'random',
+      createdAt: Date.now(),
+      status: 'searching',
+      estimatedWaitSeconds: 12,
+    };
+
+    this.matchmakingTickets.set(ticketId, ticket);
+    this.userTicketMap.set(user.id, ticketId);
+
     return {
       status: 'searching',
-      ticketId: randomUUID(),
+      ticketId,
       estimatedWaitSeconds: 12,
       queue: 'random',
       player: {
         id: user.id,
         name: `${user.firstName} ${user.lastName}`,
       },
-      note: 'زیرساخت سوکت هنوز فعال نشده و فعلاً فقط معماری صف آماده شده است.',
     };
+  }
+
+  async getMatchStatus(user: AuthenticatedUser, ticketId: string) {
+    const ticket = this.matchmakingTickets.get(ticketId);
+
+    if (!ticket) {
+      return {
+        status: 'failed',
+        reason: 'تیکت موردنظر پیدا نشد.',
+      };
+    }
+
+    if (ticket.userId !== user.id) {
+      return {
+        status: 'failed',
+        reason: 'دسترسی غیرمجاز.',
+      };
+    }
+
+    // Check if ticket has expired
+    if (Date.now() - ticket.createdAt > MATCHMAKING_TICKET_EXPIRY_MS) {
+      this.cleanupTicket(ticketId);
+      return {
+        status: 'failed',
+        reason: 'صف بازی منقضی شده است.',
+      };
+    }
+
+    if (ticket.status === 'matched' && ticket.matchedOpponent) {
+      return {
+        status: 'matched',
+        ticketId,
+        sessionId: ticket.sessionId || randomUUID(),
+        queue: 'random',
+        player: {
+          id: ticket.userId,
+          name: ticket.userName,
+        },
+        opponent: ticket.matchedOpponent,
+      };
+    }
+
+    if (ticket.status === 'cancelled') {
+      this.cleanupTicket(ticketId);
+      return {
+        status: 'failed',
+        reason: 'صف بازی لغو شده است.',
+      };
+    }
+
+    // Still searching
+    return {
+      status: 'searching',
+      ticketId,
+      estimatedWaitSeconds: Math.max(
+        5,
+        12 - Math.floor((Date.now() - ticket.createdAt) / 1000),
+      ),
+      queue: 'random',
+      player: {
+        id: ticket.userId,
+        name: ticket.userName,
+      },
+    };
+  }
+
+  async cancelMatchmaking(user: AuthenticatedUser, ticketId: string) {
+    const ticket = this.matchmakingTickets.get(ticketId);
+
+    if (!ticket) {
+      throw new NotFoundException('تیکت موردنظر پیدا نشد.');
+    }
+
+    if (ticket.userId !== user.id) {
+      throw new BadRequestException('دسترسی غیرمجاز.');
+    }
+
+    this.cleanupTicket(ticketId);
+
+    return {
+      success: true,
+      message: 'صف بازی لغو شده است.',
+    };
+  }
+
+  private cleanupTicket(ticketId: string) {
+    const ticket = this.matchmakingTickets.get(ticketId);
+    if (ticket) {
+      this.userTicketMap.delete(ticket.userId);
+      this.matchmakingTickets.delete(ticketId);
+    }
   }
 
   async createAiMatch(user: AuthenticatedUser, difficulty: number) {

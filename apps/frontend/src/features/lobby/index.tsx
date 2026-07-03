@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import {
   ArrowLeft,
@@ -150,6 +151,7 @@ export function LobbyPageFeature({
   inviteId,
   inviteToken,
 }: LobbyPageFeatureProps) {
+  const router = useRouter();
   const [data, setData] = useState(initialData);
   const [selectedDifficulty, setSelectedDifficulty] = useState(
     initialData.ai.recommendedDifficulty,
@@ -253,16 +255,14 @@ export function LobbyPageFeature({
     setIsStartingRandom(true);
 
     try {
-      const response = await matchmakingService.createRandomMatch();
-      setRandomMatch(response);
-      toast.success("درخواست شما برای بازی آنلاین ثبت شد.");
+      // Navigate to the matchmaking page
+      router.push("/matchmaking");
     } catch (error) {
       toast.error(
         error instanceof Error
           ? error.message
-          : "شروع صف بازی آنلاین با مشکل روبه‌رو شد.",
+          : "انتقال به صفحه جستجوی حریف انجام نشد.",
       );
-    } finally {
       setIsStartingRandom(false);
     }
   };

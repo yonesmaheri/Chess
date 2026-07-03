@@ -4,12 +4,34 @@ import type {
   CreateAiMatchPayload,
   CreateAiMatchResponse,
   CreateRandomMatchResponse,
+  GetMatchStatusResponse,
+  CancelMatchmakingResponse,
 } from "./types";
 
 export const matchmakingService = {
   async createRandomMatch() {
     const { data } = await apiClient.post<CreateRandomMatchResponse>(
       "/matchmaking/random",
+      undefined,
+      {
+        headers: buildCsrfHeaders(),
+      },
+    );
+
+    return data;
+  },
+
+  async getMatchStatus(ticketId: string) {
+    const { data } = await apiClient.get<GetMatchStatusResponse>(
+      `/matchmaking/status/${ticketId}`,
+    );
+
+    return data;
+  },
+
+  async cancelMatchmaking(ticketId: string) {
+    const { data } = await apiClient.post<CancelMatchmakingResponse>(
+      `/matchmaking/cancel/${ticketId}`,
       undefined,
       {
         headers: buildCsrfHeaders(),

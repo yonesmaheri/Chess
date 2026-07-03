@@ -67,6 +67,23 @@ export class LobbyController {
     return this.lobbyService.createRandomMatch(user);
   }
 
+  @Get('matchmaking/status/:ticketId')
+  getMatchStatus(
+    @CurrentUser() user: AuthenticatedUser,
+    @Param('ticketId', new ParseUUIDPipe({ version: '4' })) ticketId: string,
+  ) {
+    return this.lobbyService.getMatchStatus(user, ticketId);
+  }
+
+  @Post('matchmaking/cancel/:ticketId')
+  @UseGuards(CsrfGuard)
+  cancelMatchmaking(
+    @CurrentUser() user: AuthenticatedUser,
+    @Param('ticketId', new ParseUUIDPipe({ version: '4' })) ticketId: string,
+  ) {
+    return this.lobbyService.cancelMatchmaking(user, ticketId);
+  }
+
   @Post('matchmaking/ai')
   @UseGuards(CsrfGuard)
   createAiMatch(
