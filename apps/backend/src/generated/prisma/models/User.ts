@@ -248,6 +248,9 @@ export type UserWhereInput = {
   refreshTokenVersion?: Prisma.IntFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  createdLobbyInvites?: Prisma.LobbyInviteListRelationFilter
+  receivedLobbyInvites?: Prisma.LobbyInviteListRelationFilter
+  acceptedLobbyInvites?: Prisma.LobbyInviteListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -260,6 +263,9 @@ export type UserOrderByWithRelationInput = {
   refreshTokenVersion?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  createdLobbyInvites?: Prisma.LobbyInviteOrderByRelationAggregateInput
+  receivedLobbyInvites?: Prisma.LobbyInviteOrderByRelationAggregateInput
+  acceptedLobbyInvites?: Prisma.LobbyInviteOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -275,6 +281,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   refreshTokenVersion?: Prisma.IntFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  createdLobbyInvites?: Prisma.LobbyInviteListRelationFilter
+  receivedLobbyInvites?: Prisma.LobbyInviteListRelationFilter
+  acceptedLobbyInvites?: Prisma.LobbyInviteListRelationFilter
 }, "id" | "phone">
 
 export type UserOrderByWithAggregationInput = {
@@ -319,6 +328,9 @@ export type UserCreateInput = {
   refreshTokenVersion?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  createdLobbyInvites?: Prisma.LobbyInviteCreateNestedManyWithoutCreatorInput
+  receivedLobbyInvites?: Prisma.LobbyInviteCreateNestedManyWithoutRecipientUserInput
+  acceptedLobbyInvites?: Prisma.LobbyInviteCreateNestedManyWithoutAcceptedByInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -331,6 +343,9 @@ export type UserUncheckedCreateInput = {
   refreshTokenVersion?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  createdLobbyInvites?: Prisma.LobbyInviteUncheckedCreateNestedManyWithoutCreatorInput
+  receivedLobbyInvites?: Prisma.LobbyInviteUncheckedCreateNestedManyWithoutRecipientUserInput
+  acceptedLobbyInvites?: Prisma.LobbyInviteUncheckedCreateNestedManyWithoutAcceptedByInput
 }
 
 export type UserUpdateInput = {
@@ -343,6 +358,9 @@ export type UserUpdateInput = {
   refreshTokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdLobbyInvites?: Prisma.LobbyInviteUpdateManyWithoutCreatorNestedInput
+  receivedLobbyInvites?: Prisma.LobbyInviteUpdateManyWithoutRecipientUserNestedInput
+  acceptedLobbyInvites?: Prisma.LobbyInviteUpdateManyWithoutAcceptedByNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -355,6 +373,9 @@ export type UserUncheckedUpdateInput = {
   refreshTokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdLobbyInvites?: Prisma.LobbyInviteUncheckedUpdateManyWithoutCreatorNestedInput
+  receivedLobbyInvites?: Prisma.LobbyInviteUncheckedUpdateManyWithoutRecipientUserNestedInput
+  acceptedLobbyInvites?: Prisma.LobbyInviteUncheckedUpdateManyWithoutAcceptedByNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -437,6 +458,16 @@ export type UserSumOrderByAggregateInput = {
   refreshTokenVersion?: Prisma.SortOrder
 }
 
+export type UserScalarRelationFilter = {
+  is?: Prisma.UserWhereInput
+  isNot?: Prisma.UserWhereInput
+}
+
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -457,6 +488,315 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type UserCreateNestedOneWithoutCreatedLobbyInvitesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedLobbyInvitesInput, Prisma.UserUncheckedCreateWithoutCreatedLobbyInvitesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedLobbyInvitesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutReceivedLobbyInvitesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReceivedLobbyInvitesInput, Prisma.UserUncheckedCreateWithoutReceivedLobbyInvitesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReceivedLobbyInvitesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutAcceptedLobbyInvitesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAcceptedLobbyInvitesInput, Prisma.UserUncheckedCreateWithoutAcceptedLobbyInvitesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAcceptedLobbyInvitesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCreatedLobbyInvitesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedLobbyInvitesInput, Prisma.UserUncheckedCreateWithoutCreatedLobbyInvitesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedLobbyInvitesInput
+  upsert?: Prisma.UserUpsertWithoutCreatedLobbyInvitesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreatedLobbyInvitesInput, Prisma.UserUpdateWithoutCreatedLobbyInvitesInput>, Prisma.UserUncheckedUpdateWithoutCreatedLobbyInvitesInput>
+}
+
+export type UserUpdateOneWithoutReceivedLobbyInvitesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReceivedLobbyInvitesInput, Prisma.UserUncheckedCreateWithoutReceivedLobbyInvitesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReceivedLobbyInvitesInput
+  upsert?: Prisma.UserUpsertWithoutReceivedLobbyInvitesInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReceivedLobbyInvitesInput, Prisma.UserUpdateWithoutReceivedLobbyInvitesInput>, Prisma.UserUncheckedUpdateWithoutReceivedLobbyInvitesInput>
+}
+
+export type UserUpdateOneWithoutAcceptedLobbyInvitesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAcceptedLobbyInvitesInput, Prisma.UserUncheckedCreateWithoutAcceptedLobbyInvitesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAcceptedLobbyInvitesInput
+  upsert?: Prisma.UserUpsertWithoutAcceptedLobbyInvitesInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAcceptedLobbyInvitesInput, Prisma.UserUpdateWithoutAcceptedLobbyInvitesInput>, Prisma.UserUncheckedUpdateWithoutAcceptedLobbyInvitesInput>
+}
+
+export type UserCreateWithoutCreatedLobbyInvitesInput = {
+  id?: string
+  phone: string
+  firstName: string
+  lastName: string
+  passwordHash: string
+  refreshTokenHash?: string | null
+  refreshTokenVersion?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  receivedLobbyInvites?: Prisma.LobbyInviteCreateNestedManyWithoutRecipientUserInput
+  acceptedLobbyInvites?: Prisma.LobbyInviteCreateNestedManyWithoutAcceptedByInput
+}
+
+export type UserUncheckedCreateWithoutCreatedLobbyInvitesInput = {
+  id?: string
+  phone: string
+  firstName: string
+  lastName: string
+  passwordHash: string
+  refreshTokenHash?: string | null
+  refreshTokenVersion?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  receivedLobbyInvites?: Prisma.LobbyInviteUncheckedCreateNestedManyWithoutRecipientUserInput
+  acceptedLobbyInvites?: Prisma.LobbyInviteUncheckedCreateNestedManyWithoutAcceptedByInput
+}
+
+export type UserCreateOrConnectWithoutCreatedLobbyInvitesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedLobbyInvitesInput, Prisma.UserUncheckedCreateWithoutCreatedLobbyInvitesInput>
+}
+
+export type UserCreateWithoutReceivedLobbyInvitesInput = {
+  id?: string
+  phone: string
+  firstName: string
+  lastName: string
+  passwordHash: string
+  refreshTokenHash?: string | null
+  refreshTokenVersion?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdLobbyInvites?: Prisma.LobbyInviteCreateNestedManyWithoutCreatorInput
+  acceptedLobbyInvites?: Prisma.LobbyInviteCreateNestedManyWithoutAcceptedByInput
+}
+
+export type UserUncheckedCreateWithoutReceivedLobbyInvitesInput = {
+  id?: string
+  phone: string
+  firstName: string
+  lastName: string
+  passwordHash: string
+  refreshTokenHash?: string | null
+  refreshTokenVersion?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdLobbyInvites?: Prisma.LobbyInviteUncheckedCreateNestedManyWithoutCreatorInput
+  acceptedLobbyInvites?: Prisma.LobbyInviteUncheckedCreateNestedManyWithoutAcceptedByInput
+}
+
+export type UserCreateOrConnectWithoutReceivedLobbyInvitesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReceivedLobbyInvitesInput, Prisma.UserUncheckedCreateWithoutReceivedLobbyInvitesInput>
+}
+
+export type UserCreateWithoutAcceptedLobbyInvitesInput = {
+  id?: string
+  phone: string
+  firstName: string
+  lastName: string
+  passwordHash: string
+  refreshTokenHash?: string | null
+  refreshTokenVersion?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdLobbyInvites?: Prisma.LobbyInviteCreateNestedManyWithoutCreatorInput
+  receivedLobbyInvites?: Prisma.LobbyInviteCreateNestedManyWithoutRecipientUserInput
+}
+
+export type UserUncheckedCreateWithoutAcceptedLobbyInvitesInput = {
+  id?: string
+  phone: string
+  firstName: string
+  lastName: string
+  passwordHash: string
+  refreshTokenHash?: string | null
+  refreshTokenVersion?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdLobbyInvites?: Prisma.LobbyInviteUncheckedCreateNestedManyWithoutCreatorInput
+  receivedLobbyInvites?: Prisma.LobbyInviteUncheckedCreateNestedManyWithoutRecipientUserInput
+}
+
+export type UserCreateOrConnectWithoutAcceptedLobbyInvitesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAcceptedLobbyInvitesInput, Prisma.UserUncheckedCreateWithoutAcceptedLobbyInvitesInput>
+}
+
+export type UserUpsertWithoutCreatedLobbyInvitesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCreatedLobbyInvitesInput, Prisma.UserUncheckedUpdateWithoutCreatedLobbyInvitesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedLobbyInvitesInput, Prisma.UserUncheckedCreateWithoutCreatedLobbyInvitesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCreatedLobbyInvitesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCreatedLobbyInvitesInput, Prisma.UserUncheckedUpdateWithoutCreatedLobbyInvitesInput>
+}
+
+export type UserUpdateWithoutCreatedLobbyInvitesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  refreshTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refreshTokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receivedLobbyInvites?: Prisma.LobbyInviteUpdateManyWithoutRecipientUserNestedInput
+  acceptedLobbyInvites?: Prisma.LobbyInviteUpdateManyWithoutAcceptedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCreatedLobbyInvitesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  refreshTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refreshTokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receivedLobbyInvites?: Prisma.LobbyInviteUncheckedUpdateManyWithoutRecipientUserNestedInput
+  acceptedLobbyInvites?: Prisma.LobbyInviteUncheckedUpdateManyWithoutAcceptedByNestedInput
+}
+
+export type UserUpsertWithoutReceivedLobbyInvitesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReceivedLobbyInvitesInput, Prisma.UserUncheckedUpdateWithoutReceivedLobbyInvitesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReceivedLobbyInvitesInput, Prisma.UserUncheckedCreateWithoutReceivedLobbyInvitesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReceivedLobbyInvitesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReceivedLobbyInvitesInput, Prisma.UserUncheckedUpdateWithoutReceivedLobbyInvitesInput>
+}
+
+export type UserUpdateWithoutReceivedLobbyInvitesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  refreshTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refreshTokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdLobbyInvites?: Prisma.LobbyInviteUpdateManyWithoutCreatorNestedInput
+  acceptedLobbyInvites?: Prisma.LobbyInviteUpdateManyWithoutAcceptedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReceivedLobbyInvitesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  refreshTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refreshTokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdLobbyInvites?: Prisma.LobbyInviteUncheckedUpdateManyWithoutCreatorNestedInput
+  acceptedLobbyInvites?: Prisma.LobbyInviteUncheckedUpdateManyWithoutAcceptedByNestedInput
+}
+
+export type UserUpsertWithoutAcceptedLobbyInvitesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAcceptedLobbyInvitesInput, Prisma.UserUncheckedUpdateWithoutAcceptedLobbyInvitesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAcceptedLobbyInvitesInput, Prisma.UserUncheckedCreateWithoutAcceptedLobbyInvitesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAcceptedLobbyInvitesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAcceptedLobbyInvitesInput, Prisma.UserUncheckedUpdateWithoutAcceptedLobbyInvitesInput>
+}
+
+export type UserUpdateWithoutAcceptedLobbyInvitesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  refreshTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refreshTokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdLobbyInvites?: Prisma.LobbyInviteUpdateManyWithoutCreatorNestedInput
+  receivedLobbyInvites?: Prisma.LobbyInviteUpdateManyWithoutRecipientUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAcceptedLobbyInvitesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  refreshTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refreshTokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdLobbyInvites?: Prisma.LobbyInviteUncheckedUpdateManyWithoutCreatorNestedInput
+  receivedLobbyInvites?: Prisma.LobbyInviteUncheckedUpdateManyWithoutRecipientUserNestedInput
+}
+
+
+/**
+ * Count Type UserCountOutputType
+ */
+
+export type UserCountOutputType = {
+  createdLobbyInvites: number
+  receivedLobbyInvites: number
+  acceptedLobbyInvites: number
+}
+
+export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  createdLobbyInvites?: boolean | UserCountOutputTypeCountCreatedLobbyInvitesArgs
+  receivedLobbyInvites?: boolean | UserCountOutputTypeCountReceivedLobbyInvitesArgs
+  acceptedLobbyInvites?: boolean | UserCountOutputTypeCountAcceptedLobbyInvitesArgs
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserCountOutputType
+   */
+  select?: Prisma.UserCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCreatedLobbyInvitesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LobbyInviteWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReceivedLobbyInvitesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LobbyInviteWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAcceptedLobbyInvitesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LobbyInviteWhereInput
+}
 
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -469,6 +809,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   refreshTokenVersion?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  createdLobbyInvites?: boolean | Prisma.User$createdLobbyInvitesArgs<ExtArgs>
+  receivedLobbyInvites?: boolean | Prisma.User$receivedLobbyInvitesArgs<ExtArgs>
+  acceptedLobbyInvites?: boolean | Prisma.User$acceptedLobbyInvitesArgs<ExtArgs>
+  _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -508,10 +852,22 @@ export type UserSelectScalar = {
 }
 
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "phone" | "firstName" | "lastName" | "passwordHash" | "refreshTokenHash" | "refreshTokenVersion" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  createdLobbyInvites?: boolean | Prisma.User$createdLobbyInvitesArgs<ExtArgs>
+  receivedLobbyInvites?: boolean | Prisma.User$receivedLobbyInvitesArgs<ExtArgs>
+  acceptedLobbyInvites?: boolean | Prisma.User$acceptedLobbyInvitesArgs<ExtArgs>
+  _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
-  objects: {}
+  objects: {
+    createdLobbyInvites: Prisma.$LobbyInvitePayload<ExtArgs>[]
+    receivedLobbyInvites: Prisma.$LobbyInvitePayload<ExtArgs>[]
+    acceptedLobbyInvites: Prisma.$LobbyInvitePayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     phone: string
@@ -916,6 +1272,9 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  createdLobbyInvites<T extends Prisma.User$createdLobbyInvitesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdLobbyInvitesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LobbyInvitePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  receivedLobbyInvites<T extends Prisma.User$receivedLobbyInvitesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$receivedLobbyInvitesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LobbyInvitePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  acceptedLobbyInvites<T extends Prisma.User$acceptedLobbyInvitesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$acceptedLobbyInvitesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LobbyInvitePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -971,6 +1330,10 @@ export type UserFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * Filter, which User to fetch.
    */
   where: Prisma.UserWhereUniqueInput
@@ -989,6 +1352,10 @@ export type UserFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * Filter, which User to fetch.
    */
   where: Prisma.UserWhereUniqueInput
@@ -1006,6 +1373,10 @@ export type UserFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the User
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
   /**
    * Filter, which User to fetch.
    */
@@ -1055,6 +1426,10 @@ export type UserFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * Filter, which User to fetch.
    */
   where?: Prisma.UserWhereInput
@@ -1102,6 +1477,10 @@ export type UserFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the User
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
   /**
    * Filter, which Users to fetch.
    */
@@ -1151,6 +1530,10 @@ export type UserCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * The data needed to create a User.
    */
   data: Prisma.XOR<Prisma.UserCreateInput, Prisma.UserUncheckedCreateInput>
@@ -1198,6 +1581,10 @@ export type UserUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    * Omit specific fields from the User
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
   /**
    * The data needed to update a User.
    */
@@ -1265,6 +1652,10 @@ export type UserUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * The filter to search for the User to update in case it exists.
    */
   where: Prisma.UserWhereUniqueInput
@@ -1291,6 +1682,10 @@ export type UserDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * Filter which User to delete.
    */
   where: Prisma.UserWhereUniqueInput
@@ -1311,6 +1706,78 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * User.createdLobbyInvites
+ */
+export type User$createdLobbyInvitesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LobbyInvite
+   */
+  select?: Prisma.LobbyInviteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LobbyInvite
+   */
+  omit?: Prisma.LobbyInviteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LobbyInviteInclude<ExtArgs> | null
+  where?: Prisma.LobbyInviteWhereInput
+  orderBy?: Prisma.LobbyInviteOrderByWithRelationInput | Prisma.LobbyInviteOrderByWithRelationInput[]
+  cursor?: Prisma.LobbyInviteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LobbyInviteScalarFieldEnum | Prisma.LobbyInviteScalarFieldEnum[]
+}
+
+/**
+ * User.receivedLobbyInvites
+ */
+export type User$receivedLobbyInvitesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LobbyInvite
+   */
+  select?: Prisma.LobbyInviteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LobbyInvite
+   */
+  omit?: Prisma.LobbyInviteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LobbyInviteInclude<ExtArgs> | null
+  where?: Prisma.LobbyInviteWhereInput
+  orderBy?: Prisma.LobbyInviteOrderByWithRelationInput | Prisma.LobbyInviteOrderByWithRelationInput[]
+  cursor?: Prisma.LobbyInviteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LobbyInviteScalarFieldEnum | Prisma.LobbyInviteScalarFieldEnum[]
+}
+
+/**
+ * User.acceptedLobbyInvites
+ */
+export type User$acceptedLobbyInvitesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LobbyInvite
+   */
+  select?: Prisma.LobbyInviteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LobbyInvite
+   */
+  omit?: Prisma.LobbyInviteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LobbyInviteInclude<ExtArgs> | null
+  where?: Prisma.LobbyInviteWhereInput
+  orderBy?: Prisma.LobbyInviteOrderByWithRelationInput | Prisma.LobbyInviteOrderByWithRelationInput[]
+  cursor?: Prisma.LobbyInviteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LobbyInviteScalarFieldEnum | Prisma.LobbyInviteScalarFieldEnum[]
+}
+
+/**
  * User without action
  */
 export type UserDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1322,4 +1789,8 @@ export type UserDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the User
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
 }

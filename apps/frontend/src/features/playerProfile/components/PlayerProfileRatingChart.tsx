@@ -24,7 +24,7 @@ export default function PlayerProfileRatingChart({
   const values = points.map((point) => point.elo);
   const minValue = Math.min(...values) - 40;
   const maxValue = Math.max(...values) + 40;
-  const chartWidth = 760;
+  const chartWidth = 680;
   const chartHeight = 320;
   const padding = { top: 24, right: 42, bottom: 52, left: 52 };
   const yAxisLabels = Array.from({ length: 5 }, (_, index) =>
@@ -41,7 +41,8 @@ export default function PlayerProfileRatingChart({
 
   const getX = (index: number) => {
     const interval =
-      (chartWidth - padding.left - padding.right) / Math.max(points.length - 1, 1);
+      (chartWidth - padding.left - padding.right) /
+      Math.max(points.length - 1, 1);
 
     return padding.left + index * interval;
   };
@@ -81,7 +82,13 @@ export default function PlayerProfileRatingChart({
           className="min-w-[450px]"
         >
           <defs>
-            <linearGradient id="player-profile-area" x1="0%" y1="0%" x2="0%" y2="100%">
+            <linearGradient
+              id="player-profile-area"
+              x1="0%"
+              y1="0%"
+              x2="0%"
+              y2="100%"
+            >
               <stop offset="0%" stopColor="#6F9D78" stopOpacity="0.26" />
               <stop offset="100%" stopColor="#6F9D78" stopOpacity="0.04" />
             </linearGradient>

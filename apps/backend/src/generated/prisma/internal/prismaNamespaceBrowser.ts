@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  LobbyInvite: 'LobbyInvite',
   LeaderboardEntry: 'LeaderboardEntry',
   Instructor: 'Instructor',
   Category: 'Category',
@@ -90,6 +91,22 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const LobbyInviteScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  creatorId: 'creatorId',
+  recipientUserId: 'recipientUserId',
+  acceptedById: 'acceptedById',
+  status: 'status',
+  difficulty: 'difficulty',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LobbyInviteScalarFieldEnum = (typeof LobbyInviteScalarFieldEnum)[keyof typeof LobbyInviteScalarFieldEnum]
 
 
 export const LeaderboardEntryScalarFieldEnum = {

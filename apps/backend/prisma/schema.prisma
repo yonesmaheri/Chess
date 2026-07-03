@@ -20,6 +20,13 @@ enum LeaderboardMode {
   puzzle
 }
 
+enum LobbyInviteStatus {
+  pending
+  accepted
+  rejected
+  expired
+}
+
 model User {
   id                  String   @id @default(uuid())
   phone               String   @unique
@@ -30,8 +37,32 @@ model User {
   refreshTokenVersion Int      @default(0)
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
+  createdLobbyInvites LobbyInvite[] @relation("LobbyInviteCreator")
+  receivedLobbyInvites LobbyInvite[] @relation("LobbyInviteRecipient")
+  acceptedLobbyInvites LobbyInvite[] @relation("LobbyInviteAcceptedBy")
 
   @@index([phone])
+}
+
+model LobbyInvite {
+  id              String            @id @default(uuid())
+  token           String            @unique
+  creatorId       String
+  recipientUserId String?
+  acceptedById    String?
+  status          LobbyInviteStatus @default(pending)
+  difficulty      Int?
+  expiresAt       DateTime
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  creator         User              @relation("LobbyInviteCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+  recipientUser   User?             @relation("LobbyInviteRecipient", fields: [recipientUserId], references: [id], onDelete: SetNull)
+  acceptedBy      User?             @relation("LobbyInviteAcceptedBy", fields: [acceptedById], references: [id], onDelete: SetNull)
+
+  @@index([token])
+  @@index([creatorId, status, createdAt])
+  @@index([recipientUserId, status])
+  @@index([acceptedById])
 }
 
 model LeaderboardEntry {

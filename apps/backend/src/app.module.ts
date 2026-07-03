@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { CoursesModule } from './courses/courses.module';
 import { LeaderboardModule } from './leaderboard/leaderboard.module';
+import { LobbyModule } from './lobby/lobby.module';
 import { SharedModule } from './shared/shared.module';
 import { UsersModule } from './users/users.module';
 
@@ -27,6 +28,7 @@ const envFilePath = [
     AuthModule,
     CoursesModule,
     LeaderboardModule,
+    LobbyModule,
   ],
   controllers: [AppController],
   providers: [AppService],

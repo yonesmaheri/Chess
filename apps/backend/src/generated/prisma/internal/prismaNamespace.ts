@@ -385,6 +385,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
+  LobbyInvite: 'LobbyInvite',
   LeaderboardEntry: 'LeaderboardEntry',
   Instructor: 'Instructor',
   Category: 'Category',
@@ -407,7 +408,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "leaderboardEntry" | "instructor" | "category" | "course" | "chapter" | "lesson" | "review"
+    modelProps: "user" | "lobbyInvite" | "leaderboardEntry" | "instructor" | "category" | "course" | "chapter" | "lesson" | "review"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -482,6 +483,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UserCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType> | number
+        }
+      }
+    }
+    LobbyInvite: {
+      payload: Prisma.$LobbyInvitePayload<ExtArgs>
+      fields: Prisma.LobbyInviteFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LobbyInviteFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LobbyInvitePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LobbyInviteFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LobbyInvitePayload>
+        }
+        findFirst: {
+          args: Prisma.LobbyInviteFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LobbyInvitePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LobbyInviteFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LobbyInvitePayload>
+        }
+        findMany: {
+          args: Prisma.LobbyInviteFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LobbyInvitePayload>[]
+        }
+        create: {
+          args: Prisma.LobbyInviteCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LobbyInvitePayload>
+        }
+        createMany: {
+          args: Prisma.LobbyInviteCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LobbyInviteCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LobbyInvitePayload>[]
+        }
+        delete: {
+          args: Prisma.LobbyInviteDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LobbyInvitePayload>
+        }
+        update: {
+          args: Prisma.LobbyInviteUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LobbyInvitePayload>
+        }
+        deleteMany: {
+          args: Prisma.LobbyInviteDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LobbyInviteUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LobbyInviteUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LobbyInvitePayload>[]
+        }
+        upsert: {
+          args: Prisma.LobbyInviteUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LobbyInvitePayload>
+        }
+        aggregate: {
+          args: Prisma.LobbyInviteAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLobbyInvite>
+        }
+        groupBy: {
+          args: Prisma.LobbyInviteGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LobbyInviteGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LobbyInviteCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LobbyInviteCountAggregateOutputType> | number
         }
       }
     }
@@ -1057,6 +1132,22 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const LobbyInviteScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  creatorId: 'creatorId',
+  recipientUserId: 'recipientUserId',
+  acceptedById: 'acceptedById',
+  status: 'status',
+  difficulty: 'difficulty',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LobbyInviteScalarFieldEnum = (typeof LobbyInviteScalarFieldEnum)[keyof typeof LobbyInviteScalarFieldEnum]
+
+
 export const LeaderboardEntryScalarFieldEnum = {
   id: 'id',
   mode: 'mode',
@@ -1243,6 +1334,20 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'LobbyInviteStatus'
+ */
+export type EnumLobbyInviteStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LobbyInviteStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'LobbyInviteStatus[]'
+ */
+export type ListEnumLobbyInviteStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LobbyInviteStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'LeaderboardMode'
  */
 export type EnumLeaderboardModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LeaderboardMode'>
@@ -1401,6 +1506,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  lobbyInvite?: Prisma.LobbyInviteOmit
   leaderboardEntry?: Prisma.LeaderboardEntryOmit
   instructor?: Prisma.InstructorOmit
   category?: Prisma.CategoryOmit

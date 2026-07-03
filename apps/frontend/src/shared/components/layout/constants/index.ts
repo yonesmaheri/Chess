@@ -24,7 +24,7 @@ export type SocialLink = {
 
 export const navItems = [
   { label: "خانه", href: "/" },
-  { label: "بازی آنلاین", href: "/play" },
+  { label: "بازی آنلاین", href: "/lobby" },
   { label: "رده بندی", href: "/leaderboard" },
   { label: "آموزش", href: "/dashboard/lessons" },
   { label: "درس ها", href: "/courses" },

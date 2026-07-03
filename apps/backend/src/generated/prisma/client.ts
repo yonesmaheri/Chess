@@ -45,6 +45,11 @@ export { Prisma }
  */
 export type User = Prisma.UserModel
 /**
+ * Model LobbyInvite
+ * 
+ */
+export type LobbyInvite = Prisma.LobbyInviteModel
+/**
  * Model LeaderboardEntry
  * 
  */

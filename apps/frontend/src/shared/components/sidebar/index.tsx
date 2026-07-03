@@ -21,7 +21,7 @@ import { cn } from "@/shared/lib/utils";
 
 const navItems = [
   { id: "home", label: "خانه", icon: Home, href: "/dashboard" },
-  { id: "play", label: "بازی", icon: Grid3x3, href: "/dashboard/play" },
+  { id: "play", label: "بازی", icon: Grid3x3, href: "/lobby" },
   {
     id: "history",
     label: "بازی های من",

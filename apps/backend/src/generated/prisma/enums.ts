@@ -25,3 +25,13 @@ export const LeaderboardMode = {
 } as const
 
 export type LeaderboardMode = (typeof LeaderboardMode)[keyof typeof LeaderboardMode]
+
+
+export const LobbyInviteStatus = {
+  pending: 'pending',
+  accepted: 'accepted',
+  rejected: 'rejected',
+  expired: 'expired'
+} as const
+
+export type LobbyInviteStatus = (typeof LobbyInviteStatus)[keyof typeof LobbyInviteStatus]

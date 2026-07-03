@@ -449,14 +449,6 @@ export type InstructorScalarRelationFilter = {
   isNot?: Prisma.InstructorWhereInput
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type InstructorCreateNestedOneWithoutCoursesInput = {
   create?: Prisma.XOR<Prisma.InstructorCreateWithoutCoursesInput, Prisma.InstructorUncheckedCreateWithoutCoursesInput>
   connectOrCreate?: Prisma.InstructorCreateOrConnectWithoutCoursesInput
