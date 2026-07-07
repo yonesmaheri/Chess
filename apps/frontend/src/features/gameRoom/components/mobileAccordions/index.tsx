@@ -49,6 +49,9 @@ export default function MobileAccordions({
       className="rounded-[24px] border border-[#E5EAE2] bg-white px-3 py-1 shadow-[0_18px_40px_rgba(31,37,37,0.04)]"
     >
       <AccordionItem value="moves" className="border-0">
+        <AccordionTrigger className="py-3 text-right text-base font-black text-[#1F2525] hover:no-underline">
+          حرکات
+        </AccordionTrigger>
         <AccordionContent className="pt-0 pb-3">
           <div className="max-h-[220px] overflow-y-auto rounded-[18px] border border-[#EEF2EC] bg-[#F8FAF7] px-3 py-2">
             <div className="grid gap-2">

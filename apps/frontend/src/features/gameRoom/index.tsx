@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef } from "react";
 import Link from "next/link";
 import type { Square } from "chess.js";
 import { ArrowLeft } from "lucide-react";
@@ -21,10 +21,9 @@ import PlayerPanel from "./components/playerPanel";
 import BoardToolbar from "./components/boardToolbar";
 import EvaluationBar from "./components/evaluationBar";
 import RequestBanner from "./components/requestBanner";
-import MobileControls from "./components/mobileControls";
-import MobileAccordions from "./components/mobileAccordions";
 import PromotionDialog from "./components/promotionDialog";
-import type { MatchSessionGameRoomProps, GameRoomSettingKey } from "./types";
+import MobileBottomMenu from "./components/mobileBottomMenu";
+import type { MatchSessionGameRoomProps } from "./types";
 
 export function MatchSessionGameRoom({
   sessionId,
@@ -36,10 +35,6 @@ export function MatchSessionGameRoom({
   const boardWrapperRef = useRef<HTMLDivElement | null>(null);
   const desktopChatRef = useRef<HTMLDivElement | null>(null);
   const mobileChatRef = useRef<HTMLDivElement | null>(null);
-  const [mobileAccordionValue, setMobileAccordionValue] = useState<
-    "moves" | "chat" | undefined
-  >(undefined);
-
   const boardWidth = useElementWidth(boardWrapperRef, {
     padding: 24,
     min: 280,
@@ -59,21 +54,30 @@ export function MatchSessionGameRoom({
     [room.chatMessages, room.isOpponentTyping],
   );
 
+  const {
+    checkSquare,
+    lastMove,
+    legalTargets,
+    selectedSquare,
+    selectSquare,
+    settings,
+  } = room;
+
   const squareStyles = useMemo(
     () =>
       getBoardSquareStyles({
-        lastMove: room.lastMove,
-        selectedSquare: room.selectedSquare,
-        legalTargets: room.legalTargets,
-        showLegalMoves: room.settings.showLegalMoves,
-        checkSquare: room.checkSquare,
+        lastMove,
+        selectedSquare,
+        legalTargets,
+        showLegalMoves: settings.showLegalMoves,
+        checkSquare,
       }),
     [
-      room.checkSquare,
-      room.lastMove,
-      room.legalTargets,
-      room.selectedSquare,
-      room.settings.showLegalMoves,
+      checkSquare,
+      lastMove,
+      legalTargets,
+      selectedSquare,
+      settings.showLegalMoves,
     ],
   );
 
@@ -90,7 +94,7 @@ export function MatchSessionGameRoom({
       boardOrientation: room.boardOrientation,
       arePiecesDraggable: room.isPlayerTurn,
       onPieceDrop: room.onPieceDrop,
-      onSquareClick: (square: string) => room.selectSquare(square as Square),
+      onSquareClick: (square: string) => selectSquare(square as Square),
       customSquareStyles: squareStyles,
       showBoardNotation: room.settings.showCoordinates,
       animationDuration: room.settings.enableAnimations ? 200 : 0,
@@ -108,7 +112,7 @@ export function MatchSessionGameRoom({
       room.fen,
       room.isPlayerTurn,
       room.onPieceDrop,
-      room.selectSquare,
+      selectSquare,
       room.settings.enableAnimations,
       room.settings.showCoordinates,
       squareStyles,
@@ -118,50 +122,87 @@ export function MatchSessionGameRoom({
   return (
     <main dir="rtl" className="min-h-screen bg-[#F6F8F4] text-[#1F2525]">
       <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 px-4 py-4 sm:px-5 sm:py-5 lg:px-6">
-        <header className="sticky top-0 z-30 rounded-[24px] border border-[#E5EAE2] bg-white px-4 py-4 shadow-[0_24px_60px_rgba(31,37,37,0.05)] sm:px-5 lg:static">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div className="flex flex-wrap items-center gap-3">
-              <Button
-                asChild
-                variant="outline"
-                className="h-11 rounded-[16px] border-[#DCE4D9] bg-white px-4 text-[#4C5A4F]"
-              >
-                <Link href="/lobby">
+        <header className="sticky top-0 z-30 rounded-[24px] border border-[#E5EAE2] bg-white px-3 py-3 shadow-[0_24px_60px_rgba(31,37,37,0.05)] sm:px-5 sm:py-4 lg:static lg:px-4">
+          <div className="flex flex-col gap-3 lg:gap-4">
+            <div className="flex items-start justify-between gap-3 lg:hidden">
+              <div className="min-w-0">
+                <Link
+                  href="/lobby"
+                  className="inline-flex min-h-11 items-center gap-2 rounded-[16px] px-2 text-base font-black text-[#1F2525] hover:bg-[#F8FAF7]"
+                >
                   <ArrowLeft className="size-4" />
-                  <span className="sm:hidden">اتاق بازی</span>
-                  <span className="hidden sm:inline">بازگشت به لابی</span>
+                  <span className="truncate">اتاق بازی</span>
                 </Link>
-              </Button>
-              <div>
-                <div className="flex items-center gap-2 text-[#6E7772]">
-                  <Badge className="bg-[#E8F0E8] text-[#5B7A62] hover:bg-[#E8F0E8]">
-                    اتاق بازی
-                  </Badge>
-                  <span className="text-sm">بازی استاندارد</span>
-                  <span className="text-sm">10+5</span>
+                <div className="mt-1 flex flex-wrap items-center gap-2 text-sm text-[#6E7772]">
+                  <span className="font-semibold text-[#5D675E]">بازی استاندارد</span>
+                  <span>•</span>
+                  <span className="font-semibold text-[#5D675E]">10+5</span>
                 </div>
-                <h1 className="mt-2 text-xl font-black tracking-tight sm:text-2xl lg:text-3xl">
-                  جلسه آنلاین {sessionId.slice(0, 8)}
-                </h1>
+              </div>
+
+              <div className="flex shrink-0 flex-col items-end gap-2">
+                <Badge
+                  className={cn(
+                    "h-8 gap-1.5 px-3 text-sm",
+                    connectionBadge.className,
+                  )}
+                >
+                  <connectionBadge.icon className="size-4" />
+                  {connectionBadge.label}
+                </Badge>
+                <Badge
+                  variant="outline"
+                  className="h-8 border-[#DCE4D9] bg-[#F8FAF7] px-3 text-sm text-[#4C5A4F]"
+                >
+                  {room.statusLabel}
+                </Badge>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2">
-              <Badge
-                className={cn(
-                  "h-8 gap-1.5 px-3 text-sm",
-                  connectionBadge.className,
-                )}
-              >
-                <connectionBadge.icon className="size-4" />
-                {connectionBadge.label}
-              </Badge>
-              <Badge
-                variant="outline"
-                className="h-8 border-[#DCE4D9] bg-[#F8FAF7] px-3 text-sm text-[#4C5A4F]"
-              >
-                {room.statusLabel}
-              </Badge>
+            <div className="hidden lg:flex lg:flex-row lg:items-center lg:justify-between">
+              <div className="flex flex-wrap items-center gap-3">
+                <Button
+                  asChild
+                  variant="outline"
+                  className="h-11 rounded-[16px] border-[#DCE4D9] bg-white px-4 text-[#4C5A4F]"
+                >
+                  <Link href="/lobby">
+                    <ArrowLeft className="size-4" />
+                    <span className="sm:hidden">اتاق بازی</span>
+                    <span className="hidden sm:inline">بازگشت به لابی</span>
+                  </Link>
+                </Button>
+                <div>
+                  <div className="flex items-center gap-2 text-[#6E7772]">
+                    <Badge className="bg-[#E8F0E8] text-[#5B7A62] hover:bg-[#E8F0E8]">
+                      اتاق بازی
+                    </Badge>
+                    <span className="text-sm">بازی استاندارد</span>
+                    <span className="text-sm">10+5</span>
+                  </div>
+                  <h1 className="mt-2 text-xl font-black tracking-tight sm:text-2xl lg:text-3xl">
+                    جلسه آنلاین {sessionId.slice(0, 8)}
+                  </h1>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge
+                  className={cn(
+                    "h-8 gap-1.5 px-3 text-sm",
+                    connectionBadge.className,
+                  )}
+                >
+                  <connectionBadge.icon className="size-4" />
+                  {connectionBadge.label}
+                </Badge>
+                <Badge
+                  variant="outline"
+                  className="h-8 border-[#DCE4D9] bg-[#F8FAF7] px-3 text-sm text-[#4C5A4F]"
+                >
+                  {room.statusLabel}
+                </Badge>
+              </div>
             </div>
           </div>
         </header>
@@ -183,8 +224,8 @@ export function MatchSessionGameRoom({
               onRequestUndo={room.requestUndo}
               onSendMessage={room.sendChatMessage}
               onResign={room.resign}
-              onToggleSetting={(key: GameRoomSettingKey) =>
-                room.toggleSetting(key as any)
+              onToggleSetting={(key: keyof typeof room.settings) =>
+                room.toggleSetting(key)
               }
               onFlipBoard={room.flipBoard}
               outgoingRequest={room.outgoingRequest}
@@ -197,10 +238,9 @@ export function MatchSessionGameRoom({
             <div className="lg:hidden">
               <MobilePlayerRow
                 clockValue={formatClockTime(room.clocks.b)}
-                isOnline={isConnected}
                 name={room.opponentName}
-                rating="1864"
-                status={room.opponentStatus}
+                isActiveTurn={!room.manualOutcome && room.turn === "b"}
+                turnLabel={!room.manualOutcome && room.turn === "b" ? "نوبت حرکت" : "در انتظار"}
               />
             </div>
 
@@ -232,8 +272,8 @@ export function MatchSessionGameRoom({
                   onOfferDraw={room.offerDraw}
                   onRequestUndo={room.requestUndo}
                   onResign={room.resign}
-                  onToggleSetting={(key: GameRoomSettingKey) =>
-                    room.toggleSetting(key as any)
+                  onToggleSetting={(key: keyof typeof room.settings) =>
+                    room.toggleSetting(key)
                   }
                   outgoingRequest={room.outgoingRequest}
                   settings={room.settings}
@@ -252,11 +292,9 @@ export function MatchSessionGameRoom({
             <div className="lg:hidden">
               <MobilePlayerRow
                 clockValue={formatClockTime(room.clocks.w)}
-                isOnline={true}
                 name={room.playerName}
-                rating="1928"
-                status={room.playerStatus}
-                highlightClock={true}
+                isActiveTurn={!room.manualOutcome && room.turn === "w"}
+                turnLabel={!room.manualOutcome && room.turn === "w" ? "نوبت حرکت" : "در انتظار"}
               />
             </div>
 
@@ -281,39 +319,32 @@ export function MatchSessionGameRoom({
               </div>
             ) : null}
 
-            <div className="grid gap-4 lg:hidden">
-              <MobileControls
-                onFlipBoard={room.flipBoard}
-                onOfferDraw={room.offerDraw}
-                onRequestUndo={room.requestUndo}
-                onResign={room.resign}
-                onToggleSetting={(key: GameRoomSettingKey) =>
-                  room.toggleSetting(key as any)
-                }
-                outgoingRequest={room.outgoingRequest}
-                settings={room.settings}
-              />
-
-              <MobileAccordions
-                chatDraft={room.chatDraft}
-                chatMessages={room.chatMessages}
-                currentMoveIndex={room.currentMoveIndex}
-                isOpponentTyping={room.isOpponentTyping}
-                messageListRef={mobileChatRef}
-                movePairs={room.movePairs}
-                onChatDraftChange={room.setChatDraft}
-                onSendMessage={room.sendChatMessage}
-                value={mobileAccordionValue}
-                onValueChange={(nextValue) => {
-                  setMobileAccordionValue(nextValue);
-                  room.setChatOpen(nextValue === "chat");
-                }}
-                unreadCount={room.unreadCount}
-              />
-            </div>
+            <div className="h-[92px] lg:hidden" />
           </section>
         </div>
       </div>
+
+      <MobileBottomMenu
+        chatDraft={room.chatDraft}
+        chatMessages={room.chatMessages}
+        currentMoveIndex={room.currentMoveIndex}
+        incomingRequest={room.incomingRequest}
+        isOpponentTyping={room.isOpponentTyping}
+        messageListRef={mobileChatRef}
+        movePairs={room.movePairs}
+        onAcceptRequest={room.acceptIncomingRequest}
+        onChatDraftChange={room.setChatDraft}
+        onOfferDraw={room.offerDraw}
+        onRejectRequest={room.rejectIncomingRequest}
+        onRequestUndo={room.requestUndo}
+        onResign={room.resign}
+        onSendMessage={room.sendChatMessage}
+        onToggleSetting={(key) => room.toggleSetting(key)}
+        outgoingRequest={room.outgoingRequest}
+        settings={room.settings}
+        unreadCount={room.unreadCount}
+        onChatOpenChange={(open) => room.setChatOpen(open)}
+      />
 
       <PromotionDialog
         isOpen={Boolean(room.pendingPromotion)}

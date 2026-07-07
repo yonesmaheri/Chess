@@ -1,3 +1,5 @@
+import type { GameRoomSettings } from "../lib/useSessionGameRoom";
+
 export type {
   GameRoomChatMessage,
   GameRoomMovePair,
