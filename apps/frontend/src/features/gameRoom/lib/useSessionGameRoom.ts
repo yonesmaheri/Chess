@@ -8,6 +8,8 @@ type Winner = "player" | "opponent" | null;
 type OutgoingRequest = "draw" | "undo" | null;
 type IncomingRequest = "draw" | "undo" | null;
 
+export type GameRoomPlayerStatus = "idle" | "active" | "winner" | "loser";
+
 export type GameRoomChatMessage = {
   id: string;
   author: "player" | "opponent" | "system";
@@ -25,6 +27,56 @@ export type GameRoomSettings = {
   showCoordinates: boolean;
   showLegalMoves: boolean;
   enableAnimations: boolean;
+};
+
+type UseSessionGameRoomReturn = {
+  boardOrientation: "white" | "black";
+  chatDraft: string;
+  chatMessages: GameRoomChatMessage[];
+  checkSquare: Square | null;
+  clocks: Record<Side, number>;
+  currentMoveIndex: number;
+  fen: string;
+  history: Move[];
+  incomingRequest: IncomingRequest;
+  isChatOpen: boolean;
+  isOpponentTyping: boolean;
+  isPlayerTurn: boolean;
+  lastMove: Move | null;
+  legalTargets: Square[];
+  manualOutcome: { resultLabel: string; winner: Winner } | null;
+  movePairs: GameRoomMovePair[];
+  opponentStatus: GameRoomPlayerStatus;
+  outgoingRequest: OutgoingRequest;
+  pendingPromotion: { from: Square; to: Square } | null;
+  playerColor: Side;
+  playerName: string;
+  playerStatus: GameRoomPlayerStatus;
+  selectedSquare: Square | null;
+  sessionId: string;
+  settings: GameRoomSettings;
+  statusLabel: string;
+  turn: Side;
+  unreadCount: number;
+  opponentName: string;
+  acceptIncomingRequest: () => void;
+  cancelPromotion: () => void;
+  flipBoard: () => void;
+  offerDraw: () => void;
+  onPieceDrop: (
+    sourceSquare: string,
+    targetSquare: string,
+    piece: string,
+  ) => boolean;
+  rejectIncomingRequest: () => void;
+  requestUndo: () => void;
+  resign: () => void;
+  selectSquare: (square: Square) => void;
+  sendChatMessage: () => void;
+  setChatDraft: (value: string) => void;
+  setChatOpen: (value: boolean) => void;
+  submitPromotion: (piece: PieceSymbol) => void;
+  toggleSetting: (key: keyof GameRoomSettings) => void;
 };
 
 type PendingPromotion = {
@@ -116,7 +168,7 @@ export function useSessionGameRoom({
   opponentName,
   playerName,
   playerColor = "w",
-}: UseSessionGameRoomOptions) {
+}: UseSessionGameRoomOptions): UseSessionGameRoomReturn {
   const chessRef = useRef<Chess>(createInitialChess());
   const lastTickRef = useRef<number>(Date.now());
   const opponentMoveTimerRef = useRef<number | null>(null);
@@ -133,20 +185,22 @@ export function useSessionGameRoom({
   const [boardOrientation, setBoardOrientation] = useState<"white" | "black">(
     playerColor === "w" ? "white" : "black",
   );
-  const [chatMessages, setChatMessages] = useState<GameRoomChatMessage[]>(() => [
-    {
-      id: createMessageId(),
-      author: "system",
-      text: `جلسه ${sessionId.slice(0, 8)} آماده شد. اتصال بازی روی همین ساختار فعلی سوار می‌شود.`,
-      timestamp: formatTimestamp(),
-    },
-    {
-      id: createMessageId(),
-      author: "opponent",
-      text: "سلام! بازی خوبی داشته باشیم.",
-      timestamp: formatTimestamp(),
-    },
-  ]);
+  const [chatMessages, setChatMessages] = useState<GameRoomChatMessage[]>(
+    () => [
+      {
+        id: createMessageId(),
+        author: "system",
+        text: `جلسه ${sessionId.slice(0, 8)} آماده شد. اتصال بازی روی همین ساختار فعلی سوار می‌شود.`,
+        timestamp: formatTimestamp(),
+      },
+      {
+        id: createMessageId(),
+        author: "opponent",
+        text: "سلام! بازی خوبی داشته باشیم.",
+        timestamp: formatTimestamp(),
+      },
+    ],
+  );
   const [chatDraft, setChatDraft] = useState("");
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(1);
@@ -157,11 +211,11 @@ export function useSessionGameRoom({
     showLegalMoves: true,
     enableAnimations: true,
   });
-  const [manualOutcome, setManualOutcome] = useState<ManualOutcome | null>(null);
-  const [outgoingRequest, setOutgoingRequest] =
-    useState<OutgoingRequest>(null);
-  const [incomingRequest, setIncomingRequest] =
-    useState<IncomingRequest>(null);
+  const [manualOutcome, setManualOutcome] = useState<ManualOutcome | null>(
+    null,
+  );
+  const [outgoingRequest, setOutgoingRequest] = useState<OutgoingRequest>(null);
+  const [incomingRequest, setIncomingRequest] = useState<IncomingRequest>(null);
 
   const syncBoardState = useCallback(() => {
     const chess = chessRef.current;
@@ -384,7 +438,7 @@ export function useSessionGameRoom({
   );
 
   const onPieceDrop = useCallback(
-    (sourceSquare: string, targetSquare: string) => {
+    (sourceSquare: string, targetSquare: string, _piece: string) => {
       if (!targetSquare) {
         return false;
       }
@@ -410,9 +464,7 @@ export function useSessionGameRoom({
   }, [appendMessage, chatDraft, maybeScheduleOpponentReply]);
 
   const flipBoard = useCallback(() => {
-    setBoardOrientation((current) =>
-      current === "white" ? "black" : "white",
-    );
+    setBoardOrientation((current) => (current === "white" ? "black" : "white"));
   }, []);
 
   const resign = useCallback(() => {
@@ -453,7 +505,14 @@ export function useSessionGameRoom({
         text: `${opponentName} پیشنهاد تساوی را رد کرد.`,
       });
     }, 1400);
-  }, [appendMessage, finishGame, history.length, manualOutcome, opponentName, outgoingRequest]);
+  }, [
+    appendMessage,
+    finishGame,
+    history.length,
+    manualOutcome,
+    opponentName,
+    outgoingRequest,
+  ]);
 
   const requestUndo = useCallback(() => {
     if (manualOutcome || outgoingRequest || history.length === 0) {
@@ -482,7 +541,14 @@ export function useSessionGameRoom({
         });
       }
     }, 1400);
-  }, [appendMessage, history.length, manualOutcome, opponentName, outgoingRequest, syncBoardState]);
+  }, [
+    appendMessage,
+    history.length,
+    manualOutcome,
+    opponentName,
+    outgoingRequest,
+    syncBoardState,
+  ]);
 
   const acceptIncomingRequest = useCallback(() => {
     if (!incomingRequest) {
@@ -671,7 +737,7 @@ export function useSessionGameRoom({
       ? "نوبت شماست"
       : `نوبت ${opponentName} است`;
 
-  const playerStatus =
+  const playerStatus: GameRoomPlayerStatus =
     manualOutcome?.winner === "player"
       ? "winner"
       : manualOutcome?.winner === "opponent"
@@ -680,7 +746,7 @@ export function useSessionGameRoom({
           ? "active"
           : "idle";
 
-  const opponentStatus =
+  const opponentStatus: GameRoomPlayerStatus =
     manualOutcome?.winner === "opponent"
       ? "winner"
       : manualOutcome?.winner === "player"
